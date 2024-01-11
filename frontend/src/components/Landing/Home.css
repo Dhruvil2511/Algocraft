@@ -1,0 +1,386 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-dark-color: #1A1C1E;
+    --secondary-dark-color: rgba(0, 0, 0, 0.6);
+    --primary-dark-text-color: white;
+    --item-dark-color: #191A1A;
+
+
+    --primary-light-color: white;
+    --secondary-light-color: rgba(215, 236, 255, 0.6);
+    --primary-light-text-color: black;
+    --item-light-color: rgba(253, 241, 221, 0.836);
+
+    --green-shade: rgba(97, 223, 176, 1);
+    --blue-shade: rgba(0, 208, 219, 1);
+
+    --mainTextColor: var(--primary-dark-text-color);
+    --mainBgColor: var(--primary-dark-color);
+    --itemColor: var(--item-dark-color);
+    --secondaryColor: var(--secondary-dark-color);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--mainBgColor);
+    color: var(--mainTextColor);
+    scroll-behavior: smooth;
+}
+
+p,
+a,
+span,
+li {
+    color: var(--mainTextColor) !important;
+    font-size: 1em;
+}
+
+
+nav {
+    background-color: var(--secondaryColor);
+    box-shadow: 0 2px 4px rgba(0, 208, 219, 0.2);
+    backdrop-filter: blur(10px);
+    color: var(--mainTextColor);
+    /* Add a blur effect to create the glassmorphic effect */
+
+    /* Adjust values as needed */
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    position: relative;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    /* Adjust the thickness of the underline */
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(90deg, rgba(97, 223, 176, 1) 0%, rgba(0, 208, 219, 1) 100%);
+    /* Set your gradient colors */
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.hr1 {
+    margin-right: 55%;
+    color: rgba(0, 208, 219, 1);
+    opacity: 0.6;
+}
+
+
+
+button {
+    color: var(--mainTextColor);
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    background-image: linear-gradient(90deg, rgba(97, 223, 176, 1) 0%, rgba(0, 208, 219, 1) 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-weight: bold;
+}
+
+.name {
+    color: var(--mainTextColor);
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.rounded-square-button {
+    display: inline-block;
+    padding: 4px 8px;
+    /* Adjust padding as needed */
+    /* border: 1px solid gray; */
+    border-radius: 8px;
+    background-color: transparent;
+    /* Set your desired background color */
+    color: #ffffff;
+    /* Set the text color */
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Add a smooth transition effect */
+}
+
+.rounded-square-button:hover {
+    background-color: #2980b9;
+    /* Change the background color on hover */
+}
+
+
+
+.page1 {
+    background-color: var(--secondaryColor);
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.background-animation {
+    width: 20%;
+    height: 20%;
+}
+
+.left {
+    height: 100%;
+    width: 35%;
+}
+
+.right {
+    height: 100%;
+    width: 45%;
+}
+
+.scroll {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--secondaryColor);
+    border-bottom-left-radius: 55%;
+    border-bottom-right-radius: 55%;
+
+}
+
+.page2 {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: var(--mainBgColor);
+    z-index: 0;
+
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: var(--itemColor);
+}
+
+.page3 {
+    background-color: var(--secondaryColor);
+
+    height: 100%;
+    width: 100%;
+}
+
+.hr2 {
+    margin-left: 55%;
+    color: var(--blue-shade);
+    opacity: 0.6;
+}
+
+.page4 {
+
+    height: 100%;
+    width: 100%;
+}
+
+
+.accordion-button {
+    border-radius: 25px;
+    background-color: var(--itemColor) !important;
+    position: inherit;
+    color: var(--mainTextColor);
+}
+
+.faq {
+    padding: 5%;
+}
+
+.accordion-body {
+    background-color: var(--itemColor) !important;
+    color: var(--mainTextColor);
+}
+
+.custom-accordion {
+    /* padding: 5%; */
+    border: var(--itemColor);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(100px);
+    }
+}
+
+svg #wheel {
+    animation: scroll ease 1.5s infinite;
+}
+
+#wheel,
+#mouse {
+    stroke: var(--mainTextColor);
+}
+
+#root {
+    position: relative;
+}
+
+footer {
+    background-color: var(--secondaryColor);
+
+}
+
+.form-control {
+    background: var(--itemColor);
+    /* border-color: #545454; */
+}
+
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none !important;
+}
+
+.fa-xl,
+.fa-l {
+    color: var(--mainTextColor);
+
+}
+
+.gola {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    /* Adjust the width and height as needed */
+    height: 50px;
+    border-radius: 50%;
+    /* Make it a circle */
+    overflow: hidden;
+    /* Ensure content doesn't overflow */
+}
+.card{
+    height: 90%;
+}
+
+.card-header {
+    background-color: var(--itemColor);
+}
+
+/* .grad-btn {
+    background: linear-gradient(90deg, rgba(97, 223, 176, 1) 0%, rgba(0, 208, 219, 1) 100%);
+    border: none;
+    color: var(--mainTextColor);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 16px;
+    height: fit-content;
+    width: fit-content;
+} */
+
+.grad-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10rem;
+    transition: all 0.02s;
+    font-weight: bold;
+    color: rgb(33, 0, 85);
+    z-index: 0;
+    box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+.grad-btn:hover {
+    background: rgb(193, 228, 248);
+
+}
+
+.grad-btn:active {
+    transform: scale(0.97);
+}
+
+.hoverEffect {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hoverEffect div {
+    background: linear-gradient(to right, #61deb0, #50dcb9, #3fdac2, #2cd7ca, #19d4d2, #10c2c9, #18afbe, #239db1, #2d798d, #2e5768, #273842, #1a1c1e);
+    border-radius: 40rem;
+    width: 10rem;
+    height: 10rem;
+    transition: 0.4s;
+    filter: blur(20px);
+    animation: effect infinite 3s linear;
+    opacity: 0.5;
+}
+
+.grad-btn:hover .hoverEffect div {
+    width: 8rem;
+    height: 8rem;
+}
+
+@keyframes effect {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
