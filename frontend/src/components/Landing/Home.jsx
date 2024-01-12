@@ -5,6 +5,7 @@ import codingAnimation from "../../assets/animations/home.json"
 import ballAnimation from "../../assets/animations/ball-animation.json"
 import "./Landing.css"
 import Typewriter from "typewriter-effect";
+import { Flip, Fade } from 'react-reveal';
 
 
 
@@ -16,7 +17,7 @@ const Home = () => {
 
                 <div className="container-fluid d-flex justify-content-center align-items-center ">
                     <div className="container my-4 d-flex justify-content-between align-items-center ">
-                        <div className="background-animation">
+                        <div className="background-animation" >
                             <Lottie animationData={ballAnimation} loop={true} style={{ width: '100%' }}></Lottie>
                         </div>
                         <div className="left">
@@ -26,9 +27,9 @@ const Home = () => {
 
                         <div className="right  mx-3 d-flex justify-content-center align-items-center ">
                             <div className=" d-flex justify-content-center align-items-center flex-column">
-                                <h1 className='mt-2'>Unlock Your Coding Potential with Algocraft. </h1>
+                                <h1 className='mt-2 drop-in' style={{ overflow: 'hidden' }}>Unlock Your Coding Potential with Algocraft. </h1>
 
-                                <h3 className='mt-4'><Typewriter
+                                <h3 className='mt-4 drop-in-2' style={{ overflow: 'hidden' }}><Typewriter
                                     options={{
                                         strings: ['Track', 'Learn', 'Discuss', 'Crack'],
                                         autoStart: true,
@@ -37,8 +38,8 @@ const Home = () => {
                                     }}
                                 /></h3>
 
-                                <span className='fs-4 my-4'>An ultimate platform to help you crack your Software engineering interview.</span>
-                                <button className='grad-btn mt-2' >
+                                <span className='fs-4 my-4 drop-in-3' style={{ overflow: 'hidden' }}>An ultimate platform to help you crack your Software engineering interview.</span>
+                                <button className='grad-btn mt-2 drop-in-4' style={{ overflow: 'hidden' }} >
                                     Lets Crack it
                                     <div class="hoverEffect">
                                         <div>
@@ -71,73 +72,86 @@ const Home = () => {
                 </div>
                 <div className="container text-center ">
                     <div className="row row row-cols-1 row-cols-md-2 row-cols-lg-3">
-                        <div className="col" >
-                            <div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid #FF9933' }}>
+                        <Fade left>
+                            <div className="col" >
+                                <div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid #FF9933' }}>
+                                    <div className="card-header ">
+                                        <div className="gola" style={{ backgroundColor: '#FF9933' }}>
+                                            <i className="fa-solid fa-network-wired fa-l" ></i>
+                                        </div>
+                                    </div>
+                                    <div className="card-body ">
+                                        <h5 className="card-title" style={{ color: '#FF9933' }}>DSA Sheets</h5>
+                                        <p className="card-text">Elevate your understanding of Data Structures and Algorithms meticulously with curated DSA sheets from famous achievers.</p>
+                                    </div>
+                                </div></div>
+                        </Fade>
+                        <Flip top>
+                            <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid cornflowerblue' }}>
                                 <div className="card-header ">
-                                    <div className="gola" style={{ backgroundColor: '#FF9933' }}>
-                                        <i className="fa-solid fa-network-wired fa-xl" ></i>
+                                    <div className="gola" style={{ backgroundColor: 'cornflowerblue' }}>
+                                        <i className="fa-solid fa-trophy fa-l" ></i>
                                     </div>
                                 </div>
-                                <div className="card-body ">
-                                    <h5 className="card-title" style={{ color: '#FF9933' }}>DSA Sheets</h5>
-                                    <p className="card-text">Elevate your understanding of Data Structures and Algorithms meticulously with curated DSA sheets from famous achievers.</p>
+                                <div className="card-body text-primary">
+                                    <h5 className="card-title" style={{ color: 'cornflowerblue' }}>Upcoming contests</h5>
+                                    <p className="card-text">Prepare for success in the dynamic world of competitive coding by staying informed about and gearing up for upcoming coding contests.</p>
                                 </div>
                             </div></div>
-                        <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid cornflowerblue' }}>
-                            <div className="card-header ">
-                                <div className="gola" style={{ backgroundColor: 'cornflowerblue' }}>
-                                    <i className="fa-solid fa-trophy fa-xl" ></i>
+                        </Flip>
+                        <Fade right>
+                            <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid green' }}>
+                                <div className="card-header ">
+                                    <div className="gola" style={{ backgroundColor: 'green' }}>
+                                        <i className="fa-solid fa-vault fa-l"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-body text-primary">
-                                <h5 className="card-title" style={{ color: 'cornflowerblue' }}>Upcoming contests</h5>
-                                <p className="card-text">Prepare for success in the dynamic world of competitive coding by staying informed about and gearing up for upcoming coding contests.</p>
-                            </div>
-                        </div></div>
-                        <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid green' }}>
-                            <div className="card-header ">
-                                <div className="gola" style={{ backgroundColor: 'green' }}>
-                                    <i className="fa-solid fa-vault fa-xl"></i>
+                                <div className="card-body text-primary">
+                                    <h5 className="card-title" style={{ color: 'green' }}>Coding Resources</h5>
+                                    <p className="card-text">Empower your coding journey with an extensive collection of resources, ranging from tutorials and guides to frameworks and libraries.</p>
                                 </div>
-                            </div>
-                            <div className="card-body text-primary">
-                                <h5 className="card-title" style={{ color: 'green' }}>Coding Resources</h5>
-                                <p className="card-text">Empower your coding journey with an extensive collection of resources, ranging from tutorials and guides to frameworks and libraries.</p>
-                            </div>
-                        </div></div>
-                        <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid red' }}>
-                            <div className="card-header ">
-                                <div className="gola" style={{ backgroundColor: 'red' }}>
-                                    <i className="fa-solid fa-comments fa-xl"></i>
+                            </div></div>
+                        </Fade>
+                        <Fade left>
+                            <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid red' }}>
+                                <div className="card-header ">
+                                    <div className="gola" style={{ backgroundColor: 'red' }}>
+                                        <i className="fa-solid fa-comments fa-l"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-body text-primary">
-                                <h5 className="card-title" style={{ color: 'red' }}>Discussion</h5>
-                                <p className="card-text">Engage in a community where coders of all levels come together to discuss coding challenges, share interview experiences, and collaboratively help each other.</p>
-                            </div>
-                        </div></div>
-                        <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid purple' }}>
-                            <div className="card-header ">
-                                <div className="gola" style={{ backgroundColor: 'purple' }}>
-                                    <i className="fa-solid fa-terminal fa-xl"></i>
+                                <div className="card-body text-primary">
+                                    <h5 className="card-title" style={{ color: 'red' }}>Discussion</h5>
+                                    <p className="card-text">Engage in a community where coders of all levels come together to discuss coding challenges, share interview experiences, and collaboratively help each other.</p>
                                 </div>
-                            </div>
-                            <div className="card-body text-primary">
-                                <h5 className="card-title" style={{ color: 'purple' }}>Code editor</h5>
-                                <p className="card-text">Immerse yourself in a seamless coding experience with our user-friendly code editor, equipped with features designed to enhance productivity.</p>
-                            </div>
-                        </div></div>
-                        <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid maroon' }}>
-                            <div className="card-header ">
-                                <div className="gola" style={{ backgroundColor: 'maroon' }}>
-                                    <i className="fa-solid fa-file fa-xl"></i>
+                            </div></div>
+                        </Fade>
+                        <Flip bottom>
+                            <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid purple' }}>
+                                <div className="card-header ">
+                                    <div className="gola" style={{ backgroundColor: 'purple' }}>
+                                        <i className="fa-solid fa-terminal fa-l"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-body text-primary">
-                                <h5 className="card-title" style={{ color: 'maroon' }}>jobs doors (coming soon)</h5>
-                                <p className="card-text">Navigate your career path with confidence by exploring job opportunities, career advice, and networking possibilities at our resume/job fair section</p>
-                            </div>
-                        </div></div>
+                                <div className="card-body text-primary">
+                                    <h5 className="card-title" style={{ color: 'purple' }}>Code editor</h5>
+                                    <p className="card-text">Immerse yourself in a seamless coding experience with our user-friendly code editor, equipped with features designed to enhance productivity.</p>
+                                </div>
+                            </div></div>
+                        </Flip>
+                        <Fade right>
+                            <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid maroon' }}>
+                                <div className="card-header ">
+                                    <div className="gola" style={{ backgroundColor: 'maroon' }}>
+                                        <i className="fa-solid fa-file fa-l"></i>
+                                    </div>
+                                </div>
+                                <div className="card-body text-primary">
+                                    <h5 className="card-title" style={{ color: 'maroon' }}>jobs doors (coming soon)</h5>
+                                    <p className="card-text">Navigate your career path with confidence by exploring job opportunities, career advice, and networking possibilities at our resume/job fair section</p>
+                                </div>
+                            </div></div>
+                        </Fade>
+
                     </div>
                 </div>
 

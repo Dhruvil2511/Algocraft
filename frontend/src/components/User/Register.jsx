@@ -24,7 +24,7 @@ const Register = () => {
                 <input type="password" class="input" placeholder="Confirm your Password" />
             </div>
 
-            <button class="button-submit">Sign In</button>
+            <button class="grad-btn w-100"> <div className="hoverEffect "><div className='w-100'></div></div>Sign Up</button>
             <p class="p">Have an account? <a href="login" class="span">Sign In</a>
 
             </p><p class="p line">Or With</p>

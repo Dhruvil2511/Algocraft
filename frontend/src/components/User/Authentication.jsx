@@ -13,6 +13,7 @@ function CheckPath() {
 
 const Authentication = () => {
     return (
+
         <div className="parent">
             <div class="leftpart-auth">
                 <div className='d-flex justify-content-center align-items-center flex-column'>
@@ -23,6 +24,7 @@ const Authentication = () => {
                 </div>
             </div>
             <div className="rightpart-auth flex-column">
+                <a href="/"><i class="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
                 <h3 className='text-decoration-underline'>Create an Account or login</h3>
                 <div >
                 </div>

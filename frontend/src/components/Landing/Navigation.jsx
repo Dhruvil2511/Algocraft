@@ -83,7 +83,7 @@ const Navigation = () => {
                         <ul className="navbar-nav ms-auto ">
                             <li className="nav-item">
                                 <a
-                                    className="nav-link mx-2 active"
+                                    className="nav-link mx-2 active text-links"
                                     aria-current="page"
                                     href="/"
                                 >
@@ -91,17 +91,17 @@ const Navigation = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link mx-2" href="/">
+                                <a className="nav-link mx-2 text-links" href="/">
                                     Products
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link mx-2" href="/">
+                                <a className="nav-link mx-2 text-links" href="/">
                                     Pricing
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="/" className="nav-link mx-2">
+                                <a href="/register" className="nav-link mx-2 text-links">
                                     Register
                                 </a>
                             </li>

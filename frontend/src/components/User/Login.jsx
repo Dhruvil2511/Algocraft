@@ -21,7 +21,7 @@ const Login = () => {
                 <div class="flex-row">
                     <span class="span">Forgot password?</span>
                 </div>
-                <button class="button-submit">Sign In</button>
+                <button class="grad-btn w-100"> <div className="hoverEffect "><div className='w-100'></div></div>Sign In</button>
                 <p class="p">Don't have an account? <a href="register" class="span">Sign Up</a>
 
                 </p><p class="p line">Or With</p>
