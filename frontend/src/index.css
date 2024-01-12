@@ -1,3 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-dark-color: #1A1C1E;
+  --secondary-dark-color: rgba(0, 0, 0, 0.6);
+  --primary-dark-text-color: white;
+  --item-dark-color: #191A1A;
+
+
+  --primary-light-color: white;
+  --secondary-light-color: rgba(215, 236, 255, 0.6);
+  --primary-light-text-color: black;
+  --item-light-color: rgba(253, 241, 221, 0.836);
+
+  --green-shade: rgba(97, 223, 176, 1);
+  --blue-shade: rgba(0, 208, 219, 1);
+
+  --mainTextColor: var(--primary-dark-text-color);
+  --mainBgColor: var(--primary-dark-color);
+  --itemColor: var(--item-dark-color);
+  --secondaryColor: var(--secondary-dark-color);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--mainBgColor);
+  color: var(--mainTextColor);
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;

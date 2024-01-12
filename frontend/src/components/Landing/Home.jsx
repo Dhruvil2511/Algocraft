@@ -3,9 +3,8 @@ import Navigation from './Navigation'
 import Lottie from "lottie-react";
 import codingAnimation from "../../assets/animations/home.json"
 import ballAnimation from "../../assets/animations/ball-animation.json"
-import "./Home.css"
+import "./Landing.css"
 import Typewriter from "typewriter-effect";
-// import logo from "../../assets/static/logo_blue.png"
 
 
 
@@ -71,7 +70,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="container text-center ">
-                    <div className="row row-cols-3 ">
+                    <div className="row row row-cols-1 row-cols-md-2 row-cols-lg-3">
                         <div className="col" >
                             <div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid #FF9933' }}>
                                 <div className="card-header ">
@@ -146,7 +145,9 @@ const Home = () => {
             </div>
             <hr className='hr1'></hr>
             <div className="page3 my-5">
+
                 <div className="container faq">
+                    <h3 className='py-2'>FAQ's..</h3>
                     <div className="accordion accordion-flush custom-accordion" id="accordionFlushExample">
                         <div className="accordion-item">
                             <h2 className="accordion-header">
@@ -185,11 +186,13 @@ const Home = () => {
             <div className="page4 my-5">
                 <div className="container ">
                     <h2 className='text-center'>Join our Coding community</h2>
+                    <p className='text-center'>If you would like to keep up on the latest posts and courses,
+                        come by and connect with us on the following links.</p>
                     <div className="my-5 d-flex justify-content-between align-items-center">
-                        <div className="github"><i className="fa-brands fa-github fa-2xl"></i></div>
-                        <div className="linkedin"><i className="fa-brands fa-linkedin fa-2xl"></i></div>
-                        <div className="mail"><i className="fa-solid fa-envelope fa-2xl"></i></div>
-                        <div className="discord"><i className="fa-brands fa-discord fa-2xl"></i></div>
+                        <div className="github"><a href="https://github.com/Dhruvil2511/Algocraft" target='_blank' rel="noreferrer noopener" ><i className="fa-brands fa-github fa-2xl "></i></a></div>
+                        <div className="linkedin"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-linkedin fa-2xl"></i></a></div>
+                        <div className="mail"><a href="/" target='_blank' rel="noreferrer noopener" ><i className="fa-solid fa-envelope fa-2xl"></i></a></div>
+                        <div className="discord"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-discord fa-2xl"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -203,30 +206,30 @@ const Home = () => {
                                     <div className="gola" style={{ backgroundColor: 'rgba(0, 208, 219, 1)' }}>
                                         <i className="fa-solid fa-code fa-l"></i>
                                     </div>
-                                    <p className="small  ">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <p className="small   mb-0">&copy; Copyrights. All rights reserved. <a className="text-primary" href="/">Bootstrapious.com</a></p>
+                                    <p className="small py-2 ">An ultimate platform to help you crack your Software engineering interview.</p>
+                                    <p className="small   mb-0">&copy; Copyrights. All rights reserved.</p>
                                 </div>
                                 <div className="col-lg-2 col-md-6">
-                                    <h5 className=" mb-3">Quick links</h5>
+                                    <h5 className=" mb-3">Algocraft</h5>
                                     <ul className="list-unstyled text-muted">
-                                        <li><a href="/">Home</a></li>
-                                        <li><a href="/">About</a></li>
-                                        <li><a href="/">Get started</a></li>
-                                        <li><a href="/">FAQ</a></li>
+                                        <li><a className='text-links' href="/">Home</a></li>
+                                        <li><a className='text-links' href="/">About us</a></li>
+                                        <li><a className='text-links' href="/">Contact</a></li>
+                                        <li><a className='text-links' href="/">Future scopes</a></li>
                                     </ul>
                                 </div>
                                 <div className="col-lg-2 col-md-6">
-                                    <h5 className=" mb-3">Quick links</h5>
+                                    <h5 className=" mb-3">User</h5>
                                     <ul className="list-unstyled text-muted">
-                                        <li><a href="/">Home</a></li>
-                                        <li><a href="/">About</a></li>
-                                        <li><a href="/">Get started</a></li>
-                                        <li><a href="/">FAQ</a></li>
+                                        <li><a className='text-links' href="/">Login</a></li>
+                                        <li><a className='text-links' href="/">Create Account</a></li>
+                                        <li><a className='text-links' href="/">Privacy policy</a></li>
+                                        <li><a className='text-links' href="/">Terms of use</a></li>
                                     </ul>
                                 </div>
                                 <div className="col-lg-4 col-md-6">
                                     <h5 className=" mb-3">Newsletter</h5>
-                                    <p className="small ">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+                                    <p className="small ">Subscribe us if you wish to receive updates and connect with us.</p>
                                     <form action="/">
                                         <div className="input-group mb-3">
                                             <input className="form-control" type="text" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" />
