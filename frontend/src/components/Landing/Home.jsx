@@ -72,7 +72,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="container text-center ">
-                    <div className="row row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
                         <Fade left>
                             <div className="col" >
                                 <div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid #FF9933' }}>

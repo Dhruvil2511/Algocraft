@@ -14,6 +14,9 @@ function App() {
           <Route path='/login' Component={Authentication}></Route>
           <Route path='/register' Component={Authentication}></Route>
           <Route path='/coding-sheets' Component={Layout}></Route>
+          <Route path='/upcoming-contests' Component={Layout}></Route>
+          <Route path='/coding-resources' Component={Layout}></Route>
+
         </Routes>
       </Router>
     </>

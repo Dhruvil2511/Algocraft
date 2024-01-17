@@ -34,14 +34,21 @@
     text-decoration: none;
     border: 0.5px solid var(--mainTextColor);
     background-color: var(--itemColor);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 5px;
     margin: 5px;
     width: 15%;
     text-align: center;
 }
-.options{
+
+.options {
     background-color: var(--secondaryColor);
+    border: none;
+    padding: 10px;
+    width: fit-content;
+    margin: 0px 10px 0px 10px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 .sheet:active {
@@ -59,32 +66,53 @@
 .dropdown-menu {
     background-color: var(--itemColor);
     color: var(--mainTextColor);
+    
 }
-.number{
+
+
+.number {
     font-size: x-large;
     font-weight: bold;
     padding: 5px;
 }
-.title{
+
+.title {
     margin-left: 10px;
     font-size: larger;
     font-style: italic;
 }
 
-.tags{
+.tags {
     font-size: x-small !important;
     font-weight: 100;
     font-style: normal;
-    border: 1px dotted ;
+    border: 1px dotted;
     border-radius: 16px;
     text-align: center;
 }
 
 .dropdown-item:hover {
     background-color: var(--secondaryColor);
+    border-radius: 8px;
 }
 
-.table-list{
+.table-list {
     border: 1px solid gray;
     border-radius: 16px;
+}
+
+.btn-list {
+    background: transparent;
+    border: none;
+    text-decoration: none;
+}
+
+.question {
+    border-bottom: 1px solid gray;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+.completed{
+    background-color: var(--secondaryColor);
+    overflow: hidden;
 }

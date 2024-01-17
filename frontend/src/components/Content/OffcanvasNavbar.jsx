@@ -4,7 +4,7 @@ import { updateTheme } from '../Landing/Navigation';
 
 const OffcanvasNavbar = () => {
   const [isDarkTheme, setDarkTheme] = useState(true);
-
+  const [path, setPath] = useState(window.location.pathname);
 
   function handleTheme() {
     setDarkTheme(!isDarkTheme);
@@ -26,71 +26,71 @@ const OffcanvasNavbar = () => {
           </a>
 
           <span className="fs-4 px-2">Algocraft</span>
-
-          {isDarkTheme ? (
-            <button
-              className="rounded-square-button"
-              onClick={handleTheme}
-              style={{ marginRight: "10px" }}
-            >
-              <i className="fa-solid fa-sun"></i>
-            </button>
-          ) : (
-            <button
-              className="rounded-square-button"
-              onClick={handleTheme}
-              style={{ marginRight: "10px" }}
-            >
-              <i
-                className="fa-solid fa-moon"
-                style={{ color: "#000000" }}
-              ></i>
-            </button>
-          )}
+          <div className='d-flex align-items-center justify-content-center'>
+            {isDarkTheme ? (
+              <button
+                className="rounded-square-button"
+                onClick={handleTheme}
+                style={{ marginRight: "10px" }}
+              >
+                <i className="fa-solid fa-sun"></i>
+              </button>
+            ) : (
+              <button
+                className="rounded-square-button"
+                onClick={handleTheme}
+                style={{ marginRight: "10px" }}
+              >
+                <i
+                  className="fa-solid fa-moon"
+                  style={{ color: "#000000" }}
+                ></i>
+              </button>
+            )}
+          </div>
         </div>
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item py-2">
-            <a href="/" className="nav-link active" aria-current="page">
+            <a href="/coding-sheets" className={path === '/coding-sheets' ? 'nav-link active' : 'nav-link'} aria-current="page">
               <i className="fa-solid fa-network-wired fa-lg px-2" ></i>
               Coding Sheets
             </a>
           </li>
           <li className="nav-item py-2">
-            <a href="/" className="nav-link">
+            <a href="/upcoming-contests" className={path === '/upcoming-contests' ? 'nav-link active' : 'nav-link'}>
               <i className="fa-solid fa-trophy fa-lg px-2" ></i>
               Upcoming contests
             </a>
           </li>
           <li className="nav-item py-2">
-            <a href="/" className="nav-link ">
+            <a href="/coding-resources" className={path === '/coding-resources' ? 'nav-link active' : 'nav-link'}>
               <i className="fa-solid fa-vault fa-lg px-2"></i>
 
               Coding Resources
             </a>
           </li>
           <li className="nav-item py-2">
-            <a href="/" className="nav-link ">
+            <a href="/discussion" className={path === '/discussion' ? 'nav-link active' : 'nav-link'}>
               <i className="fa-solid fa-comments fa-lg px-2"></i>
-              aa
+              Discussion Page
             </a>
           </li>
           <li className="nav-item py-2">
-            <a href="/" className="nav-link ">
+            <a href="/custom-ide" className={path === '/custom-ide' ? 'nav-link active' : 'nav-link'} >
               <i className="fa-solid fa-terminal fa-lg px-2"></i>
-
-              Customers
+              Custom Ide
             </a>
           </li>
         </ul>
-        <div class="dropup-center dropup px-2">
-          <button class="hamburger" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-bars fa-lg px-2"></i> More
+        <div className="dropup-center dropup px-2">
+          <button className="hamburger" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i className="fa-solid fa-bars fa-lg px-2"></i> More
           </button>
-          <ul class="dropdown-menu mx-3">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Action two</a></li>
-            <li><a class="dropdown-item" href="#">Action three</a></li>
+          <ul className="dropdown-menu mx-3">
+            <li><a className="dropdown-item" href="#">Action</a></li>
+            <li><a className="dropdown-item" href="#">Action two</a></li>
+            <li><a className="dropdown-item" href="#">Action three</a></li>
           </ul>
         </div>
         <hr />
