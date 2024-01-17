@@ -77,9 +77,9 @@ const OffcanvasNavbar = () => {
             </a>
           </li>
           <li className="nav-item py-2">
-            <a href="/custom-ide" className={path === '/custom-ide' ? 'nav-link active' : 'nav-link'} >
+            <a href="/coding-ide" className={path === '/coding-ide' ? 'nav-link active' : 'nav-link'} >
               <i className="fa-solid fa-terminal fa-lg px-2"></i>
-              Custom Ide
+              Coding IDE
             </a>
           </li>
         </ul>

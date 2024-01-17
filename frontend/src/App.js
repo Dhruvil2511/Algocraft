@@ -16,6 +16,9 @@ function App() {
           <Route path='/coding-sheets' Component={Layout}></Route>
           <Route path='/upcoming-contests' Component={Layout}></Route>
           <Route path='/coding-resources' Component={Layout}></Route>
+          <Route path='/discussion' Component={Layout}></Route>
+          <Route path='/coding-ide' Component={Layout}></Route>
+
 
         </Routes>
       </Router>
