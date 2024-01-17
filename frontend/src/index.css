@@ -29,7 +29,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   background-color: var(--mainBgColor);
   color: var(--mainTextColor);
   scroll-behavior: smooth;
@@ -37,35 +36,76 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  height: 100%;
+
 }
+
+html {
+  height: -webkit-fill-available;
+  height: 100%;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
+#root {
+  min-height: 100vh;
+}
+
+p,
+a,
+span,
+li {
+  color: var(--mainTextColor) !important;
+  font-size: 1em;
+}
+
+p {
+  text-align: justify;
+}
+
+
+footer {
+  background-color: var(--secondaryColor);
+}
+
 /* Track */
 ::-webkit-scrollbar {
-  width: 8px; /* width of the entire scrollbar */
+  width: 8px;
+  /* width of the entire scrollbar */
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color:var(--green-shade); /* color of the scrollbar handle */
-  border-radius: 6px; /* roundness of the scrollbar handle */
+  background-color: var(--green-shade);
+  /* color of the scrollbar handle */
+  border-radius: 6px;
+  /* roundness of the scrollbar handle */
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--green-shade); /* color of the scrollbar handle on hover */  
+  background-color: var(--green-shade);
+  /* color of the scrollbar handle on hover */
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--secondaryColor); /* color of the scrollbar track */
+  background: var(--secondaryColor);
+  /* color of the scrollbar track */
 }
 
 /* Handle when it's dragging or being clicked */
 ::-webkit-scrollbar-thumb:active {
-  background-color: var(--green-shade); /* color of the scrollbar handle when clicked */
+  background-color: var(--green-shade);
+  /* color of the scrollbar handle when clicked */
 }

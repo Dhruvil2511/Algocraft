@@ -1,10 +1,4 @@
-p,
-a,
-span,
-li {
-    color: var(--mainTextColor) !important;
-    font-size: 1em;
-}
+
 
 
 nav {
@@ -51,7 +45,6 @@ nav {
 
 button {
     color: var(--mainTextColor);
-
 }
 
 h1,
@@ -71,20 +64,22 @@ h6 {
 
 .drop-in {
     animation: drop-in 1s ease 200ms backwards;
-  }
-  
-  .drop-in-2 {
+}
+
+.drop-in-2 {
     animation: drop-in 1200ms ease 500ms backwards;
-  }
-  
-  .drop-in-3 {
-    animation: drop-in 1200ms ease 800ms backwards; /* Adjusted timing for drop-in-3 */
-  }
-  
-  .drop-in-4 {
-    animation: drop-in 1200ms ease 1100ms backwards; /* Adjusted timing for drop-in-4 */
-  }
-  
+}
+
+.drop-in-3 {
+    animation: drop-in 1200ms ease 800ms backwards;
+    /* Adjusted timing for drop-in-3 */
+}
+
+.drop-in-4 {
+    animation: drop-in 1200ms ease 1100ms backwards;
+    /* Adjusted timing for drop-in-4 */
+}
+
 
 @keyframes drop-in {
     from {
@@ -112,6 +107,7 @@ button:hover {
     /* padding: 4px 8px; */
     /* Adjust padding as needed */
     /* border: 1px solid gray; */
+    width: 40px;
     border-radius: 8px;
     background-color: transparent;
     /* Set your desired background color */
@@ -143,6 +139,7 @@ button:hover {
     width: 20%;
     height: 20%;
 }
+
 @keyframes leftswift {
     from {
         opacity: 0;
@@ -203,7 +200,8 @@ button:hover {
     background-color: var(--itemColor);
     transition: transform .2s;
 }
-.card:hover{
+
+.card:hover {
     transform: scale(1.2);
 }
 
@@ -270,14 +268,7 @@ svg #wheel {
     stroke: var(--mainTextColor);
 }
 
-#root {
-    position: relative;
-}
 
-footer {
-    background-color: var(--secondaryColor);
-
-}
 
 .form-control {
     background: var(--itemColor);
@@ -345,6 +336,7 @@ footer {
     font-weight: bold;
     color: rgb(33, 0, 85);
     z-index: 0;
+    text-decoration: none;
     box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
 }
 

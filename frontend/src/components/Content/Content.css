@@ -1,0 +1,90 @@
+.sidebar {
+    background-color: var(--secondaryColor);
+}
+
+.content {
+    height: 100vh;
+    width: 100%;
+}
+
+.hamburger {
+    background: transparent;
+    border: none;
+    content: none;
+}
+
+.main-content {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.main-container {
+    padding: 60px 100px 60px 100px;
+}
+
+.sidebar {
+    width: fit-content;
+    height: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.sheet {
+    text-decoration: none;
+    border: 0.5px solid var(--mainTextColor);
+    background-color: var(--itemColor);
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    width: 15%;
+    text-align: center;
+}
+.options{
+    background-color: var(--secondaryColor);
+}
+
+.sheet:active {
+    transform: scale(0.97);
+}
+
+.selected {
+    background-color: var(--secondaryColor);
+}
+
+.sheet:hover {
+    background-color: var(--itemColor);
+}
+
+.dropdown-menu {
+    background-color: var(--itemColor);
+    color: var(--mainTextColor);
+}
+.number{
+    font-size: x-large;
+    font-weight: bold;
+    padding: 5px;
+}
+.title{
+    margin-left: 10px;
+    font-size: larger;
+    font-style: italic;
+}
+
+.tags{
+    font-size: x-small !important;
+    font-weight: 100;
+    font-style: normal;
+    border: 1px dotted ;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background-color: var(--secondaryColor);
+}
+
+.table-list{
+    border: 1px solid gray;
+    border-radius: 16px;
+}

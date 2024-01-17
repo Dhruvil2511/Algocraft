@@ -1,11 +1,12 @@
 import React from 'react'
-import Navigation from './Navigation'
+
 import Lottie from "lottie-react";
 import codingAnimation from "../../assets/animations/home.json"
 import ballAnimation from "../../assets/animations/ball-animation.json"
 import "./Landing.css"
 import Typewriter from "typewriter-effect";
 import { Flip, Fade } from 'react-reveal';
+import { Navigation } from './Navigation';
 
 
 
@@ -41,7 +42,7 @@ const Home = () => {
                                 <span className='fs-4 my-4 drop-in-3' style={{ overflow: 'hidden' }}>An ultimate platform to help you crack your Software engineering interview.</span>
                                 <button className='grad-btn mt-2 drop-in-4' style={{ overflow: 'hidden' }} >
                                     Lets Crack it
-                                    <div class="hoverEffect">
+                                    <div className="hoverEffect">
                                         <div>
                                         </div>
                                     </div>
@@ -77,7 +78,7 @@ const Home = () => {
                                 <div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid #FF9933' }}>
                                     <div className="card-header ">
                                         <div className="gola" style={{ backgroundColor: '#FF9933' }}>
-                                            <i className="fa-solid fa-network-wired fa-l" ></i>
+                                            <i className="fa-solid fa-network-wired fa-lg" ></i>
                                         </div>
                                     </div>
                                     <div className="card-body ">
@@ -90,7 +91,7 @@ const Home = () => {
                             <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid cornflowerblue' }}>
                                 <div className="card-header ">
                                     <div className="gola" style={{ backgroundColor: 'cornflowerblue' }}>
-                                        <i className="fa-solid fa-trophy fa-l" ></i>
+                                        <i className="fa-solid fa-trophy fa-lg" ></i>
                                     </div>
                                 </div>
                                 <div className="card-body text-primary">
@@ -103,7 +104,7 @@ const Home = () => {
                             <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid green' }}>
                                 <div className="card-header ">
                                     <div className="gola" style={{ backgroundColor: 'green' }}>
-                                        <i className="fa-solid fa-vault fa-l"></i>
+                                        <i className="fa-solid fa-vault fa-lg"></i>
                                     </div>
                                 </div>
                                 <div className="card-body text-primary">
@@ -116,7 +117,7 @@ const Home = () => {
                             <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid red' }}>
                                 <div className="card-header ">
                                     <div className="gola" style={{ backgroundColor: 'red' }}>
-                                        <i className="fa-solid fa-comments fa-l"></i>
+                                        <i className="fa-solid fa-comments fa-lg"></i>
                                     </div>
                                 </div>
                                 <div className="card-body text-primary">
@@ -129,7 +130,7 @@ const Home = () => {
                             <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid purple' }}>
                                 <div className="card-header ">
                                     <div className="gola" style={{ backgroundColor: 'purple' }}>
-                                        <i className="fa-solid fa-terminal fa-l"></i>
+                                        <i className="fa-solid fa-terminal fa-lg"></i>
                                     </div>
                                 </div>
                                 <div className="card-body text-primary">
@@ -142,7 +143,7 @@ const Home = () => {
                             <div className="col"><div className="card  mb-3" style={{ maxWidth: '18rem', borderBottom: '5px solid maroon' }}>
                                 <div className="card-header ">
                                     <div className="gola" style={{ backgroundColor: 'maroon' }}>
-                                        <i className="fa-solid fa-file fa-l"></i>
+                                        <i className="fa-solid fa-file fa-lg"></i>
                                     </div>
                                 </div>
                                 <div className="card-body text-primary">
@@ -204,7 +205,7 @@ const Home = () => {
                         come by and connect with us on the following links.</p>
                     <div className="my-5 d-flex justify-content-between align-items-center">
                         <div className="github"><a href="https://github.com/Dhruvil2511/Algocraft" target='_blank' rel="noreferrer noopener" ><i className="fa-brands fa-github fa-2xl "></i></a></div>
-                        <div className="linkedin"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-linkedin fa-2xl"></i></a></div>
+                        <div className="linkedin"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-lginkedin fa-2xl"></i></a></div>
                         <div className="mail"><a href="/" target='_blank' rel="noreferrer noopener" ><i className="fa-solid fa-envelope fa-2xl"></i></a></div>
                         <div className="discord"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-discord fa-2xl"></i></a></div>
                     </div>
@@ -213,12 +214,12 @@ const Home = () => {
             <div className="footer">
                 <div className="d-flex flex-column h-100">
 
-                    <footer className="w-100 py-4 flex-shrink-0">
+                    <footer className="w-100 py-4 flex-shrink-0 text-center">
                         <div className="container py-4">
                             <div className="row gy-4 gx-5">
                                 <div className="col-lg-4 col-md-6">
-                                    <div className="gola" style={{ backgroundColor: 'rgba(0, 208, 219, 1)' }}>
-                                        <i className="fa-solid fa-code fa-l"></i>
+                                    <div className="gola m-auto" style={{ backgroundColor: 'rgba(0, 208, 219, 1)' }}>
+                                        <i className="fa-solid fa-code fa-lg "></i>
                                     </div>
                                     <p className="small py-2 ">An ultimate platform to help you crack your Software engineering interview.</p>
                                     <p className="small   mb-0">&copy; Copyrights. All rights reserved.</p>
@@ -247,7 +248,7 @@ const Home = () => {
                                     <form action="/">
                                         <div className="input-group mb-3">
                                             <input className="form-control" type="text" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" />
-                                            <button className='grad-btn' id="button-addon2" type="button">Send <div class="hoverEffect">
+                                            <button className='grad-btn' id="button-addon2" type="button">Send <div className="hoverEffect">
                                                 <div>
                                                 </div>
                                             </div></button>

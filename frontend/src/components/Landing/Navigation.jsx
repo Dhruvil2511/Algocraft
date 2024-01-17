@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 import './Landing.css'
 
+function updateTheme(isDark) {
+    const root = document.documentElement;
+    if (isDark) {
+        root.style.setProperty('--mainTextColor', "var(--primary-light-text-color)");
+        root.style.setProperty('--mainBgColor', "var(--primary-light-color)");
+        root.style.setProperty('--secondaryColor', "var(--secondary-light-color)");
+        root.style.setProperty('--itemColor', "var(--item-light-color)");
+    } else {
+        root.style.setProperty('--mainTextColor', "var(--primary-dark-text-color)");
+        root.style.setProperty('--mainBgColor', "var(--primary-dark-color)");
+        root.style.setProperty('--secondaryColor', "var(--secondary-dark-color)");
+        root.style.setProperty('--itemColor', "var(--item-dark-color)");
+    }
+}
+
 const Navigation = () => {
     const [isDarkTheme, setDarkTheme] = useState(true);
 
 
-    function updateTheme(isDark) {
-        const root = document.documentElement;
-        if (isDark) {
-            root.style.setProperty('--mainTextColor', "var(--primary-light-text-color)");
-            root.style.setProperty('--mainBgColor', "var(--primary-light-color)");
-            root.style.setProperty('--secondaryColor', "var(--secondary-light-color)");
-            root.style.setProperty('--itemColor', "var(--item-light-color)");
-        } else {
-            root.style.setProperty('--mainTextColor', "var(--primary-dark-text-color)");
-            root.style.setProperty('--mainBgColor', "var(--primary-dark-color)");
-            root.style.setProperty('--secondaryColor', "var(--secondary-dark-color)");
-            root.style.setProperty('--itemColor', "var(--item-dark-color)");
-        }
-    }
     function handleTheme() {
         setDarkTheme(!isDarkTheme);
         updateTheme(isDarkTheme);
@@ -91,7 +92,7 @@ const Navigation = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link mx-2 text-links" href="/">
+                                <a className="nav-link mx-2 text-links" href="/coding-sheets">
                                     Products
                                 </a>
                             </li>
@@ -113,4 +114,4 @@ const Navigation = () => {
     )
 }
 
-export default Navigation;
+export { Navigation, updateTheme };
