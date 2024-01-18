@@ -8,7 +8,7 @@ const DiscussionThread = () => {
                     <div className="thread-header w-100 p-2 d-flex justify-content-between align-items-center">
                         <div className="d-flex justify-content-start align-items-center">
                             <a href="/discussion" className='p-2' style={{ borderRight: '2px solid gray' }}><i class="fa-solid fa-left-long fa-xl"></i></a>
-                            <strong className='px-2'>Thread Name</strong>
+                            <strong className='px-2'>My interview experience at google</strong>
                         </div>
                         <div className="d-flex justify-content-end align-items-center">
                             <a href="" className='px-2'><i class="fa-solid fa-share-from-square fa-lg"></i></a>
@@ -37,25 +37,54 @@ const DiscussionThread = () => {
                                 <div className="mark-later px-4"><i class="fa-regular fa-eye "></i><small className='px-2'>12k views</small></div>
                             </div>
                         </div>
-                        <div className="thread-comments">
+                        <div className="thread-comments py-3">
                             <span>Comments</span>
-                            <form action="#" method="post">
+                            <form action="#" method="post" className='comment-form'>
                                 <div className="d-flex align-items-center">
-                                <input type="text" className='w-100' />
-                                <button type="submit" className='grad-btn'>   <div className="hoverEffect">
+                                    <input type="text" className='w-100 p-1' placeholder='Your comment here' style={{ backgroundColor: 'var(--secondaryColor)', color: 'var(--textColor)', borderRadius: '8px 0px 0px 8px' }} />
+                                    <button type="submit" className='btn2'>   <div className="hoverEffect">
                                         <div>
                                         </div>
                                     </div>Post</button>
                                 </div>
                             </form>
-
                         </div>
+                        <div className="comments w-100 py-2">
+                            <div className="comment d-flex justify-content-start align-items-center">
+                                <div className="d-flex flex-column justify-content-start align-items-center">
+                                    <div className="d-flex w-100 justify-content-start align-items-center">
+                                        <div className="number pfp" style={{ width: '40px', height: '40px' }}>
+                                            <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
+                                        </div>
+                                        <div className="px-2">
+                                            <small>kalash shah</small>
+                                        </div>
+                                        <div className="time">
+                                            <sub>12/12/12 1.30pm</sub>
+                                        </div>
+                                    </div>
+                                    <div className="comment-text p-2">
+                                        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At tempora, repellat nisi repellendus odio assumenda cum aut maxime. Quas, impedit!</span>
+                                    </div>
+                                    <div className="comment-interaction d-flex justify-content-start align-items-center w-100 px-2">
+                                        <div className="view-replies">
+                                            <sub><button className='btn-list'><i class="fa-solid fa-message"></i>  View replies</button></sub>
+                                        </div>
+                                        <div className="reply">
+                                            <sub><button className='btn-list'><i class="fa-solid fa-reply"></i> Reply</button></sub>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
             </div>
+
+            {/* </div > */}
 
         </>
     )

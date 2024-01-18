@@ -233,3 +233,28 @@
 .thread-header{
     border-bottom: 1px solid gray;
 }
+
+.btn2 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0px 8px 8px 0px;
+    transition: all 0.02s;
+    font-weight: bold;
+    color: rgb(33, 0, 85);
+    text-decoration: none;
+    box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+.btn2:hover {
+    background: rgb(193, 228, 248);
+
+}
+
+.btn2:active {
+    transform: scale(0.97);
+}
