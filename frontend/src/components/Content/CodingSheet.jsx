@@ -71,7 +71,7 @@ const CodingSheet = () => {
                     </div>
                 </div>
                 <div className="selected-tags py-2">selected tags here</div>
-                <div className="my-2 table-list p-1">
+                <div className="my-2 table-list ">
                     <div className="row p-2 ">
                         <div className="question  d-flex align-items-center justify-content-between ">
                             <div className='d-flex justify-content-center align-items-center'>

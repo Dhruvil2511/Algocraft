@@ -5,6 +5,7 @@ import UpcomingContests from './UpcomingContests';
 import CodingResources from './CodingResources';
 import Discussion from './Discussion';
 import CodingIDE from './CodingIDE';
+import DiscussionThread from './DiscussionThread';
 
 function CheckContentPath() {
   let path = window.location.pathname;
@@ -13,6 +14,7 @@ function CheckContentPath() {
   else if (path === '/coding-resources') return <CodingResources />
   else if (path === '/discussion') return <Discussion />
   else if (path === '/coding-ide') return <CodingIDE />
+  else if (path.startsWith('/discussion/interview/') || path.startsWith('/discussion/algorithms/') || path.startsWith('/discussion/development/') || path.startsWith('/discussion/miscellaneous/')) return <DiscussionThread />
 
 
 }

@@ -94,16 +94,52 @@
     border: 1px dotted;
     border-radius: 16px;
     text-align: center;
+    margin: 2px;
 }
+
+.username {
+    font-size: xx-small;
+    margin-right: 2px;
+}
+
+.thread-title {
+    text-decoration: none;
+}
+
+.thread-title:hover {
+    opacity: 0.6;
+}
+
+.pfp {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pfp img {
+    max-width: 100%;
+    /* Ensures the image doesn't exceed the container width */
+    max-height: 100%;
+    /* Ensures the image doesn't exceed the container height */
+    border-radius: 50%;
+    /* Maintain border radius for circular shape */
+}
+
 
 .dropdown-item:hover {
     background-color: var(--secondaryColor);
     border-radius: 8px;
 }
 
+
 .table-list {
     border: 1px solid gray;
-    border-radius: 16px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .btn-list {
@@ -113,9 +149,19 @@
 }
 
 .question {
-    border-bottom: 1px solid gray;
     overflow: hidden;
     padding-bottom: 10px;
+}
+
+.table-list .row:nth-child(odd) {
+    background-color: var(--itemColor);
+    /* Change this to your desired background color */
+}
+
+/* Apply background color to even-numbered rows within .table-list */
+.table-list .row:nth-child(even) {
+    background-color: var(--secondaryColor);
+    /* Change this to your desired background color */
 }
 
 .completed {
@@ -174,4 +220,16 @@
 
 .card {
     max-width: 18rem;
+}
+
+
+.thread {
+    background-color: var(--itemColor);
+    border-radius: 8px;
+    box-shadow: 0 0 20px var(--secondaryColor);
+    /* Horizontal offset, Vertical offset, Blur radius, Color */
+
+}
+.thread-header{
+    border-bottom: 1px solid gray;
 }

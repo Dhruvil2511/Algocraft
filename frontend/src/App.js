@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Landing/Home';
 import Authentication from './components/User/Authentication';
 import Layout from './components/Content/Layout';
-import CodingSheet from './components/Content/CodingSheet';
+
 
 function App() {
   return (
@@ -17,6 +17,10 @@ function App() {
           <Route path='/upcoming-contests' Component={Layout}></Route>
           <Route path='/coding-resources' Component={Layout}></Route>
           <Route path='/discussion' Component={Layout}></Route>
+          <Route path='/discussion/interview/:id' Component={Layout}></Route>
+          <Route path='/discussion/algorithms/:id' Component={Layout}></Route>
+          <Route path='/discussion/development/:id' Component={Layout}></Route>
+          <Route path='/discussion/miscellaneous/:id' Component={Layout}></Route>
           <Route path='/coding-ide' Component={Layout}></Route>
 
 

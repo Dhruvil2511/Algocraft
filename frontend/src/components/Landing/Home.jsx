@@ -40,6 +40,7 @@ const Home = () => {
                                 /></h3>
 
                                 <span className='fs-4 my-4 drop-in-3' style={{ overflow: 'hidden' }}>An ultimate platform to help you crack your Software engineering interview.</span>
+                                <form action="/coding-sheets">
                                 <button className='grad-btn mt-2 drop-in-4' style={{ overflow: 'hidden' }} >
                                     Lets Crack it
                                     <div className="hoverEffect">
@@ -48,6 +49,7 @@ const Home = () => {
                                     </div>
 
                                 </button>
+                                </form>
                             </div>
 
                         </div>
@@ -205,7 +207,7 @@ const Home = () => {
                         come by and connect with us on the following links.</p>
                     <div className="my-5 d-flex justify-content-between align-items-center">
                         <div className="github"><a href="https://github.com/Dhruvil2511/Algocraft" target='_blank' rel="noreferrer noopener" ><i className="fa-brands fa-github fa-2xl "></i></a></div>
-                        <div className="linkedin"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-lginkedin fa-2xl"></i></a></div>
+                        <div className="linkedin"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-linkedin fa-2xl"></i></a></div>
                         <div className="mail"><a href="/" target='_blank' rel="noreferrer noopener" ><i className="fa-solid fa-envelope fa-2xl"></i></a></div>
                         <div className="discord"><a href="/" target='_blank' rel="noreferrer noopener"  ><i className="fa-brands fa-discord fa-2xl"></i></a></div>
                     </div>
