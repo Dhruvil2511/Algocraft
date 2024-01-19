@@ -22,7 +22,7 @@ function CheckDevice() {
   if (window.screen.width <= 1145) {
     return <MobileOffcanvasNavbar />
   }
-  <OffcanvasNavbar />
+  return <OffcanvasNavbar />
 }
 const Layout = () => {
   return (
