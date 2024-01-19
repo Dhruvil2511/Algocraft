@@ -39,7 +39,7 @@
     width: 15%;
     text-align: center;
     text-overflow: ellipsis;
-   
+
 }
 
 
@@ -231,7 +231,8 @@
     /* Horizontal offset, Vertical offset, Blur radius, Color */
 
 }
-.thread-header{
+
+.thread-header {
     border-bottom: 1px solid gray;
 }
 
@@ -258,4 +259,19 @@
 
 .btn2:active {
     transform: scale(0.97);
+}
+
+.dropdown-menu {
+    margin-top: 45px !important;
+    right: -5% !important;
+}
+
+.offcanvas {
+    width: 20% !important;
+    background-color: var(--itemColor);
+}
+
+.btn-close {
+    --bs-btn-close-bg: none;
+    margin-left: 5px;
 }
