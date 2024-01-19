@@ -12,14 +12,18 @@ const CodingSheet = () => {
                     <div className="sheets d-flex flex-wrap">
                         <a className='sheet selected' href="#">Striver</a>
                         <a className='sheet' href="/">love babbar</a>
-                        <a className='sheet' href="/">leetcode</a>
-                        <a className='sheet' href="/">neetcode</a>
+                        <a className='sheet' href="/">leet code</a>
+                        <a className='sheet' href="/">neet code</a>
                         <a className='sheet' href="/">apna college</a>
                         <a className='sheet' href="/">blind 75</a>
                         <a className='sheet' href="/">fraz</a>
-                        <a className='sheet' href="/">adsada</a>
-                        <a className='sheet' href="/">Custom</a>
+                        <a className='sheet' href="/">coder army</a>
+                        <a className='sheet' href="/">custom</a>
                     </div>
+                </div>
+                <div className="author alert bg-success">
+                    credit section here 
+                    All credits goes to striver for this sheer etc etc
                 </div>
                 <div className="progress-section py-2">
                     <span> Progress :</span>
@@ -28,8 +32,8 @@ const CodingSheet = () => {
                     </div>
                 </div>
                 <div className="visualization py-2">visualiztion content here</div>
-                <div className="d-flex flex-nowrap justify-content-start align-items-center">
-                    <div className="dropdown">
+                <div className="filters  d-flex flex-wrap justify-content-start align-items-center">
+                    <div className="dropdown ">
                         <button className="options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Difficulty
                         </button>

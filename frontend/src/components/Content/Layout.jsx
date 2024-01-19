@@ -6,6 +6,7 @@ import CodingResources from './CodingResources';
 import Discussion from './Discussion';
 import CodingIDE from './CodingIDE';
 import DiscussionThread from './DiscussionThread';
+import MobileOffcanvasNavbar from './MobileOffcanvasNavbar';
 
 function CheckContentPath() {
   let path = window.location.pathname;
@@ -15,14 +16,19 @@ function CheckContentPath() {
   else if (path === '/discussion') return <Discussion />
   else if (path === '/coding-ide') return <CodingIDE />
   else if (path.startsWith('/discussion/interview/') || path.startsWith('/discussion/algorithms/') || path.startsWith('/discussion/development/') || path.startsWith('/discussion/miscellaneous/')) return <DiscussionThread />
+}
 
-
+function CheckDevice() {
+  if (window.screen.width <= 1145) {
+    return <MobileOffcanvasNavbar />
+  }
+  <OffcanvasNavbar />
 }
 const Layout = () => {
   return (
     <>
       <div className="content d-flex">
-        <OffcanvasNavbar />
+        <CheckDevice />
         <div className="main-content">
           <div className="container-fluid d-flex justify-content-center align-items-center">
             <div className="container main-container">

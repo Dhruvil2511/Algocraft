@@ -14,6 +14,10 @@ function App() {
           <Route path='/login' Component={Authentication}></Route>
           <Route path='/register' Component={Authentication}></Route>
           <Route path='/coding-sheets' Component={Layout}></Route>
+          <Route path='/coding-sheets/striver' Component={Layout}></Route>
+          <Route path='/coding-sheets/love-babbar' Component={Layout}></Route>
+          <Route path='/coding-sheets/neetcode' Component={Layout}></Route>
+          <Route path='/coding-sheets/apna-college' Component={Layout}></Route>
           <Route path='/upcoming-contests' Component={Layout}></Route>
           <Route path='/coding-resources' Component={Layout}></Route>
           <Route path='/discussion' Component={Layout}></Route>
@@ -22,8 +26,6 @@ function App() {
           <Route path='/discussion/development/:id' Component={Layout}></Route>
           <Route path='/discussion/miscellaneous/:id' Component={Layout}></Route>
           <Route path='/coding-ide' Component={Layout}></Route>
-
-
         </Routes>
       </Router>
     </>

@@ -42,10 +42,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-circle-check fa-lg" style={{ color: '#63E6BE' }}></i></button></div>
-              <div className="mark-later px-2"><button className="btn-list"><i className="fa-solid fa-bookmark fa-lg"></i></button></div>
-              <div className="solution px-2"><a href="#" className='btn-list'><i className="fa-brands fa-youtube fa-lg" style={{ color: "#ff0000" }}></i></a></div>
-
+              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
             </div>
           </div>
         </div>
@@ -64,9 +61,8 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-circle-check fa-lg" style={{ color: '#63E6BE' }}></i></button></div>
-              <div className="mark-later px-2"><button className="btn-list"><i className="fa-solid fa-bookmark fa-lg"></i></button></div>
-              <div className="solution px-2"><a href="#" className='btn-list'><i className="fa-brands fa-youtube fa-lg" style={{ color: "#ff0000" }}></i></a></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+
 
             </div>
           </div>
@@ -86,9 +82,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-circle-check fa-lg" style={{ color: '#63E6BE' }}></i></button></div>
-              <div className="mark-later px-2"><button className="btn-list"><i className="fa-solid fa-bookmark fa-lg"></i></button></div>
-              <div className="solution px-2"><a href="#" className='btn-list'><i className="fa-brands fa-youtube fa-lg" style={{ color: "#ff0000" }}></i></a></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>
@@ -108,9 +102,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-circle-check fa-lg" style={{ color: '#63E6BE' }}></i></button></div>
-              <div className="mark-later px-2"><button className="btn-list"><i className="fa-solid fa-bookmark fa-lg"></i></button></div>
-              <div className="solution px-2"><a href="#" className='btn-list'><i className="fa-brands fa-youtube fa-lg" style={{ color: "#ff0000" }}></i></a></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>
@@ -130,9 +122,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-circle-check fa-lg" style={{ color: '#63E6BE' }}></i></button></div>
-              <div className="mark-later px-2"><button className="btn-list"><i className="fa-solid fa-bookmark fa-lg"></i></button></div>
-              <div className="solution px-2"><a href="#" className='btn-list'><i className="fa-brands fa-youtube fa-lg" style={{ color: "#ff0000" }}></i></a></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>

@@ -15,8 +15,10 @@ const Authentication = () => {
     return (
 
         <div className="parent">
+            <a href="/"><i class="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
+
             <div class="leftpart-auth">
-                <div className='d-flex justify-content-center align-items-center flex-column'>
+                <div className='my-3 d-flex justify-content-center align-items-center flex-column'>
                     <div className="icon">
                         <i class="fa-solid fa-code fa-2xl" style={{ color: '#000000' }}></i>
                     </div>
@@ -24,10 +26,7 @@ const Authentication = () => {
                 </div>
             </div>
             <div className="rightpart-auth flex-column">
-                <a href="/"><i class="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
                 <h3 className='text-decoration-underline'>Create an Account or login</h3>
-                <div >
-                </div>
                 <CheckPath />
             </div>
         </div>

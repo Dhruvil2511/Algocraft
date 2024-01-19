@@ -39,7 +39,7 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   height: 100%;
-
+  text-overflow: ellipsis;
 }
 
 html {
@@ -109,3 +109,108 @@ button:active {
   background-color: var(--green-shade);
   /* color of the scrollbar handle when clicked */
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .mc {
+    flex-direction: column;
+  }
+
+  .background-animation {
+    display: none;
+  }
+
+  .left {
+    width: 60% !important;
+  }
+
+  .right {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 1145px) {
+  .content {
+    display: block !important;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+
+  .main-container {
+    padding: 2px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+  .text-links{
+    font-size: smaller;
+  }
+
+  .dropdown {
+    margin-bottom: 10px !important;
+  }
+
+  .sheets {
+    font-size: small;
+  }
+
+  .discussion-fliter {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .searchBox {
+    max-width: 60% !important;
+  }
+
+  .thread-title {
+    font-size: small;
+  }
+
+  .dis-taglist {
+    flex-wrap: wrap !important;
+  }
+}
+
+@media only screen and (max-width:1368px) {
+  .text-decoration-underline {
+    display: none;
+  }
+
+  .parent {
+    flex-direction: column;
+  }
+
+  .leftpart-auth {
+    width: 100% !important;
+    height: 40% !important;
+  }
+
+  .rightpart-auth {
+    margin-top: 30px;
+    justify-content: flex-start !important;
+    width: 100vw !important;
+  }
+
+  .form {
+    width: 360px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and down) */
+@media only screen and (max-height:740px) {
+
+  .drop-in-2,
+  .drop-in-3 {
+    margin-top: 1px !important;
+  }
+
+  .mc {
+    margin-top: 0% !important;
+    margin-bottom: 0% !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}

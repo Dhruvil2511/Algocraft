@@ -5,7 +5,7 @@ const Discussion = () => {
         <div className="content-header">
             <h1>Discussion </h1>
             <p>Dive into collaborative learning at Coding Discussions, Algocraft's vibrant online community. Connect with fellow programmers, seek help, and share knowledge. Our discussion section complements your coding journey, offering support and guidance. Elevate your skills together. Happy coding</p>
-            <div className="d-flex align-items-center justify-content-between ">
+            <div className="discussion-fliter d-flex align-items-center justify-content-between ">
                 <div className="d-flex flex-wrap justify-content-center align-items-center" >
                     <a className='text-links m-2 fs-3 active' href="#">All topics</a>
                     <a className='text-links m-2 fs-6' href="#">Interview Experience</a>
@@ -14,7 +14,7 @@ const Discussion = () => {
                     <a className='text-links m-2 fs-6' href="#">Miscellaneous</a>
                 </div>
                 <div className="searchBox">
-                    <input className="searchInput" type="text" name="" placeholder="Search something" />
+                    <input className="searchInput" type="text" name="" placeholder="Search.." />
                     <button className="searchButton" href="#">
                         <i className="fa-solid fa-magnifying-glass fa-xl"></i>
                     </button>
@@ -32,7 +32,7 @@ const Discussion = () => {
                             {/* <div className="status"></div> */}
                             <div className="title d-flex flex-column justify-content-center align-items-start">
                                 <a href='/discussion/interview/123' className="thread-title text-start">My interview experience at Google</a>
-                                <div className="d-flex jutify-content-center align-items-center">
+                                <div className="dis-taglist d-flex jutify-content-center align-items-center">
                                     <a href="#" className='username'>kadash_shah</a>
                                     <span className='tags px-2'>interview</span>
                                     <span className='tags px-2'>google</span>
@@ -57,7 +57,7 @@ const Discussion = () => {
                             {/* <div className="status"></div> */}
                             <div className="title d-flex flex-column justify-content-center align-items-start">
                                 <a href='#' className="thread-title text-start">My interview experience at Google</a>
-                                <div className="d-flex jutify-content-center align-items-center">
+                                <div className="dis-taglist  d-flex jutify-content-center align-items-center">
                                     <a href="#" className='username'>kadash_shah</a>
                                     <span className='tags px-2'>interview</span>
                                     <span className='tags px-2'>google</span>
@@ -82,7 +82,7 @@ const Discussion = () => {
                             {/* <div className="status"></div> */}
                             <div className="title d-flex flex-column justify-content-center align-items-start">
                                 <a href='#' className="thread-title text-start">My interview experience at Google</a>
-                                <div className="d-flex jutify-content-center align-items-center">
+                                <div className="dis-taglist  d-flex jutify-content-center align-items-center">
                                     <a href="#" className='username'>kadash_shah</a>
                                     <span className='tags px-2'>interview</span>
                                     <span className='tags px-2'>google</span>
@@ -107,7 +107,7 @@ const Discussion = () => {
                             {/* <div className="status"></div> */}
                             <div className="title d-flex flex-column justify-content-center align-items-start">
                                 <a href='/discussion/interview/123' className="thread-title text-start">My interview experience at Google</a>
-                                <div className="d-flex jutify-content-center align-items-center">
+                                <div className="dis-taglist d-flex jutify-content-center align-items-center">
                                     <a href="#" className='username'>kadash_shah</a>
                                     <span className='tags px-2'>interview</span>
                                     <span className='tags px-2'>google</span>

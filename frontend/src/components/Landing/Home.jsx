@@ -11,13 +11,14 @@ import { Navigation } from './Navigation';
 
 
 const Home = () => {
+
     return (
         <>
             <Navigation />
             <div className="page1 h-100">
 
                 <div className="container-fluid d-flex justify-content-center align-items-center ">
-                    <div className="container my-4 d-flex justify-content-between align-items-center ">
+                    <div className="mc container my-4 d-flex justify-content-between align-items-center ">
                         <div className="background-animation" >
                             <Lottie animationData={ballAnimation} loop={true} style={{ width: '100%' }}></Lottie>
                         </div>
@@ -41,14 +42,14 @@ const Home = () => {
 
                                 <span className='fs-4 my-4 drop-in-3' style={{ overflow: 'hidden' }}>An ultimate platform to help you crack your Software engineering interview.</span>
                                 <form action="/coding-sheets">
-                                <button className='grad-btn mt-2 drop-in-4' style={{ overflow: 'hidden' }} >
-                                    Lets Crack it
-                                    <div className="hoverEffect">
-                                        <div>
+                                    <button className='grad-btn mt-2 drop-in-4' style={{ overflow: 'hidden' }} >
+                                        Lets Crack it
+                                        <div className="hoverEffect">
+                                            <div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </button>
+                                    </button>
                                 </form>
                             </div>
 
@@ -218,7 +219,7 @@ const Home = () => {
 
                     <footer className="w-100 py-4 flex-shrink-0 text-center">
                         <div className="container py-4">
-                            <div className="row gy-4 gx-5">
+                            <div className="row gy-4 ">
                                 <div className="col-lg-4 col-md-6">
                                     <div className="gola m-auto" style={{ backgroundColor: 'rgba(0, 208, 219, 1)' }}>
                                         <i className="fa-solid fa-code fa-lg "></i>

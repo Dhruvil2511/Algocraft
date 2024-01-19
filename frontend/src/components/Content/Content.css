@@ -15,7 +15,8 @@
 
 .main-content {
     width: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
 }
 
 .main-container {
@@ -39,6 +40,8 @@
     margin: 5px;
     width: 15%;
     text-align: center;
+    text-overflow: ellipsis;
+   
 }
 
 
