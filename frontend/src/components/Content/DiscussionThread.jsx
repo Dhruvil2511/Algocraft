@@ -7,12 +7,12 @@ const DiscussionThread = () => {
                 <div className="thread d-flex flex-column justify-content-start align-items-center">
                     <div className="thread-header w-100 p-2 d-flex justify-content-between align-items-center">
                         <div className="d-flex justify-content-start align-items-center">
-                            <a href="/discussion" className='p-2' style={{ borderRight: '2px solid gray' }}><i class="fa-solid fa-left-long fa-xl"></i></a>
+                            <a href="/discussion" className='p-2' style={{ borderRight: '2px solid gray' }}><i className="fa-solid fa-left-long fa-xl"></i></a>
                             <strong className='px-2'>My interview experience at google</strong>
                         </div>
                         <div className="d-flex justify-content-end align-items-center">
-                            <a href="" className='px-2'><i class="fa-solid fa-share-from-square fa-lg"></i></a>
-                            <a href="" className='px-2'><i class="fa-solid fa-flag fa-lg"></i></a>
+                            <a href="" className='px-2'><i className="fa-solid fa-share-from-square fa-lg"></i></a>
+                            <a href="" className='px-2'><i className="fa-solid fa-flag fa-lg"></i></a>
                         </div>
 
                     </div>
@@ -33,8 +33,8 @@ const DiscussionThread = () => {
                         </div>
                         <div className="thread-interaction w-100">
                             <div className="py-2 d-flex justify-content-start align-item-center">
-                                <div className="mark-complete"><a href="#"><i class="fa-regular fa-circle-up "></i></a><small className='px-2'>12 upvotes</small></div>
-                                <div className="mark-later px-4"><i class="fa-regular fa-eye "></i><small className='px-2'>12k views</small></div>
+                                <div className="mark-complete"><a href="#"><i className="fa-regular fa-circle-up "></i></a><small className='px-2'>12 upvotes</small></div>
+                                <div className="mark-later px-4"><i className="fa-regular fa-eye "></i><small className='px-2'>12k views</small></div>
                             </div>
                         </div>
                         <div className="thread-comments py-3">
@@ -68,10 +68,10 @@ const DiscussionThread = () => {
                                     </div>
                                     <div className="comment-interaction d-flex justify-content-start align-items-center w-100 px-2">
                                         <div className="view-replies">
-                                            <sub><button className='btn-list'><i class="fa-solid fa-message"></i>  View replies</button></sub>
+                                            <sub><button className='btn-list'><i className="fa-solid fa-message"></i>  View replies</button></sub>
                                         </div>
                                         <div className="reply">
-                                            <sub><button className='btn-list'><i class="fa-solid fa-reply"></i> Reply</button></sub>
+                                            <sub><button className='btn-list'><i className="fa-solid fa-reply"></i> Reply</button></sub>
                                         </div>
                                     </div>
 

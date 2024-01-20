@@ -36,16 +36,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  height: 100%;
+  /* min-height: 100vh; */
+  /* min-height: -webkit-fill-available; */
+  /* height: 100%; */
   text-overflow: ellipsis;
 }
 
-html {
-  height: -webkit-fill-available;
-  height: 100%;
-}
+
 
 
 code {
@@ -53,9 +50,9 @@ code {
     monospace;
 }
 
-#root {
+/* #root {
   min-height: 100vh;
-}
+} */
 
 p,
 a,
@@ -132,6 +129,7 @@ button:active {
 @media only screen and (max-width: 1145px) {
   .content {
     display: block !important;
+    height: 100vh;
   }
 
   .sidebar {

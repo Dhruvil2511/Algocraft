@@ -24,7 +24,7 @@ const CodingResources = () => {
                             <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                         </div>
                         <div className="card-footer">
-                            <a href="/"><i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="/"><i className="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ const CodingResources = () => {
                             <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
                         </div>
                         <div className="card-footer">
-                           <a href="/"><i class="fa-solid fa-arrow-right"></i></a>
+                           <a href="/"><i className="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const CodingResources = () => {
                             <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                         </div>
                         <div className="card-footer">
-                           <a href="/"><i class="fa-solid fa-arrow-right"></i></a>
+                           <a href="/"><i className="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ const CodingResources = () => {
                             <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                         </div>
                         <div className="card-footer">
-                           <a href="/"><i class="fa-solid fa-arrow-right"></i></a>
+                           <a href="/"><i className="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>

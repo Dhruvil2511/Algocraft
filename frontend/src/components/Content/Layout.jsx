@@ -27,7 +27,7 @@ function CheckDevice() {
 const Layout = () => {
   return (
     <>
-      <div className="content d-flex">
+      <div className="content ">
         <CheckDevice />
         <div className="main-content">
           <div className="container-fluid d-flex justify-content-center align-items-center">

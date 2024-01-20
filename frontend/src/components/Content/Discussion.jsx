@@ -41,8 +41,8 @@ const Discussion = () => {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
-                            <div className="mark-complete px-2"><i class="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
-                            <div className="mark-later px-2"><i class="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
+                            <div className="mark-complete px-2"><i className="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
+                            <div className="mark-later px-2"><i className="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
 
                         </div>
                     </div>
@@ -66,8 +66,8 @@ const Discussion = () => {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
-                            <div className="mark-complete px-2"><i class="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
-                            <div className="mark-later px-2"><i class="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
+                            <div className="mark-complete px-2"><i className="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
+                            <div className="mark-later px-2"><i className="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
 
                         </div>
                     </div>
@@ -91,8 +91,8 @@ const Discussion = () => {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
-                            <div className="mark-complete px-2"><i class="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
-                            <div className="mark-later px-2"><i class="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
+                            <div className="mark-complete px-2"><i className="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
+                            <div className="mark-later px-2"><i className="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
 
                         </div>
                     </div>
@@ -116,8 +116,8 @@ const Discussion = () => {
                             </div>
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
-                            <div className="mark-complete px-2"><i class="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
-                            <div className="mark-later px-2"><i class="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
+                            <div className="mark-complete px-2"><i className="fa-regular fa-circle-up fa-lg"></i><small className='px-2'>12</small></div>
+                            <div className="mark-later px-2"><i className="fa-regular fa-eye fa-lg"></i><small className='px-2'>12k</small></div>
 
                         </div>
                     </div>

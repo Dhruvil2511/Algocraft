@@ -71,7 +71,7 @@ const CodingSheet = () => {
                         <button className='options'>hide tags</button>
                     </div>
                     <div className="random">
-                        <button className='options'><i class="fa-solid fa-shuffle pe-2" style={{ color: "#63E6BE" }}></i>Pick random</button>
+                        <button className='options'><i className="fa-solid fa-shuffle pe-2" style={{ color: "#63E6BE" }}></i>Pick random</button>
                     </div>
                 </div>
                 <div className="selected-tags py-2">selected tags here</div>

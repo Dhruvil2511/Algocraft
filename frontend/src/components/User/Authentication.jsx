@@ -15,12 +15,12 @@ const Authentication = () => {
     return (
 
         <div className="parent">
-            <a href="/"><i class="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
+            <a href="/"><i className="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
 
-            <div class="leftpart-auth">
+            <div className="leftpart-auth">
                 <div className='my-3 d-flex justify-content-center align-items-center flex-column'>
                     <div className="icon">
-                        <i class="fa-solid fa-code fa-2xl" style={{ color: '#000000' }}></i>
+                        <i className="fa-solid fa-code fa-2xl" style={{ color: '#000000' }}></i>
                     </div>
                     <h1 className='text-center'>Algocraft</h1>
                 </div>

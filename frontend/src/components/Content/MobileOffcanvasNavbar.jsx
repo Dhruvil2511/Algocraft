@@ -16,7 +16,7 @@ const MobileOffcanvasNavbar = () => {
                 <div className="w-100 d-flex justify-content-between align-items-center">
                     <div className="hamburger">
                         <button style={{ background: "transparent", border: 'none' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                            <i class="fa-solid fa-bars fa-2xl"></i>
+                            <i className="fa-solid fa-bars fa-2xl"></i>
                         </button>
                     </div>
                     <div
@@ -42,13 +42,13 @@ const MobileOffcanvasNavbar = () => {
                 </div>
             </nav>
 
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                <div class="offcanvas-header" >
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" >
-                        <i class="fa-solid fa-xmark fa-xl"></i>
+            <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div className="offcanvas-header" >
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" >
+                        <i className="fa-solid fa-xmark fa-xl"></i>
                     </button>
                 </div>
-                <div class="offcanvas-body">
+                <div className="offcanvas-body">
                     <div className="py-3">
                         <a href="/coding-sheets" className={path === '/coding-sheets' ? 'nav-link active' : 'nav-link'} aria-current="page">
                             <i className="fa-solid fa-network-wired fa-lg px-2" ></i>

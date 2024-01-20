@@ -42,7 +42,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
 
             </div>
@@ -82,7 +82,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>
@@ -102,7 +102,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>
@@ -122,7 +122,7 @@ const UpcomingContests = () => {
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i class="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
             </div>
           </div>
