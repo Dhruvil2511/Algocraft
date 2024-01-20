@@ -33,7 +33,7 @@ const CodingSheet = () => {
                 </div>
                 <div className="visualization py-2">visualiztion content here</div>
                 <div className="d-flex flex-wrap justify-content-between align-items-center w-100 daddy my-4">
-                    <div className="d-flex justify-content-center align-items-center">
+                    <div className="d-flex justify-content-center align-items-center flex-wrap">
                         <div className="dropdown ">
                             <button className="options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Difficulty
