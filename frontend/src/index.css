@@ -127,6 +127,20 @@ button:active {
 }
 
 @media only screen and (max-width: 1145px) {
+  .pfp-menu {
+    margin-top: 45px !important;
+    right: -5% !important;
+}
+.profile-menu,.profile{
+  flex-direction: column !important;
+}
+.omg2{
+  margin-right:0 !important;
+}
+.omg{
+  margin-top: 10px !important;
+  margin-left: 0 !important ;
+}
   .content {
     display: block !important;
     height: 100vh;

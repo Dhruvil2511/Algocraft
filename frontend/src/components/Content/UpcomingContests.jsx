@@ -27,103 +27,105 @@ const UpcomingContests = () => {
 
       </div>
 
-      <div className="my-2 table-list p-1">
-        <div className="row p-2 ">
-          <div className="question  d-flex align-items-center justify-content-between ">
-            <div className='d-flex justify-content-center align-items-center'>
-              <div className="number">1</div>
-              <div className="title d-flex flex-column justify-content-center align-items-start">
-                <div className="text-start">2 Sum</div>
-                <div className="taglist d-flex jutify-content-center align-items-center">
-                  <span className='tags px-2'>array</span>
-                  <span className='tags px-2'>maths</span>
-                  <span className='tags px-2'>maths</span>
+      <div className="daddy my-4 w-100 d-flex  align-items-center">
+        <div className="my-2 table-list w-100" style={{ border: 'none' }}>
+          <div className="row p-2 ">
+            <div className="question  d-flex align-items-center justify-content-between ">
+              <div className='d-flex justify-content-center align-items-center'>
+                <div className="number">1</div>
+                <div className="title d-flex flex-column justify-content-center align-items-start">
+                  <div className="text-start">2 Sum</div>
+                  <div className="taglist d-flex jutify-content-center align-items-center">
+                    <span className='tags px-2'>array</span>
+                    <span className='tags px-2'>maths</span>
+                    <span className='tags px-2'>maths</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row p-2">
-          <div className="question d-flex align-items-center justify-content-between ">
-            <div className='d-flex justify-content-center align-items-center'>
-              <div className="number">1</div>
-              {/* <div className="status"></div> */}
-              <div className="title d-flex flex-column justify-content-center align-items-start">
-                <div className="text-start">2 Sum</div>
-                <div className="taglist d-flex jutify-content-center align-items-center">
-                  <span className='tags px-2'>array</span>
-                  <span className='tags px-2'>maths</span>
-                  <span className='tags px-2'>maths</span>
+          <div className="row p-2">
+            <div className="question d-flex align-items-center justify-content-between ">
+              <div className='d-flex justify-content-center align-items-center'>
+                <div className="number">1</div>
+                {/* <div className="status"></div> */}
+                <div className="title d-flex flex-column justify-content-center align-items-start">
+                  <div className="text-start">2 Sum</div>
+                  <div className="taglist d-flex jutify-content-center align-items-center">
+                    <span className='tags px-2'>array</span>
+                    <span className='tags px-2'>maths</span>
+                    <span className='tags px-2'>maths</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
 
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row p-2">
-          <div className="question d-flex align-items-center justify-content-between ">
-            <div className='d-flex justify-content-center align-items-center'>
-              <div className="number">1</div>
-              {/* <div className="status"></div> */}
-              <div className="title d-flex flex-column justify-content-center align-items-start">
-                <div className=" text-start">2 Sum</div>
-                <div className="taglist d-flex jutify-content-center align-items-center">
-                  <span className='tags px-2'>array</span>
-                  <span className='tags px-2'>maths</span>
-                  <span className='tags px-2'>maths</span>
+          <div className="row p-2">
+            <div className="question d-flex align-items-center justify-content-between ">
+              <div className='d-flex justify-content-center align-items-center'>
+                <div className="number">1</div>
+                {/* <div className="status"></div> */}
+                <div className="title d-flex flex-column justify-content-center align-items-start">
+                  <div className=" text-start">2 Sum</div>
+                  <div className="taglist d-flex jutify-content-center align-items-center">
+                    <span className='tags px-2'>array</span>
+                    <span className='tags px-2'>maths</span>
+                    <span className='tags px-2'>maths</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row p-2">
-          <div className="question d-flex align-items-center justify-content-between ">
-            <div className='d-flex justify-content-center align-items-center'>
-              <div className="number">1</div>
-              {/* <div className="status"></div> */}
-              <div className="title d-flex flex-column justify-content-center align-items-start">
-                <div className=" text-start">2 Sum</div>
-                <div className="taglist d-flex jutify-content-center align-items-center">
-                  <span className='tags px-2'>array</span>
-                  <span className='tags px-2'>maths</span>
-                  <span className='tags px-2'>maths</span>
+          <div className="row p-2">
+            <div className="question d-flex align-items-center justify-content-between ">
+              <div className='d-flex justify-content-center align-items-center'>
+                <div className="number">1</div>
+                {/* <div className="status"></div> */}
+                <div className="title d-flex flex-column justify-content-center align-items-start">
+                  <div className=" text-start">2 Sum</div>
+                  <div className="taglist d-flex jutify-content-center align-items-center">
+                    <span className='tags px-2'>array</span>
+                    <span className='tags px-2'>maths</span>
+                    <span className='tags px-2'>maths</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row p-2">
-          <div className="question d-flex align-items-center justify-content-between ">
-            <div className='d-flex justify-content-center align-items-center'>
-              <div className="number">1</div>
-              {/* <div className="status"></div> */}
-              <div className="title d-flex flex-column justify-content-center align-items-start">
-                <div className=" text-start">2 Sum</div>
-                <div className="taglist d-flex jutify-content-center align-items-center">
-                  <span className='tags px-2'>array</span>
-                  <span className='tags px-2'>maths</span>
-                  <span className='tags px-2'>maths</span>
+          <div className="row p-2">
+            <div className="question d-flex align-items-center justify-content-between ">
+              <div className='d-flex justify-content-center align-items-center'>
+                <div className="number">1</div>
+                {/* <div className="status"></div> */}
+                <div className="title d-flex flex-column justify-content-center align-items-start">
+                  <div className=" text-start">2 Sum</div>
+                  <div className="taglist d-flex jutify-content-center align-items-center">
+                    <span className='tags px-2'>array</span>
+                    <span className='tags px-2'>maths</span>
+                    <span className='tags px-2'>maths</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="mark-complete px-2"><button className='btn-list'><i className="fa-solid fa-calendar-days fa-lg"></i></button></div>
 
+              </div>
             </div>
           </div>
         </div>

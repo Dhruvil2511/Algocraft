@@ -30,7 +30,7 @@ const MobileOffcanvasNavbar = () => {
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://avatars.githubusercontent.com/u/91490304?v=4" alt="" width="32" height="32" className="rounded-circle me-2" />
                         </a>
-                        <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                        <ul className="pfp-menu dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                             <li><a className="dropdown-item" href="/">Settings</a></li>
                             <li><a className="dropdown-item" href="/">Profile</a></li>
                             <li>
@@ -43,12 +43,12 @@ const MobileOffcanvasNavbar = () => {
             </nav>
 
             <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                <div className="offcanvas-header" >
+                <div className="offcanvas-header d-flex justify-content-start align-items-center flex-column" >
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" >
                         <i className="fa-solid fa-xmark fa-xl"></i>
                     </button>
                 </div>
-                <div className="offcanvas-body">
+                <div className="offcanvas-body d-flex justify-content-start align-items-center flex-column">
                     <div className="py-3">
                         <a href="/coding-sheets" className={path === '/coding-sheets' ? 'nav-link active' : 'nav-link'} aria-current="page">
                             <i className="fa-solid fa-network-wired fa-lg px-2" ></i>

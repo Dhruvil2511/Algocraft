@@ -1,85 +1,70 @@
 import React from 'react'
+import CircularProgress from '@mui/joy/CircularProgress';
 
-
-const CodingSheet = () => {
+const Profile = () => {
     return (
         <>
-            <div className="content-header">
-                <h1>Coding Sheets</h1>
-                <p>Looking for a convenient way to access a variety of coding practice sheets from different sources? Look no further than Coding Sheets, a feature on the Algocraft website. Not only can you find a wide range of sheets all in one place, but the included analysis graphs make solving them even more enjoyable by allowing you to track your progress. Plus, a discussion section is coming soon to provide support and guidance as you work through each sheet. Happy coding!</p>
-
-                <div className="main-sheet py-2">
-                    <div className="sheets d-flex flex-wrap">
-                        <a className='sheet selected' href="#">Striver</a>
-                        <a className='sheet' href="/">love babbar</a>
-                        <a className='sheet' href="/">leet code</a>
-                        <a className='sheet' href="/">neet code</a>
-                        <a className='sheet' href="/">apna college</a>
-                        <a className='sheet' href="/">blind 75</a>
-                        <a className='sheet' href="/">fraz</a>
-                        <a className='sheet' href="/">coder army</a>
-                        <a className='sheet' href="/">custom</a>
-                    </div>
-                </div>
-                <div className="author alert bg-success">
-                    credit section here
-                    All credits goes to striver for this sheer etc etc
-                </div>
-                <div className="progress-section py-2">
-                    <span> Progress :</span>
-                    <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div className="progress-bar bg-success" style={{ width: '25%' }}>25%</div>
-                    </div>
-                </div>
-                <div className="visualization py-2">visualiztion content here</div>
-                <div className="d-flex flex-wrap justify-content-between align-items-center w-100 daddy my-4">
-                    <div className="d-flex justify-content-center align-items-center">
-                        <div className="dropdown ">
-                            <button className="options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Difficulty
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item text-success" href="#">Easy</a></li>
-                                <li><a className="dropdown-item text-warning" href="#">Medium</a></li>
-                                <li><a className="dropdown-item text-danger" href="#">Hard</a></li>
-                            </ul>
-                        </div>
-                        <div className="dropdown">
-                            <button className=" options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Status
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Solved</a></li>
-                                <li><a className="dropdown-item" href="#">Marked</a></li>
-                                <li><a className="dropdown-item" href="#">Unsolved</a></li>
-                            </ul>
-                        </div>
-                        <div className="dropdown">
-                            <button className="options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Filter
-                            </button>
-                            <ul className="dropdown-menu">
-                                <div className="search-filter d-flex align-items-center">
-                                    <i className="fa-solid fa-magnifying-glass px-2"></i>
-                                    <input type="text" className='me-2' />
+            <div className="content-header d-flex flex-column justify-content-center w-100 ">
+                <div className="profile-menu d-flex justify-content-between align-items-center w-100">
+                    <div className="daddy omg2 p-3 me-2 " >
+                        <div className="d-flex justify-content-center align-items-center flex-column w-100">
+                            <div className="profile m-2 d-flex justify-content-between align-items-center w-100">
+                                <div className="streak  d-flex justify-content-center align-items-center">
+                                    <CircularProgress sx={{ '--CircularProgress-size': '80px' }} determinate value={66.67}>
+                                        2 / 3
+                                    </CircularProgress>
+                                    <div className='m-3'>
+                                        <span className='text-underline'>Streaks</span>
+                                    </div>
                                 </div>
-                                <li><a className="dropdown-item" href="#">array</a></li>
-                                <li><a className="dropdown-item" href="#">dp</a></li>
-                                <li><a className="dropdown-item" href="#">matrix</a></li>
-                            </ul>
+                                <div className="detail d-flex justify-content-center align-items-center">
+                                    <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
+                                        <span className='text-end w-100'>Kalash Shah</span>
+                                        <span className='text-end w-100 '>kalash_shah_99</span>
+                                    </div>
+                                    <div className="rounded-square-pfp m-1">
+                                        <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="info w-100  m-2 mt-3 d-flex justify-content-around align-items center">
+                                <div className='d-flex justify-content-center align-items-center flex-column'>
+                                    <i class="fa-regular fa-star"></i>
+                                    <small>value</small>
+                                </div>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-solid fa-location-dot"></i>                                    <small>value</small>
+                                </div>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-brands fa-github"></i>                                    <small>value</small>
+                                </div>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-brands fa-linkedin"></i>                                    <small>value</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="daddy omg p-3 ms-2">
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="bars w-100">
+                                <span>Easy</span>
+                                <div class="progress m-2" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-success" style={{ width: "25%" }}></div>
+                                </div>
+                                <span>Medium</span>
+                                <div class="progress m-2" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning" style={{ width: "75%" }}></div>
+                                </div>
+                                <span>Hard</span>
+                                <div class="progress m-2" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-danger" style={{ width: "100%" }}></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="d-flex justify-content-center align-items-center">
-                        <div className="hidetag">
-                            <button className='options'>Hide tags</button>
-                        </div>
-                        <div className="random">
-                            <button className='options'><i className="fa-solid fa-shuffle pe-2" style={{ color: "#63E6BE" }}></i>Pick random</button>
-                        </div>
-                    </div>
                 </div>
-                <div className="selected-tags py-2">selected tags here</div>
+                <div className="d-flex flex-wrap justify-content-start align-items-center w-100 daddy my-4">
+                    <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Marked Question</button>
+                    <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Followed friends</button>
+                </div>
                 <div className="daddy my-4 w-100 d-flex  align-items-center">
                     <div className="my-2 table-list w-100" style={{ border: 'none' }}>
                         <div className="row w-100 p-2 ">
@@ -197,8 +182,7 @@ const CodingSheet = () => {
                 </div>
             </div>
         </>
-
     )
 }
 
-export default CodingSheet;
+export default Profile
