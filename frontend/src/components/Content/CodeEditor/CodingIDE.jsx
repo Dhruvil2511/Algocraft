@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CodeEditorWindow from "./CodeEditorWindow";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,14 +8,14 @@ import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import { languageData } from "../../../constants/languageData";
 import monacoThemes from "monaco-themes/themes/themelist";
+import Editor from "@monaco-editor/react";
 
 
 
-const javascriptDefault = `console.log('Algocraft')`;
 
 const CodingIDE = () => {
   const rejectedThemes = ['cobalt2', 'dracula', 'githubdark', 'githublight', 'idle', 'slushandpoppies', 'nord', 'monokaibright', 'merbivoresoft', 'lazy', 'katzenmilch', 'kuroirtheme'];
-  const [code, setCode] = useState(javascriptDefault);
+  const [code, setCode] = useState("console.log('Welcome to Algocraft!');");
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
@@ -39,6 +38,10 @@ const CodingIDE = () => {
         console.warn("case not handled!", action, data);
       }
     }
+  };
+  const handleEditorChange = (value) => {
+    setCode(value);
+    onChange("code", value);
   };
   const handleCompile = () => {
     setProcessing(true);
@@ -164,6 +167,11 @@ const CodingIDE = () => {
     });
   };
 
+  function handleLanguageChange(option) {
+    setLanguage(languageData[option.value])
+    setCode(option.boilerplate)
+  }
+
   return (
     <>
       <ToastContainer
@@ -197,7 +205,7 @@ const CodingIDE = () => {
                     <a
                       className="dropdown-item"
                       href="#"
-                      onClick={() => setLanguage(languageData[option.value])}
+                      onClick={() => handleLanguageChange(option)}
                     >
                       <span className="mx-2" dangerouslySetInnerHTML={{ __html: option.icon }}></span>
                       <span>{option.name}</span>
@@ -226,8 +234,6 @@ const CodingIDE = () => {
                 ))}
               </ul>
             </div>
-
-            {/* <ThemeDropdown  theme={theme} /> */}
           </div>
         </div>
         <div>
@@ -242,12 +248,9 @@ const CodingIDE = () => {
       </div>
       <div className="d-flex px-4 py-4 w-100">
         <div className="editor d-flex flex-column w-70 h-100 justify-content-start align-items-end">
-          <CodeEditorWindow
-            code={code}
-            onChange={onChange}
-            language={language.value}
-            theme={theme.value}
-          />
+          <div className="overflow-hidden w-100 h-100" style={{ border: 'none', borderRadius: '8px', boxShadow: " 0px 2px 4px #00000014,0px 4px 8px #00000014,0px 6px 12px #00000014" }}>
+            <Editor height="82vh" width="100%" language={language.value || "javascript"} value={code} theme={theme.value} onChange={handleEditorChange} />
+          </div>
         </div>
 
         <div className="right-container  d-flex flex-shrink-0  flex-column">
