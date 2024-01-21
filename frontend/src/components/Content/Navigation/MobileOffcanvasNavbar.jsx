@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './Content.css'
-import { updateTheme } from '../Landing/Navigation';
+import '../Content.css'
+import { updateTheme } from '../../Landing/Navigation';
 
 const MobileOffcanvasNavbar = () => {
     const [isDarkTheme, setDarkTheme] = useState(true);

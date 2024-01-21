@@ -3,11 +3,11 @@ import CodeEditorWindow from "./CodeEditorWindow";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { defineTheme } from "../../utils/defineTheme";
+import { defineTheme } from "../../../utils/defineTheme";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
-import { languageData } from "../../constants/languageData";
+import { languageData } from "../../../constants/languageData";
 import monacoThemes from "monaco-themes/themes/themelist";
 
 
@@ -188,7 +188,7 @@ const CodingIDE = () => {
                 aria-expanded="false"
               >
                 <span className="mx-2" dangerouslySetInnerHTML={{ __html: language.icon }}></span>
-                      <span>{language.name}</span>
+                <span>{language.name}</span>
               </button>
               <ul className="dropdown-menu">
                 {Object.values(languageData).map((option) => (
@@ -201,7 +201,7 @@ const CodingIDE = () => {
                     >
                       <span className="mx-2" dangerouslySetInnerHTML={{ __html: option.icon }}></span>
                       <span>{option.name}</span>
-                      
+
                     </a>
                   </li>
                 ))}
@@ -234,7 +234,7 @@ const CodingIDE = () => {
           <button className="options"
             onClick={handleCompile}
             disabled={!code}>
-            <i class="m-1 fa-solid fa-gears"></i>
+            <i className="m-1 fa-solid fa-gears"></i>
             {processing ? "Processing..." : "Compile"}
           </button>
         </div>

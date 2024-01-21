@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import OffcanvasNavbar from './OffcanvasNavbar'
+import OffcanvasNavbar from '../Content/Navigation/OffcanvasNavbar'
 import CodingSheet from './CodingSheet';
 import UpcomingContests from './UpcomingContests';
 import CodingResources from './CodingResources';
-import Discussion from './Discussion';
-import CodingIDE from './CodingIDE';
-import DiscussionThread from './DiscussionThread';
-import MobileOffcanvasNavbar from './MobileOffcanvasNavbar';
+import Discussion from '../Content/Discussion/Discussion';
+import CodingIDE from '../Content/CodeEditor/CodingIDE';
+import DiscussionThread from '../Content/Discussion/DiscussionThread';
+import MobileOffcanvasNavbar from '../Content/Navigation/MobileOffcanvasNavbar';
 import Profile from '../User/Profile';
 import { useParams } from 'react-router-dom';
 

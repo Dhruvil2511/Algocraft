@@ -11,7 +11,7 @@ const CodeEditorWindow = ({ onChange, language, code, theme }) => {
     };
 
     return (
-        <div className="overflow-hidden w-100 h-100" style={{border:'none',borderRadius:'8px',boxShadow:" 0px 2px 4px #00000014,0px 4px 8px #00000014,0px 6px 12px #00000014"}}>
+        <div className="overflow-hidden w-100 h-100" style={{ border: 'none', borderRadius: '8px', boxShadow: " 0px 2px 4px #00000014,0px 4px 8px #00000014,0px 6px 12px #00000014" }}>
             <Editor
                 height="85vh"
                 width={`100%`}

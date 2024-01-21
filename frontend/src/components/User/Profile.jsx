@@ -29,14 +29,14 @@ const Profile = () => {
                             </div>
                             <div className="info w-100  m-2 mt-3 d-flex justify-content-around align-items center">
                                 <div className='d-flex justify-content-center align-items-center flex-column'>
-                                    <i class="fa-regular fa-star"></i>
+                                    <i className="fa-regular fa-star"></i>
                                     <small>value</small>
                                 </div>
-                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-solid fa-location-dot"></i>                                    <small>value</small>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i className="fa-solid fa-location-dot"></i>                                    <small>value</small>
                                 </div>
-                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-brands fa-github"></i>                                    <small>value</small>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i className="fa-brands fa-github"></i>                                    <small>value</small>
                                 </div>
-                                <div className='d-flex justify-content-center align-items-center flex-column'><i class="fa-brands fa-linkedin"></i>                                    <small>value</small>
+                                <div className='d-flex justify-content-center align-items-center flex-column'><i className="fa-brands fa-linkedin"></i>                                    <small>value</small>
                                 </div>
                             </div>
                         </div>
@@ -45,16 +45,16 @@ const Profile = () => {
                         <div className="d-flex justify-content-center align-items-center">
                             <div className="bars w-100">
                                 <span>Easy</span>
-                                <div class="progress m-2" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar bg-success" style={{ width: "25%" }}></div>
+                                <div className="progress m-2" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div className="progress-bar bg-success" style={{ width: "25%" }}></div>
                                 </div>
                                 <span>Medium</span>
-                                <div class="progress m-2" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar bg-warning" style={{ width: "75%" }}></div>
+                                <div className="progress m-2" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div className="progress-bar bg-warning" style={{ width: "75%" }}></div>
                                 </div>
                                 <span>Hard</span>
-                                <div class="progress m-2" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar bg-danger" style={{ width: "100%" }}></div>
+                                <div className="progress m-2" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <div className="progress-bar bg-danger" style={{ width: "100%" }}></div>
                                 </div>
                             </div>
                         </div>
