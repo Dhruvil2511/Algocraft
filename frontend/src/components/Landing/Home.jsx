@@ -162,8 +162,7 @@ const Home = () => {
 
             </div>
             <hr className='hr1'></hr>
-            <div className="page3 my-5">
-
+            <div className="page3 my-5" >
                 <div className="container faq">
                     <h3 className='py-2'>FAQ's..</h3>
                     <div className="accordion accordion-flush custom-accordion" id="accordionFlushExample">
@@ -214,9 +213,8 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="footer">
+            <div className="footer text-center">
                 <div className="d-flex flex-column h-100">
-
                     <footer className="w-100 py-4 flex-shrink-0 text-center">
                         <div className="container py-4">
                             <div className="row gy-4 ">
