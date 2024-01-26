@@ -11,7 +11,7 @@ app.use(
     })
 );
 
-app.use(express.json({ limit: "16kb" })); // to limit the json usage
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true, limit: "16kb" })); // to encode the url with its param
 app.use(express.static("public")); // to serve static files
 app.use(cookieParser());

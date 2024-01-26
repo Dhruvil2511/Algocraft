@@ -1,7 +1,13 @@
 // standardize error response to be sent to user/client we inherit and override Erro class
 
 class ApiError extends Error {
-    constructor(statusCode, message = "Something went wrong", errors = [], stack = "") {
+    constructor({
+        statusCode,
+        message = "Something went wrong",
+        userMessage = "Something went wrong",
+        errors = [],
+        stack = ""
+    }) {
         super(message);
         this.statusCode = statusCode;
         this.message = message;
@@ -9,6 +15,7 @@ class ApiError extends Error {
         this.stack = stack;
         this.data = null;
         this.success = false;
+        this.userMessage = userMessage;
 
         if (stack) {
             this.stack = stack;
