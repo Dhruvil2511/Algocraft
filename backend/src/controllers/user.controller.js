@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import joi from "joi";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const cookieOptions = {
     // added this so that cookie can only be modified by server and not client
@@ -267,4 +268,117 @@ const updateAvatar = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, user, "Avatar updated successfully"));
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser, updateAccountDetails, updateAvatar };
+const getUserProfile = asyncHandler(async (req, res) => {
+    const { username } = req.params;
+
+    if (!username?.trim) throw new ApiError(400, "error", "username is missing");
+
+    const userDetails = await User.aggregate([
+        {
+            $match: { username: username?.toLowerCase() },
+        },
+        {
+            $lookup: {
+                from: "follows",
+                localField: "_id",
+                foreignField: "following",
+                as: "followers",
+            },
+        },
+        {
+            $lookup: {
+                from: "follows",
+                localField: "_id",
+                foreignField: "followers",
+                as: "following",
+            },
+        },
+        {
+            $addFields: {
+                isFollowed: {
+                    $cond: {
+                        if: { $in: [req.user?._id, "$followers.follower"] },
+                        then: true,
+                        else: false,
+                    },
+                },
+            },
+        },
+        {
+            $project: {
+                fullName: 1,
+                username: 1,
+                location: 1,
+                githubLink: 1,
+                linkedinLink: 1,
+                followers: 1,
+                following: 1,
+                avatar: 1,
+            },
+        },
+    ]);
+
+    if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
+
+    console.log(userDetails);
+    return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));
+});
+
+const getUserSavedThread = asyncHandler(async (req, res) => {
+    const user = await User.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(req.user._id),
+            },
+        },
+        {
+            $lookup: {
+                from: "threads",
+                localField: "threadSaved",
+                foreignField: "_id",
+                as: "savedThread",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "uploader",
+                            foreignField: "_id",
+                            as: "uploader",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        fullName: 1,
+                                        username: 1,
+                                        avatar: 1,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        $addFields: {
+                            uploader: {
+                                $first: "$uploader",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    ]);
+
+    return res.status(200).json(new ApiResponse(200, user[0].savedThread, "saved threads fetched successfully"));
+});
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    refreshAccessToken,
+    getCurrentUser,
+    updateAccountDetails,
+    updateAvatar,
+    changePassword,
+    getUserProfile,
+    getUserSavedThread,
+};
