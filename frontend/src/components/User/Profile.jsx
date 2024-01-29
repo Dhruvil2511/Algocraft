@@ -64,6 +64,9 @@ const Profile = () => {
                 <div className="d-flex flex-wrap justify-content-start align-items-center w-100 daddy my-4">
                     <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Marked Question</button>
                     <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Followed friends</button>
+                    <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Thread created</button>
+                    <button className='p-2 m-2' style={{ background: 'var(--itemColor)', borderRadius: '8px' }}>Thread saved</button>
+
                 </div>
                 <div className="daddy my-4 w-100 d-flex  align-items-center">
                     <div className="my-2 table-list w-100" style={{ border: 'none' }}>
