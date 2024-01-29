@@ -5,7 +5,7 @@ import { updateTheme } from "../../Landing/Navigation";
 const OffcanvasNavbar = () => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const [path, setPath] = useState(window.location.pathname);
- 
+
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") setDarkTheme(true);

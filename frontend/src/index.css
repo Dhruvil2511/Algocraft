@@ -183,6 +183,11 @@ button:active {
   .sidebar {
     display: none !important;
   }
+  .create-thread{
+    position: fixed !important;
+    bottom: 0 !important;
+    top:auto !important;
+  }
 
   .main-container {
     padding: 2px !important;

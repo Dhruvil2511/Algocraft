@@ -298,7 +298,7 @@ textarea {
 
 
 
-.offcanvas {
+.offcanvas-start {
     width: 20% !important;
     background-color: var(--itemColor);
 }
