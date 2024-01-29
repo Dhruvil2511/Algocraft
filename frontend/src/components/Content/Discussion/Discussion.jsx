@@ -21,6 +21,12 @@ const Discussion = () => {
 
   function handleAddTag(event) {
     event.preventDefault();
+
+    if (tagList.length >= 3) {
+      alert("Max 3 tags only");
+      return;
+    }
+
     if (typedTag.trim() !== "") {
       setTags([...tagList, typedTag.trim()]);
       setTag("");
@@ -168,13 +174,29 @@ const Discussion = () => {
                 >
                   Add
                 </button>
+                {tagList.map((tagText) => {
+                  console.log(tagText);
+                  return (
+                    <span
+                      key={tagText} // Make sure to add a unique key prop when rendering lists
+                      className="mx-2 p-1"
+                      style={{
+                        borderRadius: "4px",
+                        border: "1px dotted black",
+                        width: "fit-content",
+                      }}
+                    >
+                      {tagText}
+                    </span>
+                  );
+                })}
               </div>
 
               <div className="mt-3 thread-content">
                 <textarea
                   required
                   id="content"
-                  cols="100"
+                  cols="150"
                   rows="10"
                   placeholder="Enter your content here.. "
                   name="content"
