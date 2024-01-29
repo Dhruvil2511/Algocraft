@@ -24,3 +24,5 @@ async function uploadOnCloudinary(localPath) {
         fs.unlinkSync(localPath);
     }
 }
+
+export { uploadOnCloudinary};

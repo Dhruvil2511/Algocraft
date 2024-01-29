@@ -19,6 +19,10 @@ const userSchema = new Schema(
             lowercase: true,
             trim: true,
         },
+        password: {
+            type: String,
+            required: [true, "Password is required"],
+        },
         fullname: {
             type: String,
             // required: true,
@@ -28,9 +32,14 @@ const userSchema = new Schema(
             type: String,
             // required: true,
         },
-        password: {
+        location: {
             type: String,
-            required: [true, "Password is required"],
+        },
+        githubLink: {
+            type: String,
+        },
+        linkedinLink: {
+            type: String,
         },
         bookmarkedQuestions: [
             {

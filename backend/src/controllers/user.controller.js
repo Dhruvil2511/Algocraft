@@ -3,6 +3,7 @@ import { ApiError } from "../utils/apiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import joi from "joi";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 
 const cookieOptions = {
@@ -153,8 +154,8 @@ const loginUser = asyncHandler(async (req, res) => {
         );
     }
 
-    const {accessToken,refreshToken} = await generateAccessAndRefreshToken(user._id);
-    
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     return res
@@ -206,4 +207,64 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { accessToken, refreshToken }, "Access token refreshed"));
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+const changePassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user?._id;
+    const user = await User.findById(userId);
+
+    if (!user.isPasswordCorrect(oldPassword)) {
+        throw new ApiError(401, "Old password doesn't match");
+    }
+
+    user.password = newPassword;
+    await user.save({ validateBeforeSave: false });
+
+    return res.status(200).json(new ApiResponse(200, {}, "Password changed successfully!"));
+});
+
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res.status(200).json(new ApiResponse(200, req.user, "User fetched"));
+});
+
+const updateAccountDetails = asyncHandler(async (req, res) => {
+    const { fullName, username, location, githubLink, linkedinLink } = req.body;
+
+    const usernameExists = await User.findOne({ username: username });
+    if (usernameExists) {
+        return res.status(400).json(new ApiError(400, "username is taken", "username is taken"));
+    }
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $setOnInsert: {
+                fullName: fullName,
+                username: username,
+                email: email,
+                location: location,
+                githubLink: githubLink,
+                linkedinLink: linkedinLink,
+            },
+        },
+        { new: true }
+    ).select("-password");
+
+    return res.status(200).json(new ApiResponse(200, user, "User details updated successfully!"));
+});
+const updateAvatar = asyncHandler(async (req, res) => {
+    const avatarLocalPath = req.file?.path;
+
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Avatar is missing", "Avatar is missing");
+    }
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+    if (!avatar.url) throw new ApiError(404, "Error", "Error while uploading Avatar");
+
+    const user = await User.findByIdAndUpdate(req.user._id, { $set: { avatar: avatar.url } }, { new: true }).select(
+        "-password"
+    );
+
+    return res.status(200).json(new ApiResponse(200, user, "Avatar updated successfully"));
+});
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser, updateAccountDetails, updateAvatar };
