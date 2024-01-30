@@ -14,9 +14,11 @@ import {
 
 const router = Router();
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import upload from "../middlewares/multer.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
+
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
+
 
 // secured routes
 router.route("/logout").post(verifyJWT, logoutUser);

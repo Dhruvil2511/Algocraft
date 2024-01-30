@@ -12,15 +12,17 @@ app.use(
 );
 
 app.use(express.json()); 
-app.use(express.urlencoded({ extended: true, limit: "16kb" })); // to encode the url with its param
+app.use(express.urlencoded({ extended: true})); // to encode the url with its param
 app.use(express.static("public")); // to serve static files
 app.use(cookieParser());
 
 // routes import
 import userRouter from "./routes/user.routes.js";
-
+import threadRouter from "./routes/thread.routes.js";
 // routes declaration
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/threads", threadRouter);
+
 
 export { app };
