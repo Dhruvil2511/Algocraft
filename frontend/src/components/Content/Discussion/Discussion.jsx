@@ -1,23 +1,52 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import { useLocation, useParams } from "react-router-dom";
 
 const Discussion = () => {
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",
     content: "",
     tags: [],
   });
+  const [threadList, setThreadList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [query, setQuery] = useState("");
+  const perPage = 10; // Number of items per page
+
+  useEffect(() => {
+    const fetchThreadList = async () => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const category = queryParams.get("category");
+
+      await axios
+        .get(
+          process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list",
+          { params: { category: category }, withCredentials: true }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("success");
+            setThreadList(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    fetchThreadList();
+    return () => {};
+  }, [location.search]);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
 
   const [typedTag, setTag] = useState("");
   const [tagList, setTags] = useState([]);
-
-  useEffect(() => {
-    console.log(tagList);
-  }, [tagList]);
-
-  useEffect(() => {
-    console.log(formData.tags); // This will log the updated formData whenever it changes
-  }, [formData.tags]);
 
   function handleAddTag(event) {
     event.preventDefault();
@@ -35,15 +64,29 @@ const Discussion = () => {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    console.log(name, value);
     setFormData({ ...formData, [name]: value });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setFormData({ ...formData, tags: tagList });
-    console.log(formData);
-    alert(" You clicked submit.");
+
+    await axios
+      .post(
+        process.env.REACT_APP_BASE_URL + "/api/v1/threads/create-thread",
+        formData,
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log("Response:\n" + response.status);
+        if (response.status === 200) {
+          alert("Thread posted successfully");
+          // then goto uploaded thread
+        }
+      })
+      .catch((error) => {
+        console.error("Error posting data to server");
+      });
   }
   return (
     <div className="content-header">
@@ -110,12 +153,12 @@ const Discussion = () => {
                     value={formData?.category || "Interview Experience"}
                     onChange={handleChange}
                   >
-                    <option value="Interview Experience">
+                    <option value="interview-experience">
                       Interview Experience
                     </option>
-                    <option value="Algorithms">Algorithms</option>
-                    <option value="Development">Development</option>
-                    <option value="Miscellaneous">Miscellaneous</option>
+                    <option value="algorithms">Algorithms</option>
+                    <option value="development">Development</option>
+                    <option value="miscellaneous">Miscellaneous</option>
                   </select>
                 </div>
                 <div
@@ -219,19 +262,35 @@ const Discussion = () => {
       </p>
       <div className="daddy discussion-fliter d-flex align-items-center justify-content-between ">
         <div className="d-flex flex-wrap justify-content-center align-items-center">
-          <a className="text-links m-2 fs-3 active" href="#">
+          <a className="text-links m-2 fs-3 active" href="/discussion?">
             All topics
           </a>
-          <a className="text-links m-2 fs-6" href="#">
+
+          <a
+            className="text-links m-2 fs-6"
+            href="/discussion?category=interview-experience"
+          >
             Interview Experience
           </a>
-          <a className="text-links m-2 fs-6" href="#">
+
+          <a
+            className="text-links m-2 fs-6"
+            href="/discussion?category=algorithms"
+          >
             Algorithms
           </a>
-          <a className="text-links m-2 fs-6" href="#">
+
+          <a
+            className="text-links m-2 fs-6"
+            href="/discussion?category=development"
+          >
             Development
           </a>
-          <a className="text-links m-2 fs-6" href="#">
+
+          <a
+            className="text-links m-2 fs-6"
+            href="/discussion?category=miscellaneous"
+          >
             Miscellaneous
           </a>
         </div>
@@ -393,6 +452,16 @@ const Discussion = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="pagination">
+        <ReactPaginate
+          pageCount={Math.ceil(threadList.length / perPage)}
+          pageRangeDisplayed={5} // Number of page links to display
+          marginPagesDisplayed={2} // Number of pages to display for margin pages
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+        />
       </div>
     </div>
   );

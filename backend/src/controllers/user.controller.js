@@ -95,16 +95,20 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(200, createdUser, "User registered succesfully."));
 });
 
-const generateAccessAndRefreshToken = asyncHandler(async (userId) => {
-    const user = await User.findById({ userId });
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+const generateAccessAndRefreshToken = async (userId) => {
+    try {
+        const user = await User.findById(userId);
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
 
-    user.refreshToken = refreshToken;
-    user.save({ validateBeforeSave: false });
+        user.refreshToken = refreshToken;
+        user.save({ validateBeforeSave: false });
 
-    return { accessToken, refreshToken };
-});
+        return { accessToken, refreshToken };
+    } catch (error) {
+        throw new ApiError(500, "error", "Internal server error");
+    }
+};
 const loginUser = asyncHandler(async (req, res) => {
     // req body  -> data
     // check if User,Email exists
@@ -135,7 +139,6 @@ const loginUser = asyncHandler(async (req, res) => {
                 statusCode: 404,
                 message: "User is not registered!",
                 userMessage: "User is not registered!",
-                errors: error,
                 stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
             })
         );
@@ -154,11 +157,11 @@ const loginUser = asyncHandler(async (req, res) => {
             })
         );
     }
-
+    console.log(user._id);
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
-
+    console.log(loggedInUser);
     return res
         .status(200)
         .cookie("accessToken", accessToken, cookieOptions)
@@ -170,7 +173,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: { refreshToken: undefined },
+            $unset: { refreshToken: 1 },
         },
         { new: true }
     );
