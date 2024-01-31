@@ -20,7 +20,7 @@ function CheckContentPath() {
   else if (path === "/discussion") return <Discussion />;
   else if (path === "/coding-ide") return <CodingIDE />;
   else if (
-    path.startsWith("/discussion/interview/") ||
+    path.startsWith("/discussion/interview-experience/") ||
     path.startsWith("/discussion/algorithms/") ||
     path.startsWith("/discussion/development/") ||
     path.startsWith("/discussion/miscellaneous/")

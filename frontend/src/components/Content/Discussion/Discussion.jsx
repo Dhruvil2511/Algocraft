@@ -1,52 +1,74 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactPaginate from "react-paginate";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Discussion = () => {
   const location = useLocation();
-
+  const [path, setPath] = useState(window.location.pathname);
+  const [searchText, setSearchText] = useState("");
   const [formData, setFormData] = useState({
     title: "",
-    category: "",
+    category: "interview-experience",
     content: "",
     tags: [],
   });
   const [threadList, setThreadList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [query, setQuery] = useState("");
-  const perPage = 10; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isDataAvail, setIsDataAvail] = useState(true);
+  const [typedTag, setTag] = useState("");
+  const [tagList, setTags] = useState(new Set());
 
-  useEffect(() => {
-    const fetchThreadList = async () => {
-      const queryParams = new URLSearchParams(window.location.search);
-      const category = queryParams.get("category");
+  const perPage = 10;
+  const fetchThreadList = async () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const category = queryParams.get("category");
+    setPath(path + category);
 
-      await axios
-        .get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list",
-          { params: { category: category }, withCredentials: true }
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("success");
-            setThreadList(response.data);
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list", {
+        params: {
+          category: category,
+          page: currentPage,
+          limit: perPage,
+          search: searchText,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          if (response.data.data?.length === 0) {
+            setIsDataAvail(false);
+            setThreadList([]);
+          } else {
+            setIsDataAvail(true);
+            setThreadList(response.data.data);
           }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    fetchThreadList();
-    return () => {};
-  }, [location.search]);
-
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const [typedTag, setTag] = useState("");
-  const [tagList, setTags] = useState([]);
+  useEffect(() => {
+    fetchThreadList();
+    return () => {};
+  }, [location.search, currentPage]);
+
+  function handleSearchSubmit(event) {
+    if (searchText.length < 3) alert("Search more than 3 char...");
+    else fetchThreadList();
+  }
+
+  function getPrevPage(event) {
+    if (currentPage <= 1) return;
+
+    setCurrentPage(currentPage - 1);
+  }
+  function getNextPage() {
+    if (!isDataAvail) return;
+    setCurrentPage(currentPage + 1);
+  }
 
   function handleAddTag(event) {
     event.preventDefault();
@@ -57,7 +79,9 @@ const Discussion = () => {
     }
 
     if (typedTag.trim() !== "") {
-      setTags([...tagList, typedTag.trim()]);
+      const tagSetter = new Set(tagList);
+      tagSetter.add(typedTag.trim());
+      setTags(tagSetter);
       setTag("");
     }
   }
@@ -80,8 +104,8 @@ const Discussion = () => {
       .then((response) => {
         console.log("Response:\n" + response.status);
         if (response.status === 200) {
-          alert("Thread posted successfully");
-          // then goto uploaded thread
+          let threadDetail = response.data.data;
+          window.location.href = `/discussion/${threadDetail.category}/${threadDetail._id}`;
         }
       })
       .catch((error) => {
@@ -217,7 +241,7 @@ const Discussion = () => {
                 >
                   Add
                 </button>
-                {tagList.map((tagText) => {
+                {[...tagList].map((tagText) => {
                   console.log(tagText);
                   return (
                     <span
@@ -262,33 +286,56 @@ const Discussion = () => {
       </p>
       <div className="daddy discussion-fliter d-flex align-items-center justify-content-between ">
         <div className="d-flex flex-wrap justify-content-center align-items-center">
-          <a className="text-links m-2 fs-3 active" href="/discussion?">
+          <a
+            className={
+              path.includes("all")
+                ? "text-links ms-2 fs-3 active"
+                : "text-links ms-2 fs-3"
+            }
+            href="/discussion?category=all"
+          >
             All topics
           </a>
 
           <a
-            className="text-links m-2 fs-6"
+            className={
+              path.includes("interview-experience")
+                ? "text-links ms-2 fs-6 active"
+                : "text-links ms-2 fs-6"
+            }
             href="/discussion?category=interview-experience"
           >
             Interview Experience
           </a>
 
           <a
-            className="text-links m-2 fs-6"
+            className={
+              path.includes("algorithms")
+                ? "text-links ms-2 fs-6 active"
+                : "text-links ms-2 fs-6"
+            }
             href="/discussion?category=algorithms"
           >
             Algorithms
           </a>
 
           <a
-            className="text-links m-2 fs-6"
+            className={
+              path.includes("development")
+                ? "text-links ms-2 fs-6 active"
+                : "text-links ms-2 fs-6"
+            }
             href="/discussion?category=development"
           >
             Development
           </a>
 
           <a
-            className="text-links m-2 fs-6"
+            className={
+              path.includes("miscellaneous")
+                ? "text-links ms-2 fs-6 active"
+                : "text-links ms-2 fs-6"
+            }
             href="/discussion?category=miscellaneous"
           >
             Miscellaneous
@@ -298,170 +345,92 @@ const Discussion = () => {
           <input
             className="searchInput"
             type="text"
-            name=""
+            name="search"
             required
-            placeholder="Search.."
+            placeholder="Search title .."
+            onChange={(event) => setSearchText(event.target.value)}
           />
-          <button className="searchButton" href="#">
+          <button onClick={handleSearchSubmit} className="searchButton">
             <i className="fa-solid fa-magnifying-glass fa-xl"></i>
           </button>
         </div>
       </div>
       <div className="daddy my-4 w-100 d-flex  align-items-center">
         <div className="my-2 table-list w-100" style={{ border: "none" }}>
-          <div className="row p-2 ">
-            <div className="question  d-flex align-items-center justify-content-between ">
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="number pfp">
-                  <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
-                </div>
+          {!isDataAvail ? (
+            <div className="p-5 d-flex justify-content-center align-items-center flex-column">
+              <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
+              <span className="fs-4">That's it for now!</span>
+            </div>
+          ) : null}
+          {threadList.map((thread) => (
+            <div className="row p-2" key={thread._id}>
+              <div className="question d-flex align-items-center justify-content-between">
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="number pfp">
+                    {thread.avatar ? (
+                      <img src={thread.avatar} alt="Avatar" />
+                    ) : (
+                      <i className="fa-solid fa-user "></i>
+                    )}
+                  </div>
 
-                {/* <div className="status"></div> */}
-                <div className="title d-flex flex-column justify-content-center align-items-start">
-                  <a
-                    href="/discussion/interview/123"
-                    className="thread-title text-start"
-                  >
-                    My interview experience at Google
-                  </a>
-                  <div className="dis-taglist d-flex jutify-content-center align-items-center">
-                    <a href="#" className="username">
-                      kadash_shah
+                  <div className="title d-flex flex-column justify-content-center align-items-start">
+                    <a
+                      href={`/discussion/${thread.category}/${thread._id}`}
+                      className="thread-title text-start"
+                    >
+                      {thread.title}
                     </a>
-                    <span className="tags px-2">interview</span>
-                    <span className="tags px-2">google</span>
-                    <span className="tags px-2">dsa</span>
+                    <div className="dis-taglist d-flex justify-content-center align-items-center">
+                      <a href="#" className="username">
+                        {thread.uploader.username}
+                      </a>
+                      {thread.tags.map((tag, index) => (
+                        <span key={index} className="tags px-2">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="mark-complete px-2">
+                    <i className="fa-regular fa-circle-up "></i>
+                    <small className="px-2">{thread.upvotes}</small>
+                  </div>
+                  <div className="mark-later px-2">
+                    <i className="fa-regular fa-eye "></i>
+                    <small className="px-2">{thread.views}</small>
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="mark-complete px-2">
-                  <i className="fa-regular fa-circle-up fa-lg"></i>
-                  <small className="px-2">12</small>
-                </div>
-                <div className="mark-later px-2">
-                  <i className="fa-regular fa-eye fa-lg"></i>
-                  <small className="px-2">12k</small>
-                </div>
-              </div>
             </div>
-          </div>
-          <div className="row p-2 ">
-            <div className="question  d-flex align-items-center justify-content-between ">
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="number pfp">
-                  <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
-                </div>
-
-                {/* <div className="status"></div> */}
-                <div className="title d-flex flex-column justify-content-center align-items-start">
-                  <a href="#" className="thread-title text-start">
-                    My interview experience at Google
-                  </a>
-                  <div className="dis-taglist  d-flex jutify-content-center align-items-center">
-                    <a href="#" className="username">
-                      kadash_shah
-                    </a>
-                    <span className="tags px-2">interview</span>
-                    <span className="tags px-2">google</span>
-                    <span className="tags px-2">dsa</span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="mark-complete px-2">
-                  <i className="fa-regular fa-circle-up fa-lg"></i>
-                  <small className="px-2">12</small>
-                </div>
-                <div className="mark-later px-2">
-                  <i className="fa-regular fa-eye fa-lg"></i>
-                  <small className="px-2">12k</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row p-2 ">
-            <div className="question  d-flex align-items-center justify-content-between ">
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="number pfp">
-                  <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
-                </div>
-
-                {/* <div className="status"></div> */}
-                <div className="title d-flex flex-column justify-content-center align-items-start">
-                  <a href="#" className="thread-title text-start">
-                    My interview experience at Google
-                  </a>
-                  <div className="dis-taglist  d-flex jutify-content-center align-items-center">
-                    <a href="#" className="username">
-                      kadash_shah
-                    </a>
-                    <span className="tags px-2">interview</span>
-                    <span className="tags px-2">google</span>
-                    <span className="tags px-2">dsa</span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="mark-complete px-2">
-                  <i className="fa-regular fa-circle-up fa-lg"></i>
-                  <small className="px-2">12</small>
-                </div>
-                <div className="mark-later px-2">
-                  <i className="fa-regular fa-eye fa-lg"></i>
-                  <small className="px-2">12k</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row p-2 ">
-            <div className="question  d-flex align-items-center justify-content-between ">
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="number pfp">
-                  <img src="https://i.imgur.com/Qu8Vjw5.png" alt="X" />
-                </div>
-
-                {/* <div className="status"></div> */}
-                <div className="title d-flex flex-column justify-content-center align-items-start">
-                  <a
-                    href="/discussion/interview/123"
-                    className="thread-title text-start"
-                  >
-                    My interview experience at Google
-                  </a>
-                  <div className="dis-taglist d-flex jutify-content-center align-items-center">
-                    <a href="#" className="username">
-                      kadash_shah
-                    </a>
-                    <span className="tags px-2">interview</span>
-                    <span className="tags px-2">google</span>
-                    <span className="tags px-2">dsa</span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center">
-                <div className="mark-complete px-2">
-                  <i className="fa-regular fa-circle-up fa-lg"></i>
-                  <small className="px-2">12</small>
-                </div>
-                <div className="mark-later px-2">
-                  <i className="fa-regular fa-eye fa-lg"></i>
-                  <small className="px-2">12k</small>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-      <div className="pagination">
-        <ReactPaginate
-          pageCount={Math.ceil(threadList.length / perPage)}
-          pageRangeDisplayed={5} // Number of page links to display
-          marginPagesDisplayed={2} // Number of pages to display for margin pages
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-        />
+      <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
+        <div className="prev">
+          <button
+            className="btn btn-outline"
+            style={{ backgroundColor: "#00D0DB" }}
+            onClick={() => getPrevPage()}
+          >
+            <i className="fa-solid fa-arrow-left"></i>Prev
+          </button>
+        </div>
+        <div className="text d-flex justify-content-center align-items-center">
+          {currentPage}
+        </div>
+        <div className="next">
+          <button
+            className="btn btn-outline"
+            style={{ backgroundColor: "#00D0DB" }}
+            onClick={() => getNextPage()}
+          >
+            Next<i className="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
     </div>
   );

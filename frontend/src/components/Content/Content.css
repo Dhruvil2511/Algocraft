@@ -295,7 +295,12 @@ textarea {
 .btn2:active {
     transform: scale(0.97);
 }
-
+.pre-container {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-width: 100%;
+    overflow-x: auto;
+  }
 
 
 .offcanvas-start {

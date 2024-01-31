@@ -134,9 +134,11 @@ const MobileOffcanvasNavbar = () => {
           </div>
           <div className="py-3">
             <a
-              href="/discussion"
+              href="/discussion?category=all"
               className={
-                path === "/discussion" ? "nav-link active" : "nav-link"
+               path.includes("discussion")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>
