@@ -93,7 +93,7 @@ const getThread = asyncHandler(async (req, res) => {
     const threadId = req.query?.threadId;
     const user = req.user._id;
 
-    const thread = await Thread.aggregate([
+    const threads = await Thread.aggregate([
         {
             $match: {
                 _id: new ObjectId(threadId),
@@ -126,7 +126,7 @@ const getThread = asyncHandler(async (req, res) => {
                 content: 1,
                 views: 1,
                 createdAt: 1,
-                upvotes:1,
+                upvotes: 1,
                 uploader: {
                     _id: 1,
                     username: 1,
@@ -135,25 +135,24 @@ const getThread = asyncHandler(async (req, res) => {
                 upvotes: {
                     _id: 1,
                 },
-                
             },
         },
     ]);
 
     let message = "";
 
-    const userViewedOrNot = thread[0].views?.findIndex((viewer) => viewer.equals(user));
-    const likedOrNot = thread[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
+    const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(user));
+    const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
 
     if (userViewedOrNot === -1) {
         thread[0].views.push(user);
-        await Thread.updateOne({ _id: threadId }, { views: thread[0].views });
+        await Thread.updateOne({ _id: threadId }, { views: threads[0].views });
     }
 
     const responseData = {
-        thread:thread[0],
-        upvotedOrNot :likedOrNot === -1 ?false:true
-    }
+        thread: threads[0],
+        upvotedOrNot: likedOrNot === -1 ? false : true,
+    };
     res.status(200).json(new ApiResponse(200, responseData, "Thread fetched successfully" + message));
 });
 
@@ -171,14 +170,14 @@ const upvoteThread = asyncHandler(async (req, res) => {
     console.log(userIndex);
     if (userIndex !== -1) {
         thread.upvotes.splice(userIndex, 1);
-        message = "disliked";``
+        message = "disliked";
+        ``;
     } else {
         thread.upvotes.push(user);
         message = "liked";
     }
 
     await Thread.updateOne({ _id: threadId }, { upvotes: thread.upvotes });
-
 
     res.status(200).json(new ApiResponse(200, thread, message));
 });

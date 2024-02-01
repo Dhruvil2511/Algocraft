@@ -413,7 +413,7 @@ const Discussion = () => {
         <div className="prev">
           <button
             className="btn btn-outline"
-            style={{ backgroundColor: "#00D0DB" }}
+            style={{ backgroundColor: "#0D6EFD" }}
             onClick={() => getPrevPage()}
           >
             <i className="fa-solid fa-arrow-left"></i>Prev
@@ -425,7 +425,7 @@ const Discussion = () => {
         <div className="next">
           <button
             className="btn btn-outline"
-            style={{ backgroundColor: "#00D0DB" }}
+            style={{ backgroundColor: "#0D6EFD" }}
             onClick={() => getNextPage()}
           >
             Next<i className="fa-solid fa-arrow-right"></i>

@@ -25,6 +25,9 @@
   --secondaryColor: var(--secondary-dark-color);
 }
 
+i:hover{
+  opacity: 0.7;
+}
 html,
 body {
   margin: 0;
