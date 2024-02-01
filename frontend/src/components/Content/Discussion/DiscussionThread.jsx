@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const DiscussionThread = () => {
@@ -10,6 +10,7 @@ const DiscussionThread = () => {
   const [isLiked, setLiked] = useState(false);
   const [userComment, setUserComment] = useState("");
   const [threadComments, setThreadComments] = useState([]);
+  const commentInputRef = useRef(null);
 
   const fetchThread = async () => {
     await axios
@@ -59,6 +60,7 @@ const DiscussionThread = () => {
 
   async function handleCommentSubmit(event) {
     event.preventDefault();
+    if (userComment.trim() === "") return;
 
     await axios
       .post(
@@ -73,6 +75,7 @@ const DiscussionThread = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          setUserComment("");
           console.log(res.data.data);
           fetchThread();
         }
@@ -80,6 +83,11 @@ const DiscussionThread = () => {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  async function handleReplyButton(value) {
+    setUserComment(`@${value} `);
+    commentInputRef.current.focus();
   }
   return (
     <>
@@ -151,6 +159,8 @@ const DiscussionThread = () => {
               <form onSubmit={handleCommentSubmit} className="comment-form">
                 <div className="d-flex align-items-center">
                   <input
+                    ref={commentInputRef}
+                    value={userComment}
                     type="text"
                     className="w-100 p-1"
                     placeholder="Your comment here"
@@ -171,11 +181,11 @@ const DiscussionThread = () => {
                 </div>
               </form>
             </div>
-            <div className="comments w-100 py-2">
+            <div className="comments w-100 py-3">
               {threadComments.map((comment) => (
                 <div
                   key={comment._id}
-                  className="comment d-flex justify-content-start align-items-center w-100"
+                  className="comment d-flex py-2 justify-content-start align-items-center w-100"
                 >
                   <div className="d-flex flex-column justify-content-start align-items-center">
                     <div className="d-flex w-100 justify-content-start align-items-center">
@@ -190,8 +200,7 @@ const DiscussionThread = () => {
                         )}
                       </div>
                       <div className="px-2">
-                        {console.log(comment  )}
-                        <small>{comment.commentBy}</small>
+                        <small>{comment.commentBy?.username}</small>
                       </div>
                       <div className="time">
                         <sub>
@@ -199,24 +208,69 @@ const DiscussionThread = () => {
                         </sub>
                       </div>
                     </div>
-                    <div className="comment-text w-100 p-2 d-flex justify-content-start">
-                      <span className="px-1">{comment.content}</span>
-                    </div>
-                    <div className="comment-interaction d-flex justify-content-start align-items-center w-100 px-2">
-                      <div className="view-replies">
-                        <sub>
-                          <button className="btn-list">
-                            <i className="fa-solid fa-message"></i> View replies
-                          </button>
-                        </sub>
+                    <div className="comment-text w-100 ps-5 d-flex justify-content-start flex-column align-items-center">
+                      <span className="text-start w-100">
+                        {comment.content}
+                      </span>
+                      <div className="comment-interaction d-flex justify-content-start align-items-center w-100">
+                        <div className="view-replies">
+                          <sub>
+                            <button className="btn-list">
+                              <i className="fa-solid fa-message"></i> View
+                              replies
+                            </button>
+                          </sub>
+                        </div>
+                        <div className="reply">
+                          <sub>
+                            <button
+                              className="btn-list"
+                              onClick={() =>
+                                handleReplyButton(comment.commentBy?.username)
+                              }
+                            >
+                              <i className="fa-solid fa-reply"></i> Reply
+                            </button>
+                          </sub>
+                        </div>
                       </div>
-                      <div className="reply">
-                        <sub>
-                          <button className="btn-list">
-                            <i className="fa-solid fa-reply"></i> Reply
-                          </button>
-                        </sub>
-                      </div>
+                      {thread.replies?.map((reply) => (
+                        <div
+                          key={reply._id}
+                          className="comment d-flex py-2 justify-content-start align-items-center w-100"
+                        >
+                          <div className="d-flex flex-column justify-content-start align-items-center">
+                            <div className="d-flex w-100 justify-content-start align-items-center">
+                              <div
+                                className="number pfp"
+                                style={{ width: "40px", height: "40px" }}
+                              >
+                                {reply?.repliedBy?.avatar ? (
+                                  <img
+                                    src={reply.repliedBy.avatar}
+                                    alt="Avatar"
+                                  />
+                                ) : (
+                                  <i className="fa-solid fa-user "></i>
+                                )}
+                              </div>
+                              <div className="px-2">
+                                <small>{reply.repliedBy?.username}</small>
+                              </div>
+                              <div className="time">
+                                <sub>
+                                  {new Date(reply.createdAt).toLocaleString()}
+                                </sub>
+                              </div>
+                            </div>
+                            <div className="comment-replies w-100 ps-2 d-flex justify-content-start flex-column align-items-center">
+                              <span className="text-start w-100">
+                                {reply.repliedContent}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

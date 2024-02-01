@@ -18,7 +18,7 @@ const commentSchema = new mongoose.Schema(
     {
         content: {
             type: String,
-            maxLength: [1024, "Max length is 1024"],
+            maxLength: [8024, "Max length is 8024"],
         },
         threadId: {
             type: Schema.Types.ObjectId,

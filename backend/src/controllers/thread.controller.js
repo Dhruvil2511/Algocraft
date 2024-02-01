@@ -94,100 +94,80 @@ const getThread = asyncHandler(async (req, res) => {
     const threadId = req.query?.threadId;
     const user = req.user._id;
 
-    // const threads = await Thread.aggregate([
-    //     {
-    //         $match: {
-    //             _id: new ObjectId(threadId),
-    //         },
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "users",
-    //             localField: "uploader",
-    //             foreignField: "_id",
-    //             as: "uploader",
-    //         },
-    //     },
-    //     {
-    //         $unwind: "$uploader",
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "users",
-    //             localField: "upvotes",
-    //             foreignField: "_id",
-    //             as: "upvotes",
-    //         },
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "comments",
-    //             localField: "comments",
-    //             foreignField: "_id",
-    //             as: "comments",
-    //             pipeline: [
-    //                 {
-    //                     $lookup: {
-    //                         from: "users",
-    //                         localField: "commentBy",
-    //                         foreignField: "_id",
-    //                         as: "commentBy",
-    //                     },
-    //                 },
-    //                 {
-    //                 $addFields: {
-    //                     commentBy: {
-    //                         $first: "$commentBy",
-    //                     },
-    //                 },
-    //             }
-                    
-    //             ],
-    //         },
-    //     },
-    //     {
-    //         $project: {
-    //             title: 1,
-    //             category: 1,
-    //             tags: 1,
-    //             content: 1,
-    //             views: 1,
-    //             createdAt: 1,
-    //             upvotes: 1,
-    //             comments: 1,
-    //             uploader: {
-    //                 _id: 1,
-    //                 username: 1,
-    //                 avatar: 1,
-    //             },
-    //             upvotes: {
-    //                 _id: 1,
-    //             },
-    //         },
-    //     },
-    // ]);
-
-    // console.log(await Comment.find().populate("commentBy","username"));
-    const thread = await Thread.findOne({ _id: threadId })
-    .populate('uploader')
-    .populate('upvotes')
-    .populate({
-        path: 'comments',
-        populate: {
-            path: 'commentBy',
-            select: 'username',  // Select only the 'username' field from the 'User' model
-            model: 'User',
+    const threads = await Thread.aggregate([
+        {
+            $match: {
+                _id: new ObjectId(threadId),
+            },
         },
-    })
-    .exec();
-    thread.comments = thread.comments.map(comment => {
-        console.log(comment.commentBy)
-        comment.commentBy = comment.commentBy.username;
-        return comment;
-    });
-    console.log(thread)
+        {
+            $lookup: {
+                from: "users",
+                localField: "uploader",
+                foreignField: "_id",
+                as: "uploader",
+            },
+        },
+        {
+            $unwind: "$uploader",
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "upvotes",
+                foreignField: "_id",
+                as: "upvotes",
+            },
+        },
+        {
+            $lookup: {
+                from: "comments",
+                localField: "comments",
+                foreignField: "_id",
+                as: "comments",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "commentBy",
+                            foreignField: "_id",
+                            as: "commentBy",
+                        },
+                    },
+                    {
+                        $addFields: {
+                            commentBy: {
+                                $first: "$commentBy",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            $project: {
+                title: 1,
+                category: 1,
+                tags: 1,
+                content: 1,
+                views: 1,
+                createdAt: 1,
+                upvotes: 1,
+                comments: 1,
+                uploader: {
+                    _id: 1,
+                    username: 1,
+                    avatar: 1,
+                },
+                upvotes: {
+                    _id: 1,
+                },
+            },
+        },
+    ]);
+
+    console.log(threads[0]);
     let message = "";
-    // console.log(threads[0]);
     const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(user));
     const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
 
@@ -234,7 +214,7 @@ const uploadComment = asyncHandler(async (req, res) => {
     const { content } = req.body;
     const threadId = req.query.threadId;
     const thread = await Thread.findById(threadId);
-    const user = await User.findById(userId);
+
     if (!thread) {
         return res.status(404).json({ success: false, message: "Thread not found" });
     }
@@ -242,7 +222,7 @@ const uploadComment = asyncHandler(async (req, res) => {
     const incomingComment = new Comment({
         content: content,
         threadId: new ObjectId(threadId),
-        commentBy: user.username,
+        commentBy: new ObjectId(userId),
     });
 
     await incomingComment.save();
