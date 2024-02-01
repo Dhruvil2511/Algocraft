@@ -5,26 +5,54 @@ import { useParams } from "react-router-dom";
 const DiscussionThread = () => {
   const { id } = useParams();
   const [thread, setThread] = useState({});
+  const [upvotes, setUpvotes] = useState(0);
+  const [views, setViews] = useState(0);
+  const [isLiked, setLiked] = useState(false);
+
+  const fetchThread = async () => {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/get-thread`, {
+        params: { threadId: id },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const data = response.data.data;
+          setThread(data.thread);
+          setUpvotes(data.thread.upvotes?.length);
+          setViews(data.thread.views?.length);
+
+          if (data.upvotedOrNot) setLiked(true);
+          else setLiked(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data from db");
+      });
+  };
 
   useEffect(() => {
-    const fetchThread = async () => {
-      await axios
-        .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/get-thread`, {
-          params: { threadId: id },
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            setThread(response.data.data);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data from db");
-        });
-    };
     fetchThread();
     return () => {};
   }, []);
+
+  async function handleUpvote(event) {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/upvote-thread`, {
+        params: { threadId: id },
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.message === "disliked") setLiked(false);
+          else if (res.data.message === "liked") setLiked(true);
+          fetchThread();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <>
       <div className="content-header">
@@ -71,20 +99,22 @@ const DiscussionThread = () => {
             <div className="thread-interaction w-100">
               <div className="py-2 d-flex justify-content-start align-item-center">
                 <div className="mark-complete">
-                  <a href="#">
-                    <i className="fa-regular fa-circle-up "></i>
-                  </a>
-                  <small className="px-2">{thread.upvotes} upvotes</small>
-                </div>
-                <div className="mark-complete">
-                  <a href="#">
-                    <i className="fa-regular fa-circle-up "></i>
-                  </a>
-                  <small className="px-2">{thread.upvotes} up</small>
+                  <button
+                    onClick={handleUpvote}
+                    style={{ border: "none", background: "transparent" }}
+                  >
+                    {isLiked ? (
+                      <i className="fa-solid fa-circle-up"></i>
+                    ) : (
+                      <i className="fa-regular fa-circle-up"></i>
+                    )}
+                    {/* <i className="fa-regular fa-circle-up" style={{color:"var(--secondaryColor)"}}></i> */}
+                  </button>
+                  <small className="px-2">{upvotes} upvotes</small>
                 </div>
                 <div className="mark-later px-4">
                   <i className="fa-regular fa-eye "></i>
-                  <small className="px-2">{thread.views} views</small>
+                  <small className="px-2">{views} views</small>
                 </div>
               </div>
             </div>

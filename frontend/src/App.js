@@ -8,8 +8,8 @@ import Logout from "./components/User/Logout";
 
 function App() {
   const theme = localStorage.getItem("theme");
-    if (theme === "dark") updateTheme(false);
-    else if (theme === "light") updateTheme(true);
+  if (theme === "dark") updateTheme(false);
+  else if (theme === "light") updateTheme(true);
 
   return (
     <>
@@ -27,8 +27,8 @@ function App() {
           <Route path="/coding-sheets/apna-college" element={<Layout />} />
           <Route path="/upcoming-contests" element={<Layout />} />
           <Route path="/coding-resources" element={<Layout />} />
-          <Route path="/discussion" element={<Layout />} />
-          <Route path="/discussion/interview/:id" element={<Layout />} />
+          <Route path="/discussion?category=all" element={<Layout />} />
+          <Route path="/discussion/interview-experience/:id" element={<Layout />} />
           <Route path="/discussion/algorithms/:id" element={<Layout />} />
           <Route path="/discussion/development/:id" element={<Layout />} />
           <Route path="/discussion/miscellaneous/:id" element={<Layout />} />

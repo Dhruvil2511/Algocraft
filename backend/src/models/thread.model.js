@@ -12,7 +12,7 @@ const threadSchema = new Schema(
         category: {
             type: String,
             required: true,
-            enum: ["interview-experience", "algorithms", "devlopment", "miscellaneous"],
+            enum: ["all", "interview-experience", "algorithms", "development", "miscellaneous"],
         },
         tags: {
             type: Array,
@@ -23,14 +23,18 @@ const threadSchema = new Schema(
             required: true,
             minLength: [10, "Min Length is 10 "],
         },
-        views: {
-            type: Number,
-            default: 0,
-        },
-        upvotes: {
-            type: Number,
-            default: 0,
-        },
+        views: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        upvotes: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
         uploader: {
             type: Schema.Types.ObjectId,
             ref: "User",

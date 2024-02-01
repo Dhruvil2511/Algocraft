@@ -397,11 +397,11 @@ const Discussion = () => {
                 <div className="d-flex justify-content-center align-items-center">
                   <div className="mark-complete px-2">
                     <i className="fa-regular fa-circle-up "></i>
-                    <small className="px-2">{thread.upvotes}</small>
+                    <small className="px-2">{thread.upvotes?.length}</small>
                   </div>
                   <div className="mark-later px-2">
                     <i className="fa-regular fa-eye "></i>
-                    <small className="px-2">{thread.views}</small>
+                    <small className="px-2">{thread.views?.length}</small>
                   </div>
                 </div>
               </div>

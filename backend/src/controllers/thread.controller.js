@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { Thread } from "../models/thread.model.js";
 import { ObjectId } from "mongodb";
+import { Upvote } from "../models/upvotes.model.js";
 const createThread = asyncHandler(async (req, res) => {
     const { title, category, tags, content } = req.body;
 
@@ -83,11 +84,15 @@ const getThreadList = asyncHandler(async (req, res) => {
         },
     ]);
 
+    console.log(threads);
+
     res.status(200).json(new ApiResponse(200, threads, "Threads fetched successfully"));
 });
 
 const getThread = asyncHandler(async (req, res) => {
     const threadId = req.query?.threadId;
+    const user = req.user._id;
+
     const thread = await Thread.aggregate([
         {
             $match: {
@@ -100,30 +105,81 @@ const getThread = asyncHandler(async (req, res) => {
                 localField: "uploader",
                 foreignField: "_id",
                 as: "uploader",
-                pipeline: [
-                    {
-                        $project: {
-                            _id: 1,
-                            username: 1,
-                            avatar: 1,
-                        },
-                    },
-                ],
             },
         },
         {
-            $addFields: {
+            $unwind: "$uploader",
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "upvotes",
+                foreignField: "_id",
+                as: "upvotes",
+            },
+        },
+        {
+            $project: {
+                title: 1,
+                category: 1,
+                tags: 1,
+                content: 1,
+                views: 1,
+                createdAt: 1,
+                upvotes:1,
                 uploader: {
-                    $first: "$uploader",
+                    _id: 1,
+                    username: 1,
+                    avatar: 1,
                 },
+                upvotes: {
+                    _id: 1,
+                },
+                
             },
         },
     ]);
-    res.status(200).json(new ApiResponse(200, thread[0], "Thread fetched successfully"));
+
+    let message = "";
+
+    const userViewedOrNot = thread[0].views?.findIndex((viewer) => viewer.equals(user));
+    const likedOrNot = thread[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
+
+    if (userViewedOrNot === -1) {
+        thread[0].views.push(user);
+        await Thread.updateOne({ _id: threadId }, { views: thread[0].views });
+    }
+
+    const responseData = {
+        thread:thread[0],
+        upvotedOrNot :likedOrNot === -1 ?false:true
+    }
+    res.status(200).json(new ApiResponse(200, responseData, "Thread fetched successfully" + message));
 });
 
 const upvoteThread = asyncHandler(async (req, res) => {
+    const user = req.user._id;
+    const threadId = req.query?.threadId;
+    const thread = await Thread.findById(threadId);
+
+    if (!thread) {
+        return res.status(404).json(new ApiResponse(404, null, "Thread not found"));
+    }
+
+    const userIndex = thread.upvotes.findIndex((upvote) => upvote.equals(user));
+    let message = "";
+    console.log(userIndex);
+    if (userIndex !== -1) {
+        thread.upvotes.splice(userIndex, 1);
+        message = "disliked";``
+    } else {
+        thread.upvotes.push(user);
+        message = "liked";
+    }
+
+    await Thread.updateOne({ _id: threadId }, { upvotes: thread.upvotes });
 
 
+    res.status(200).json(new ApiResponse(200, thread, message));
 });
-export { createThread, getThreadList, getThread ,upvoteThread};
+export { createThread, getThreadList, getThread, upvoteThread };
