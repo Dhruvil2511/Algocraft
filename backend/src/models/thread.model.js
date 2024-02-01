@@ -35,6 +35,12 @@ const threadSchema = new Schema(
                 ref: "User",
             },
         ],
+        comments:[
+            {
+                type:Schema.Types.ObjectId,
+                ref:"Comment"
+            }
+        ],
         uploader: {
             type: Schema.Types.ObjectId,
             ref: "User",

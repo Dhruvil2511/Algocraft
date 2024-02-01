@@ -4,7 +4,8 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { Thread } from "../models/thread.model.js";
 import { ObjectId } from "mongodb";
-import { Upvote } from "../models/upvotes.model.js";
+import { Comment } from "../models/comment.model.js";
+
 const createThread = asyncHandler(async (req, res) => {
     const { title, category, tags, content } = req.body;
 
@@ -84,7 +85,7 @@ const getThreadList = asyncHandler(async (req, res) => {
         },
     ]);
 
-    console.log(threads);
+    // console.log(threads);
 
     res.status(200).json(new ApiResponse(200, threads, "Threads fetched successfully"));
 });
@@ -93,59 +94,105 @@ const getThread = asyncHandler(async (req, res) => {
     const threadId = req.query?.threadId;
     const user = req.user._id;
 
-    const threads = await Thread.aggregate([
-        {
-            $match: {
-                _id: new ObjectId(threadId),
-            },
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "uploader",
-                foreignField: "_id",
-                as: "uploader",
-            },
-        },
-        {
-            $unwind: "$uploader",
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "upvotes",
-                foreignField: "_id",
-                as: "upvotes",
-            },
-        },
-        {
-            $project: {
-                title: 1,
-                category: 1,
-                tags: 1,
-                content: 1,
-                views: 1,
-                createdAt: 1,
-                upvotes: 1,
-                uploader: {
-                    _id: 1,
-                    username: 1,
-                    avatar: 1,
-                },
-                upvotes: {
-                    _id: 1,
-                },
-            },
-        },
-    ]);
+    // const threads = await Thread.aggregate([
+    //     {
+    //         $match: {
+    //             _id: new ObjectId(threadId),
+    //         },
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "users",
+    //             localField: "uploader",
+    //             foreignField: "_id",
+    //             as: "uploader",
+    //         },
+    //     },
+    //     {
+    //         $unwind: "$uploader",
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "users",
+    //             localField: "upvotes",
+    //             foreignField: "_id",
+    //             as: "upvotes",
+    //         },
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "comments",
+    //             localField: "comments",
+    //             foreignField: "_id",
+    //             as: "comments",
+    //             pipeline: [
+    //                 {
+    //                     $lookup: {
+    //                         from: "users",
+    //                         localField: "commentBy",
+    //                         foreignField: "_id",
+    //                         as: "commentBy",
+    //                     },
+    //                 },
+    //                 {
+    //                 $addFields: {
+    //                     commentBy: {
+    //                         $first: "$commentBy",
+    //                     },
+    //                 },
+    //             }
+                    
+    //             ],
+    //         },
+    //     },
+    //     {
+    //         $project: {
+    //             title: 1,
+    //             category: 1,
+    //             tags: 1,
+    //             content: 1,
+    //             views: 1,
+    //             createdAt: 1,
+    //             upvotes: 1,
+    //             comments: 1,
+    //             uploader: {
+    //                 _id: 1,
+    //                 username: 1,
+    //                 avatar: 1,
+    //             },
+    //             upvotes: {
+    //                 _id: 1,
+    //             },
+    //         },
+    //     },
+    // ]);
 
+    // console.log(await Comment.find().populate("commentBy","username"));
+    const thread = await Thread.findOne({ _id: threadId })
+    .populate('uploader')
+    .populate('upvotes')
+    .populate({
+        path: 'comments',
+        populate: {
+            path: 'commentBy',
+            select: 'username',  // Select only the 'username' field from the 'User' model
+            model: 'User',
+        },
+    })
+    .exec();
+    thread.comments = thread.comments.map(comment => {
+        console.log(comment.commentBy)
+        comment.commentBy = comment.commentBy.username;
+        return comment;
+    });
+    console.log(thread)
     let message = "";
-
+    // console.log(threads[0]);
     const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(user));
     const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
 
     if (userViewedOrNot === -1) {
-        thread[0].views.push(user);
+        threads[0].views.push(user);
         await Thread.updateOne({ _id: threadId }, { views: threads[0].views });
     }
 
@@ -181,4 +228,28 @@ const upvoteThread = asyncHandler(async (req, res) => {
 
     res.status(200).json(new ApiResponse(200, thread, message));
 });
-export { createThread, getThreadList, getThread, upvoteThread };
+
+const uploadComment = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { content } = req.body;
+    const threadId = req.query.threadId;
+    const thread = await Thread.findById(threadId);
+    const user = await User.findById(userId);
+    if (!thread) {
+        return res.status(404).json({ success: false, message: "Thread not found" });
+    }
+
+    const incomingComment = new Comment({
+        content: content,
+        threadId: new ObjectId(threadId),
+        commentBy: user.username,
+    });
+
+    await incomingComment.save();
+
+    thread.comments.push(incomingComment);
+    await thread.save({ validateBeforeSave: false });
+
+    return res.status(200).json(new ApiResponse(200, incomingComment, "comment added"));
+});
+export { createThread, getThreadList, getThread, upvoteThread, uploadComment };
