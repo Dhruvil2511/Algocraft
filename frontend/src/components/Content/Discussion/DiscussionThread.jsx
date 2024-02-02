@@ -173,15 +173,15 @@ const DiscussionThread = () => {
           </div>
           <div className="thread-content p-5 w-100">
             <div className="author d-flex justify-content-start align-items-center">
-              <div className="number pfp">
-                {thread.avatar ? (
-                  <img src={thread.avatar} alt="Avatar" />
+              <div className="number pfp"   style={{ width: "60px", height: "60px" }}>
+                {thread.uploader?.avatar ? (
+                  <img src={thread.uploader?.avatar} alt="Avatar" />
                 ) : (
                   <i className="fa-solid fa-user "></i>
                 )}
               </div>
               <div className="px-2">
-                <strong> {thread.uploader?.username}</strong>
+                <strong>@{thread.uploader?.username}</strong>
               </div>
               <div className="time">
                 <sub>{new Date(thread.createdAt).toLocaleString()}</sub>
@@ -249,8 +249,8 @@ const DiscussionThread = () => {
                         className="number pfp"
                         style={{ width: "40px", height: "40px" }}
                       >
-                        {comment.avatar ? (
-                          <img src={thread.avatar} alt="Avatar" />
+                        {comment.commentBy.avatar ? (
+                          <img src={comment.commentBy.avatar} alt="Avatar" />
                         ) : (
                           <i className="fa-solid fa-user "></i>
                         )}

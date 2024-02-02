@@ -90,13 +90,14 @@ const UpcomingContests = () => {
                           className="text-start"
                           href={contest.href}
                           style={{
-                            textDecoration:"none",
+                            textDecoration: "none",
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            maxWidth:"500px"
+                            maxWidth: "500px",
                           }}
-                          
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           {contest.event}
                         </a>

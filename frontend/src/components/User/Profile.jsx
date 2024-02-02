@@ -79,12 +79,12 @@ const Profile = ({ userId }) => {
                       <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
                         <span className="text-end w-100">{user?.fullName}</span>
                         <span className="text-end w-100 ">
-                          {user?.username}
+                          @{user?.username}
                         </span>
                       </div>
                       <div className="rounded-square-pfp m-1">
-                        {user?.username?.avatar ? (
-                          <img src={thread.avatar} alt="Avatar" />
+                        {user?.avatar ? (
+                          <img src={user.avatar} alt="Avatar" />
                         ) : (
                           <i className="fa-solid fa-user fa-xl"></i>
                         )}
@@ -219,6 +219,8 @@ const Profile = ({ userId }) => {
                           <a
                             href={`/discussion/${thread.category}/${thread._id}`}
                             className="thread-title text-start"
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             {thread.title}
                           </a>
