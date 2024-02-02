@@ -166,7 +166,7 @@ const getThread = asyncHandler(async (req, res) => {
         },
     ]);
 
-    console.log(threads[0]);
+    // console.log(threads[0]);
     let message = "";
     const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(user));
     const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
@@ -232,4 +232,36 @@ const uploadComment = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, incomingComment, "comment added"));
 });
-export { createThread, getThreadList, getThread, upvoteThread, uploadComment };
+
+const uploadReply = asyncHandler(async (req, res) => {
+    const commentId = req.query.commentId;
+    const { repliedContent } = req.body;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) throw new ApiError(404, "error", "Wrong comment-id");
+
+    await comment.replies.push({ repliedContent: repliedContent, repliedBy: req.user?._id });
+
+    await comment.save();
+    console.log(comment);
+
+    return res.status(200).json(new ApiResponse(200, comment, "Replied successfully"));
+});
+
+const getReplies = asyncHandler(async (req, res) => {
+    const commentId = req.query.comment_id;
+
+    const comment = await Comment.findById(commentId)
+        .populate({
+            path: "replies",
+            populate: {
+                path: "repliedBy",
+                model: "User",
+            },
+        })
+        .exec();
+
+    return res.status(200).json(new ApiResponse(200, comment, "Replies fetched success"));
+});
+export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies };

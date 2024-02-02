@@ -8,8 +8,16 @@ const DiscussionThread = () => {
   const [upvotes, setUpvotes] = useState(0);
   const [views, setViews] = useState(0);
   const [isLiked, setLiked] = useState(false);
+
+  const [isRepliedClicked, setRepliedClicked] = useState(false);
+  const [isViewRepliedClicked, setViewRepliedClicked] = useState(false);
+  const [viewReplyCommentId, setViewReplyCommentId] = useState("");
+
+  const [userReply, setUserReply] = useState("");
   const [userComment, setUserComment] = useState("");
   const [threadComments, setThreadComments] = useState([]);
+  const [commentReplies, setCommentReplies] = useState([]);
+  const [commentId, setCommentId] = useState("");
   const commentInputRef = useRef(null);
 
   const fetchThread = async () => {
@@ -85,9 +93,59 @@ const DiscussionThread = () => {
       });
   }
 
-  async function handleReplyButton(value) {
-    setUserComment(`@${value} `);
-    commentInputRef.current.focus();
+  async function handleReplySubmit(event) {
+    event.preventDefault();
+
+    if (userReply.trim() === "") return;
+    await axios
+      .post(
+        process.env.REACT_APP_BASE_URL + "/api/v1/threads/upload-reply",
+        { repliedContent: userReply },
+        {
+          params: {
+            commentId: commentId,
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          setRepliedClicked(false);
+          setUserReply("");
+          fetchThread();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  async function handleReplyButton(value, id) {
+    setRepliedClicked(!isRepliedClicked);
+    setCommentId(id);
+    setUserReply(`@${value} `);
+  }
+
+  async function handleViewReplyButton(id) {
+    setViewRepliedClicked(!isViewRepliedClicked);
+    setViewReplyCommentId(id);
+
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-replies", {
+        params: {
+          comment_id: id,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log(res.data.data.replies);
+          setCommentReplies(res.data.data?.replies);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
   return (
     <>
@@ -140,11 +198,10 @@ const DiscussionThread = () => {
                     style={{ border: "none", background: "transparent" }}
                   >
                     {isLiked ? (
-                      <i className="fa-solid fa-circle-up"></i>
+                      <i className="fa-solid fa-circle-up fa-lg"></i>
                     ) : (
-                      <i className="fa-regular fa-circle-up"></i>
+                      <i className="fa-regular fa-circle-up fa-lg"></i>
                     )}
-                    {/* <i className="fa-regular fa-circle-up" style={{color:"var(--secondaryColor)"}}></i> */}
                   </button>
                   <small className="px-2">{upvotes} upvotes</small>
                 </div>
@@ -159,7 +216,6 @@ const DiscussionThread = () => {
               <form onSubmit={handleCommentSubmit} className="comment-form">
                 <div className="d-flex align-items-center">
                   <input
-                    ref={commentInputRef}
                     value={userComment}
                     type="text"
                     className="w-100 p-1"
@@ -213,20 +269,30 @@ const DiscussionThread = () => {
                         {comment.content}
                       </span>
                       <div className="comment-interaction d-flex justify-content-start align-items-center w-100">
-                        <div className="view-replies">
-                          <sub>
-                            <button className="btn-list">
-                              <i className="fa-solid fa-message"></i> View
-                              replies
-                            </button>
-                          </sub>
-                        </div>
+                        {comment.replies.length !== 0 ? (
+                          <div className="view-replies">
+                            <sub>
+                              <button
+                                className="btn-list"
+                                onClick={() =>
+                                  handleViewReplyButton(comment._id)
+                                }
+                              >
+                                <i className="fa-solid fa-message"></i> View
+                                replies
+                              </button>
+                            </sub>
+                          </div>
+                        ) : null}
                         <div className="reply">
                           <sub>
                             <button
                               className="btn-list"
                               onClick={() =>
-                                handleReplyButton(comment.commentBy?.username)
+                                handleReplyButton(
+                                  comment.commentBy?.username,
+                                  comment._id
+                                )
                               }
                             >
                               <i className="fa-solid fa-reply"></i> Reply
@@ -234,44 +300,79 @@ const DiscussionThread = () => {
                           </sub>
                         </div>
                       </div>
-                      {thread.replies?.map((reply) => (
-                        <div
-                          key={reply._id}
-                          className="comment d-flex py-2 justify-content-start align-items-center w-100"
-                        >
-                          <div className="d-flex flex-column justify-content-start align-items-center">
-                            <div className="d-flex w-100 justify-content-start align-items-center">
-                              <div
-                                className="number pfp"
-                                style={{ width: "40px", height: "40px" }}
-                              >
-                                {reply?.repliedBy?.avatar ? (
-                                  <img
-                                    src={reply.repliedBy.avatar}
-                                    alt="Avatar"
-                                  />
-                                ) : (
-                                  <i className="fa-solid fa-user "></i>
-                                )}
+                      {isViewRepliedClicked &&
+                        viewReplyCommentId === comment._id &&
+                        commentReplies?.map((reply) => (
+                          <div
+                            key={reply._id}
+                            className="comment d-flex py-2 justify-content-start align-items-center w-100"
+                          >
+                            <div className="d-flex flex-column justify-content-start align-items-center">
+                              <div className="d-flex w-100 justify-content-start align-items-center">
+                                <div
+                                  className="number pfp"
+                                  style={{ width: "40px", height: "40px" }}
+                                >
+                                  {reply?.repliedBy?.avatar ? (
+                                    <img
+                                      src={reply.repliedBy.avatar}
+                                      alt="Avatar"
+                                    />
+                                  ) : (
+                                    <i className="fa-solid fa-user "></i>
+                                  )}
+                                </div>
+                                <div className="px-2">
+                                  <small>{reply.repliedBy?.username}</small>
+                                </div>
+                                <div className="time">
+                                  <sub>
+                                    {new Date(reply.createdAt).toLocaleString()}
+                                  </sub>
+                                </div>
                               </div>
-                              <div className="px-2">
-                                <small>{reply.repliedBy?.username}</small>
+                              <div className="comment-replies w-100 ps-2 d-flex justify-content-start flex-column align-items-center">
+                                <span className="text-start w-100">
+                                  {reply.repliedContent}
+                                </span>
                               </div>
-                              <div className="time">
-                                <sub>
-                                  {new Date(reply.createdAt).toLocaleString()}
-                                </sub>
-                              </div>
-                            </div>
-                            <div className="comment-replies w-100 ps-2 d-flex justify-content-start flex-column align-items-center">
-                              <span className="text-start w-100">
-                                {reply.repliedContent}
-                              </span>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
+                    {isRepliedClicked && commentId === comment._id && (
+                      <div className="ps-5">
+                        <form
+                          onSubmit={handleReplySubmit}
+                          className="comment-form"
+                        >
+                          <div className="d-flex align-items-center">
+                            <input
+                              ref={commentInputRef}
+                              value={userReply}
+                              type="text"
+                              className="w-100 p-1"
+                              placeholder="Your comment here"
+                              onChange={(event) =>
+                                setUserReply(event.target.value)
+                              }
+                              style={{
+                                backgroundColor: "var(--secondaryColor)",
+                                color: "var(--textColor)",
+                                borderRadius: "8px 0px 0px 8px",
+                              }}
+                            />
+                            <button type="submit" className="btn2">
+                              {" "}
+                              <div className="hoverEffect">
+                                <div></div>
+                              </div>
+                              Post
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
