@@ -4,6 +4,7 @@ import axios from "axios";
 const UpcomingContests = () => {
   const [contestData, setContestData] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [iconName, setIconName]= useState("");
 
   const fetchContest = async () => {
     try {
@@ -85,7 +86,15 @@ const UpcomingContests = () => {
                   <div className="question d-flex align-items-center justify-content-between ">
                     <div className="d-flex justify-content-center align-items-center">
                       <div className="number fs-5">{index + 1}</div>
-                      <div className="title d-flex flex-column justify-content-center align-items-start">
+                      <div className="title d-flex justify-content-center align-items-center">
+                        <div className="pfp">
+                          <img
+                            src={`https://clist.by/media/sizes/32x32/img/resources/${contest.host.replace(
+                              /[.\/]/g,
+                              "_"
+                            )}.png`}
+                            />
+                        </div>
                         <a
                           className="text-start"
                           href={contest.href}

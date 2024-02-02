@@ -368,8 +368,8 @@ const Discussion = () => {
               <div className="question d-flex align-items-center justify-content-between">
                 <div className="d-flex justify-content-center align-items-center">
                   <div className="number pfp">
-                    {thread.avatar ? (
-                      <img src={thread.avatar} alt="Avatar" />
+                    {thread.uploader.avatar ? (
+                      <img src={thread.uploader.avatar} alt="Avatar" />
                     ) : (
                       <i className="fa-solid fa-user "></i>
                     )}
