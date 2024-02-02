@@ -272,7 +272,8 @@ const updateAvatar = asyncHandler(async (req, res) => {
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
-    const { username } = req.params;
+    const username  = req.query.username;
+    console.log(username);
 
     if (!username?.trim) throw new ApiError(400, "error", "username is missing");
 
@@ -312,21 +313,32 @@ const getUserProfile = asyncHandler(async (req, res) => {
                 fullName: 1,
                 username: 1,
                 location: 1,
-                githubLink: 1,
-                linkedinLink: 1,
+                github: 1,
+                linkedin: 1,
                 followers: 1,
                 following: 1,
                 avatar: 1,
+                threadsCreated:1,
             },
         },
     ]);
 
     if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
-
-    console.log(userDetails);
+    userDetails[0].password = "Nice try mf!🤣"
     return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));
 });
 
+const getUserCreatedThreads = asyncHandler(async (req, res) => {
+    const username = req.query.username;
+
+    const user = await User.findOne({ username: username }).populate("threadsCreated").exec();
+
+    if (!user) throw new ApiError(404, "Not found", "User hasn't created any thread yet");
+
+    // console.log(user);
+    // return res.send(200);
+    return res.status(200).json(new ApiResponse(200, user, "Threads fetched "));
+});
 const getUserSavedThread = asyncHandler(async (req, res) => {
     const user = await User.aggregate([
         {
@@ -384,4 +396,5 @@ export {
     changePassword,
     getUserProfile,
     getUserSavedThread,
+    getUserCreatedThreads,
 };

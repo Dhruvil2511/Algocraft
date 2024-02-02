@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     changePassword,
     getCurrentUser,
+    getUserCreatedThreads,
     getUserProfile,
     getUserSavedThread,
     loginUser,
@@ -27,7 +28,8 @@ router.route("/change-password").post(verifyJWT, changePassword);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 router.route("/update-avatar").patch(verifyJWT, upload.single("avatar"), updateAvatar);
-router.route("/:username").get(verifyJWT, getUserProfile);
+router.route("/get-user-profile").get(verifyJWT, getUserProfile);
 router.route("/saved-thread").get(verifyJWT, getUserSavedThread);
+router.route("/get-created-threads").get(verifyJWT,getUserCreatedThreads);
 
 export default router;

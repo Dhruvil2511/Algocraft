@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Landing/Home";
 import Authentication from "./components/User/Authentication";
 import Layout from "./components/Content/Layout";
-import { useEffect } from "react";
 import { updateTheme } from "./utils/updateTheme";
 import Logout from "./components/User/Logout";
+import NotFound from "./components/Landing/NotFound";
 
 function App() {
   const theme = localStorage.getItem("theme");
@@ -33,6 +33,8 @@ function App() {
           <Route path="/discussion/development/:id" element={<Layout />} />
           <Route path="/discussion/miscellaneous/:id" element={<Layout />} />
           <Route path="/coding-ide" element={<Layout />} />
+          <Route path="*" element={<NotFound />} />
+
         </Routes>
       </Router>
     </>

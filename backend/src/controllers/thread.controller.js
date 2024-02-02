@@ -8,6 +8,7 @@ import { Comment } from "../models/comment.model.js";
 
 const createThread = asyncHandler(async (req, res) => {
     const { title, category, tags, content } = req.body;
+    const userId = req.user?._id;
 
     const threadCreated = await Thread.create({
         title: title,
@@ -18,6 +19,8 @@ const createThread = asyncHandler(async (req, res) => {
     });
 
     if (!threadCreated) return res.status(500).json(new ApiError(500, "Internal Error", "Error creating thread"));
+
+    await User.findByIdAndUpdate(userId, { $push: { threadsCreated: threadCreated._id } }, { new: true });
 
     return res.status(200).json(new ApiResponse(200, threadCreated, "Thread created successfully"));
 });

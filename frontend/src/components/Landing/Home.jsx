@@ -385,23 +385,30 @@ const Home = () => {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <i className="fa-brands fa-github fa-2xl "></i>
+                <i className="fa-brands fa-github fa-2xl "></i> 
               </a>
+              <span className="ps-3">Github</span>
             </div>
             <div className="linkedin">
               <a href="/" target="_blank" rel="noreferrer noopener">
                 <i className="fa-brands fa-linkedin fa-2xl"></i>
               </a>
+              <span className="ps-3">Linkedin</span>
+
             </div>
             <div className="mail">
               <a href="/" target="_blank" rel="noreferrer noopener">
                 <i className="fa-solid fa-envelope fa-2xl"></i>
               </a>
+              <span className="ps-3">Email</span>
+
             </div>
             <div className="discord">
               <a href="/" target="_blank" rel="noreferrer noopener">
                 <i className="fa-brands fa-discord fa-2xl"></i>
               </a>
+              <span className="ps-3">Discord</span>
+
             </div>
           </div>
         </div>

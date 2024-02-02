@@ -50,6 +50,18 @@ const userSchema = new Schema(
         refreshToken: {
             type: String,
         },
+        threadsCreated: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Thread",
+            },
+        ],
+        threadsSaved: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Thread",
+            },
+        ],
     },
     { timestamps: true }
 );
