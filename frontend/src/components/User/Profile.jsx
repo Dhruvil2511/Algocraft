@@ -19,7 +19,7 @@ const Profile = ({ userId }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setUser(res.data.data);
         }
       })
@@ -46,8 +46,23 @@ const Profile = ({ userId }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setThreadList(res.data.data.threadsCreated);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  async function getSavedThreads() {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/get-saved-threads", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log(res.data.data);
+          setThreadList(res.data.data.threadsSaved);
         }
       })
       .catch((err) => {
@@ -101,24 +116,24 @@ const Profile = ({ userId }) => {
                       <small>{user?.location}</small>
                     </div>
                     <div className="d-flex justify-content-center align-items-center flex-column">
-                      <i className="fa-brands fa-github"></i>{" "}
                       <a
                         href={user?.github}
-                        className="text-decoration-none"
+                        className="text-decoration-none d-flex flex-column align-items-center"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
+                        <i className="fa-brands fa-github"></i>{" "}
                         <small>github </small>
                       </a>
                     </div>
                     <div className="d-flex justify-content-center align-items-center flex-column">
-                      <i className="fa-brands fa-linkedin"></i>{" "}
                       <a
                         href={user?.linkedin}
-                        className="text-decoration-none"
+                        className="text-decoration-none d-flex flex-column align-items-center"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
+                        <i className="fa-brands fa-linkedin"></i>{" "}
                         <small>linkedin</small>
                       </a>
                     </div>
@@ -197,6 +212,7 @@ const Profile = ({ userId }) => {
               <button
                 className="p-2 m-2"
                 style={{ background: "var(--itemColor)", borderRadius: "8px" }}
+                onClick={getSavedThreads}
               >
                 Thread saved
               </button>
@@ -228,7 +244,7 @@ const Profile = ({ userId }) => {
                             <a href="#" className="username">
                               {thread.uploader.username}
                             </a>
-                            {thread.tags.map((tag, index) => (
+                            {thread.tags?.map((tag, index) => (
                               <span key={index} className="tags px-2">
                                 {tag}
                               </span>

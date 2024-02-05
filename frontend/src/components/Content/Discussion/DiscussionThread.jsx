@@ -18,6 +18,7 @@ const DiscussionThread = () => {
   const [threadComments, setThreadComments] = useState([]);
   const [commentReplies, setCommentReplies] = useState([]);
   const [commentId, setCommentId] = useState("");
+  const [isThreadSaved, setIsThreadSaved] = useState(false);
   const commentInputRef = useRef(null);
 
   const fetchThread = async () => {
@@ -36,6 +37,9 @@ const DiscussionThread = () => {
 
           if (data.upvotedOrNot) setLiked(true);
           else setLiked(false);
+
+          if (data.savedOrNot) setIsThreadSaved(true);
+          else setIsThreadSaved(false);
         }
       })
       .catch((error) => {
@@ -147,6 +151,25 @@ const DiscussionThread = () => {
         console.error(err);
       });
   }
+
+  async function handleBookmarkThread(threadId) {
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/threads/save-thread",
+        { threadId: threadId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.message === "unsave") setLiked(false);
+          else if (res.data.message === "save") setLiked(true);
+          fetchThread();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
   return (
     <>
       <div className="content-header">
@@ -169,11 +192,25 @@ const DiscussionThread = () => {
               <a href="" className="px-2">
                 <i className="fa-solid fa-flag fa-lg"></i>
               </a>
+              <button
+                title="Bookmark"
+                onClick={() => handleBookmarkThread(thread._id)}
+                style={{ background: "none", border: "none" }}
+              >
+                {isThreadSaved ? (
+                  <i className="fa-solid fa-bookmark fa-lg"></i>
+                ) : (
+                  <i className="fa-regular fa-bookmark fa-lg"></i>
+                )}
+              </button>
             </div>
           </div>
           <div className="thread-content p-5 w-100">
             <div className="author d-flex justify-content-start align-items-center">
-              <div className="number pfp"   style={{ width: "60px", height: "60px" }}>
+              <div
+                className="number pfp"
+                style={{ width: "60px", height: "60px" }}
+              >
                 {thread.uploader?.avatar ? (
                   <img src={thread.uploader?.avatar} alt="Avatar" />
                 ) : (

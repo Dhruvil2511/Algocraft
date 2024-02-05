@@ -6,6 +6,7 @@ import {
     uploadComment,
     uploadReply,
     upvoteThread,
+    saveThread,
 } from "../controllers/thread.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { Router } from "express";
@@ -18,5 +19,6 @@ router.route("/upvote-thread").get(verifyJWT, upvoteThread);
 router.route("/upload-comment").post(verifyJWT, uploadComment);
 router.route("/upload-reply").post(verifyJWT, uploadReply);
 router.route("/get-replies").get(verifyJWT, getReplies);
+router.route("/save-thread").patch(verifyJWT, saveThread);
 
 export default router;

@@ -94,8 +94,8 @@ const getThreadList = asyncHandler(async (req, res) => {
 });
 
 const getThread = asyncHandler(async (req, res) => {
-    const threadId = req.query?.threadId;
-    const user = req.user._id;
+    const threadId = new ObjectId(req.query?.threadId);
+    const userId = req.user._id;
 
     const threads = await Thread.aggregate([
         {
@@ -169,10 +169,12 @@ const getThread = asyncHandler(async (req, res) => {
         },
     ]);
 
-    // console.log(threads[0]);
     let message = "";
-    const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(user));
-    const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(user));
+    const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(userId));
+    const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(userId));
+
+    const user = await User.findById(userId);
+    const savedOrNot = user.threadsSaved.findIndex((saved) => saved._id.equals(threadId));
 
     if (userViewedOrNot === -1) {
         threads[0].views.push(user);
@@ -182,6 +184,7 @@ const getThread = asyncHandler(async (req, res) => {
     const responseData = {
         thread: threads[0],
         upvotedOrNot: likedOrNot === -1 ? false : true,
+        savedOrNot: savedOrNot === -1 ? false : true,
     };
     res.status(200).json(new ApiResponse(200, responseData, "Thread fetched successfully" + message));
 });
@@ -197,7 +200,7 @@ const upvoteThread = asyncHandler(async (req, res) => {
 
     const userIndex = thread.upvotes.findIndex((upvote) => upvote.equals(user));
     let message = "";
-    console.log(userIndex);
+
     if (userIndex !== -1) {
         thread.upvotes.splice(userIndex, 1);
         message = "disliked";
@@ -247,7 +250,7 @@ const uploadReply = asyncHandler(async (req, res) => {
     await comment.replies.push({ repliedContent: repliedContent, repliedBy: req.user?._id });
 
     await comment.save();
-    console.log(comment);
+    // console.log(comment);
 
     return res.status(200).json(new ApiResponse(200, comment, "Replied successfully"));
 });
@@ -267,4 +270,27 @@ const getReplies = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, comment, "Replies fetched success"));
 });
-export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies };
+
+const saveThread = asyncHandler(async (req, res) => {
+    const threadId = req.body.threadId;
+    const userId = req.user._id;
+
+    if (!threadId) throw new ApiError(401, "Error", "Error with thread id");
+
+    const user = await User.findById(userId);
+    const userIndex = await user.threadsSaved.findIndex((thread) => thread.equals(threadId));
+
+    let message = "";
+    if (userIndex !== -1) {
+        user.threadsSaved.splice(userIndex, 1);
+        message = "unsave";
+    } else {
+        user.threadsSaved.push(threadId);
+        message = "save";
+    }
+
+    await user.save({ validateBeforeSave: false });
+
+    return res.status(200).json(new ApiResponse(200, user, message));
+});
+export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies, saveThread };

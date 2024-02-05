@@ -272,7 +272,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
-    const username  = req.query.username;
+    const username = req.query.username;
     console.log(username);
 
     if (!username?.trim) throw new ApiError(400, "error", "username is missing");
@@ -318,13 +318,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
                 followers: 1,
                 following: 1,
                 avatar: 1,
-                threadsCreated:1,
+                threadsCreated: 1,
+                threadsSaved :1
             },
         },
     ]);
 
     if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
-    userDetails[0].password = "Nice try mf!🤣"
+    userDetails[0].password = "Nice try mf!🤣";
     return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));
 });
 
@@ -335,54 +336,17 @@ const getUserCreatedThreads = asyncHandler(async (req, res) => {
 
     if (!user) throw new ApiError(404, "Not found", "User hasn't created any thread yet");
 
-    // console.log(user);
-    // return res.send(200);
     return res.status(200).json(new ApiResponse(200, user, "Threads fetched "));
 });
 const getUserSavedThread = asyncHandler(async (req, res) => {
-    const user = await User.aggregate([
-        {
-            $match: {
-                _id: new mongoose.Types.ObjectId(req.user._id),
-            },
-        },
-        {
-            $lookup: {
-                from: "threads",
-                localField: "threadSaved",
-                foreignField: "_id",
-                as: "savedThread",
-                pipeline: [
-                    {
-                        $lookup: {
-                            from: "users",
-                            localField: "uploader",
-                            foreignField: "_id",
-                            as: "uploader",
-                            pipeline: [
-                                {
-                                    $project: {
-                                        fullName: 1,
-                                        username: 1,
-                                        avatar: 1,
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                    {
-                        $addFields: {
-                            uploader: {
-                                $first: "$uploader",
-                            },
-                        },
-                    },
-                ],
-            },
-        },
-    ]);
+    const userId = req.user._id;
 
-    return res.status(200).json(new ApiResponse(200, user[0].savedThread, "saved threads fetched successfully"));
+    const user = await User.findById(userId).populate("threadsSaved").exec();
+    console.log(user);
+
+    if (!user) throw new ApiError(404, "Not found", "User hasn't saved any thread yet");
+
+    return res.status(200).json(new ApiResponse(200, user, "Threads fetched "));
 });
 
 export {
