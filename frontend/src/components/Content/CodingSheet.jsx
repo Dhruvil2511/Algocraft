@@ -1,13 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { allTags } from "../../constants/allTags.js";
 
 const CodingSheet = () => {
   const { author } = useParams();
   const [sheet, setSheet] = useState([]);
+  const tagbutton = useRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [isDataAvail, setIsDataAvail] = useState(true);
+  const [isTagsVisible, setIsTagsVisible] = useState(true);
+  const [selectedDifficulty, setSelectedDifficulty] = useState("");
+  const [filteredTags, setFilteredTags] = useState(allTags);
+  const [filterText, setFilterText] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
   const perPage = 50;
 
   const fetchQuestions = async () => {
@@ -17,6 +24,8 @@ const CodingSheet = () => {
           sheet_author: author,
           page: currentPage,
           limit: perPage,
+          difficulty: selectedDifficulty,
+          selectedTags:selectedTags
         },
         withCredentials: true,
       })
@@ -37,7 +46,7 @@ const CodingSheet = () => {
   useEffect(() => {
     fetchQuestions();
     return () => {};
-  }, [currentPage]);
+  }, [currentPage, selectedDifficulty,selectedTags]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -49,6 +58,44 @@ const CodingSheet = () => {
   function getNextPage() {
     if (!isDataAvail) return;
     setCurrentPage(currentPage + 1);
+  }
+
+  function toggleTags() {
+    if (isTagsVisible) tagbutton.current.innerText = "Show Tags";
+    else tagbutton.current.innerText = "Hide Tags";
+
+    setIsTagsVisible(!isTagsVisible);
+  }
+  function getColor(difficulty) {
+    switch (difficulty) {
+      case "Easy":
+        return "green";
+      case "Medium":
+        return "orange";
+      case "Hard":
+        return "red";
+      default:
+        return "var(--mainTextColor)";
+    }
+  }
+
+  function handleFilterChange(event) {
+    const value = event.target.value;
+    setFilterText(value);
+    const filtered = allTags.filter((tag) =>
+      tag.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredTags(filtered);
+  }
+
+  function handleSelectTag(tg) {
+    if (!selectedTags.includes(tg)) {
+      setSelectedTags((prevTags) => [...prevTags, tg]);
+    }
+  }
+
+  function removeSelectTag(idx) {
+    setSelectedTags((prevTags) => prevTags.filter((_, i) => i !== idx));
   }
 
   return (
@@ -128,19 +175,37 @@ const CodingSheet = () => {
               </button>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item text-success" href="#">
+                  <button
+                    className="dropdown-item text-success"
+                    onClick={() => setSelectedDifficulty("Easy")}
+                  >
                     Easy
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a className="dropdown-item text-warning" href="#">
+                  <button
+                    className="dropdown-item text-warning"
+                    onClick={() => setSelectedDifficulty("Medium")}
+                  >
                     Medium
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a className="dropdown-item text-danger" href="#">
+                  <button
+                    className="dropdown-item text-danger"
+                    onClick={() => setSelectedDifficulty("Hard")}
+                  >
                     Hard
-                  </a>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => setSelectedDifficulty("")}
+                    style={{ color: "var(--mainTextColor)" }}
+                  >
+                    All
+                  </button>
                 </li>
               </ul>
             </div>
@@ -180,33 +245,38 @@ const CodingSheet = () => {
               >
                 Filter
               </button>
-              <ul className="dropdown-menu">
+              <ul
+                className="dropdown-menu"
+                style={{ overflowY: "auto", maxHeight: "200px" }}
+              >
                 <div className="search-filter d-flex align-items-center">
                   <i className="fa-solid fa-magnifying-glass px-2"></i>
-                  <input type="text" className="me-2" />
+                  <input
+                    type="text"
+                    className="me-2"
+                    onChange={handleFilterChange}
+                  />
                 </div>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    array
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    dp
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    matrix
-                  </a>
-                </li>
+                {filteredTags.map((tg, idx) => (
+                  <li key={idx + 1}>
+                    <button
+                      className="dropdown-item"
+                      style={{color:"var(--mainTextColor)"}}
+                      onClick={() => handleSelectTag(tg)}
+                    >
+                      {tg}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
           <div className="d-flex justify-content-center align-items-center">
             <div className="hidetag">
-              <button className="options">Hide tags</button>
+              <button onClick={toggleTags} className="options" ref={tagbutton}>
+                Hide tags
+              </button>
             </div>
             <div className="random">
               <button className="options">
@@ -219,7 +289,18 @@ const CodingSheet = () => {
             </div>
           </div>
         </div>
-        <div className="selected-tags py-2">selected tags here</div>
+        <div className="selected-tags py-2 d-flex justify-content-center align-items-center">
+          <span className="mx-2" style={{color:getColor(selectedDifficulty)}}>{selectedDifficulty}</span>
+          {selectedTags.map((tg, index) => (
+            <div key={index + 1} className="tags px-2  d-flex justify-content-center align-items-center" style={{width:"fit-content"}}>
+              <span>{tg}</span>
+              <button style={{background:"transparent",border:"none"}} onClick={() => removeSelectTag(index)}>
+                {" "}
+                <i class="fa-solid fa-xmark"></i>{" "}
+              </button>
+            </div>
+          ))}
+        </div>
         <div className="daddy my-4 w-100 d-flex  align-items-center">
           <div className="my-2 table-list w-100" style={{ border: "none" }}>
             {!isDataAvail ? (
@@ -237,7 +318,7 @@ const CodingSheet = () => {
                     </div>
                     {/* <div className="status"></div> */}
                     <div className="title d-flex flex-column justify-content-center align-items-start">
-                      <div className="text-start">
+                      <div className="text-start d-flex justify-content-center align-items-center">
                         <a
                           style={{ textDecoration: "none" }}
                           href={question.problemlink}
@@ -246,15 +327,21 @@ const CodingSheet = () => {
                         >
                           {question.title}
                         </a>
+                        <span
+                          className="ms-3 fs-6"
+                          style={{ color: getColor(question.difficulty) }}
+                        >
+                          ({question.difficulty})
+                        </span>
                       </div>
                       <div className="taglist d-flex jutify-content-center align-items-center">
-                        {question.problemTag?.map((tag, index) => (
-                          <span key={index + 1} className="tags px-2">
-                            {tag}
-                          </span>
-                        ))}
+                        {isTagsVisible &&
+                          question.problemTag?.map((tag, index) => (
+                            <span key={index + 1} className="tags px-2">
+                              {tag}
+                            </span>
+                          ))}
                       </div>
-
                     </div>
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
@@ -297,6 +384,7 @@ const CodingSheet = () => {
           </div>
           <div className="text d-flex justify-content-center align-items-center">
             {currentPage}
+            {/* <input type="text" style={{width:"20px"}} /> {190/perPage} */}
           </div>
           <div className="next">
             <button

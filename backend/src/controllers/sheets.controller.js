@@ -9,6 +9,16 @@ const getSheet = asyncHandler(async (req, res) => {
     const sheet_author = req.query.sheet_author;
     let page = req.query.page;
     let limit = req.query.limit;
+    const difficulty = req.query.difficulty;
+    const selectedTags = req.query.selectedTags;
+
+    console.log(selectedTags);
+    const matchQuery = {
+        sheet_author: sheet_author,
+        "sheet_data.difficulty": difficulty.trim() !== "" ? difficulty : { $exists: true }, // Check if difficulty is provided, if not, match any
+        "sheet_data.problemTag":
+            selectedTags !== undefined && selectedTags.length > 0 ? { $in: selectedTags } : { $exists: true },
+    };
 
     page = Number(page) || 1;
     limit = Number(limit) || 10;
@@ -18,16 +28,13 @@ const getSheet = asyncHandler(async (req, res) => {
     }
 
     let skip = (page - 1) * limit;
-    // console.log(sheet_author,page,limit,skip)
 
     const sheet = await Sheet.aggregate([
         {
-            $match: {
-                sheet_author: sheet_author,
-            },
+            $unwind: "$sheet_data",
         },
         {
-            $unwind: "$sheet_data",
+            $match: matchQuery,
         },
         { $skip: skip },
         { $limit: limit },
@@ -38,14 +45,13 @@ const getSheet = asyncHandler(async (req, res) => {
             },
         },
         {
-            $project:{
-                sheet_author:1,
-                sheet_data:1,
-            }
-        }
+            $project: {
+                sheet_author: 1,
+                sheet_data: 1,
+            },
+        },
     ]);
-
-    console.log(sheet)
+    
 
     if (!sheet || sheet.length === 0) {
         return res.status(404).json(new ApiError(404, "error", "Sheets not found"));
