@@ -14,7 +14,7 @@ function CheckContentPath() {
   let { userid } = useParams();
   let path = window.location.pathname;
 
-  if (path === "/coding-sheets") return <CodingSheet />;
+  if (path.includes("/coding-sheets/")) return <CodingSheet />;
   else if (path === "/upcoming-contests") return <UpcomingContests />;
   else if (path === "/coding-resources") return <CodingResources />;
   else if (path === "/discussion") return <Discussion />;

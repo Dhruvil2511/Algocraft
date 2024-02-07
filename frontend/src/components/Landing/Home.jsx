@@ -53,7 +53,7 @@ const Home = () => {
                   An ultimate platform to help you crack your Software
                   engineering interview.
                 </span>
-                <form action="/coding-sheets">
+                <form action="/coding-sheets/striver">
                   <button
                     className="grad-btn mt-2 drop-in-4"
                     style={{ overflow: "hidden" }}

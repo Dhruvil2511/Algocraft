@@ -20,11 +20,7 @@ function App() {
           <Route path="/login" element={<Authentication />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Authentication />} />
-          <Route path="/coding-sheets" element={<Layout />} />
-          <Route path="/coding-sheets/striver" element={<Layout />} />
-          <Route path="/coding-sheets/love-babbar" element={<Layout />} />
-          <Route path="/coding-sheets/neetcode" element={<Layout />} />
-          <Route path="/coding-sheets/apna-college" element={<Layout />} />
+          <Route path="/coding-sheets/:author" element={<Layout />} />
           <Route path="/upcoming-contests" element={<Layout />} />
           <Route path="/coding-resources" element={<Layout />} />
           <Route path="/discussion?category=all" element={<Layout />} />

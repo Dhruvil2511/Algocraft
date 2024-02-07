@@ -11,8 +11,8 @@ app.use(
     })
 );
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true})); // to encode the url with its param
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // to encode the url with its param
 app.use(express.static("public")); // to serve static files
 app.use(cookieParser());
 
@@ -20,11 +20,12 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import threadRouter from "./routes/thread.routes.js";
 import upcomingContestRouter from "./routes/upcoming-contests.routes.js";
+import sheetsRouter from "./routes/sheets.routes.js";
 // routes declaration
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/threads", threadRouter);
-app.use("/api/v1/contests",upcomingContestRouter)
-
+app.use("/api/v1/contests", upcomingContestRouter);
+app.use("/api/v1/sheets", sheetsRouter);
 
 export { app };

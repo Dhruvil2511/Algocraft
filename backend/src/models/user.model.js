@@ -62,6 +62,7 @@ const userSchema = new Schema(
                 ref: "Thread",
             },
         ],
+        interactions: [{ type: Schema.Types.ObjectId, ref: "UserInteraction" }],
     },
     { timestamps: true }
 );

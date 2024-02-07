@@ -63,9 +63,9 @@ const OffcanvasNavbar = () => {
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item py-2">
             <a
-              href="/coding-sheets"
+              href="/coding-sheets/striver"
               className={
-                path === "/coding-sheets" ? "nav-link active" : "nav-link"
+                path === "/coding-sheets/striver" ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >

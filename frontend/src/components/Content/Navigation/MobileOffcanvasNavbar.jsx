@@ -103,9 +103,9 @@ const MobileOffcanvasNavbar = () => {
         <div className="offcanvas-body d-flex justify-content-start align-items-center flex-column">
           <div className="py-3">
             <a
-              href="/coding-sheets"
+              href="/coding-sheets?author=striver"
               className={
-                path === "/coding-sheets" ? "nav-link active" : "nav-link"
+                path === "/coding-sheets?author=striver" ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >
