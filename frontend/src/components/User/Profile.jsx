@@ -10,6 +10,7 @@ const Profile = ({ userId }) => {
   const [threadList, setThreadList] = useState([]);
   const [questionList, setQuestionList] = useState([]);
   const [current, setCurrent] = useState("Bookmarked Questions");
+  const [currentUser, setCurrentUser] = useState([]);
 
   const fetchUser = async () => {
     await axios
@@ -22,16 +23,28 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data.data);
-          getSavedQuestions()
+          getSavedQuestions();
         }
       })
       .catch((err) => {
         setUser({});
       });
   };
+  const fetchCurrentUser = async () => {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setCurrentUser(res.data.data.user?.username);
+        }
+      });
+  };
 
   useEffect(() => {
     fetchUser();
+    fetchCurrentUser();
     return () => {};
   }, []);
 
@@ -109,12 +122,15 @@ const Profile = ({ userId }) => {
       .get(
         process.env.REACT_APP_BASE_URL + "/api/v1/users/get-solved-questions",
         {
+          params: {
+            userId: userId,
+          },
           withCredentials: true,
         }
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
+          console.log(res.data);
           setCurrent("Solved Questions");
 
           setQuestionList(res.data.data);
@@ -315,13 +331,19 @@ const Profile = ({ userId }) => {
               </div>
             </div>
             <div className="d-flex flex-wrap justify-content-start align-items-center w-100 daddy my-4">
-              <button
-                className="p-2 m-2"
-                style={{ background: "var(--itemColor)", borderRadius: "8px" }}
-                onClick={getSavedQuestions}
-              >
-                Bookmarked Questions
-              </button>
+              {currentUser === userId ? (
+                <button
+                  className="p-2 m-2"
+                  style={{
+                    background: "var(--itemColor)",
+                    borderRadius: "8px",
+                  }}
+                  onClick={getSavedQuestions}
+                >
+                  Bookmarked Questions
+                </button>
+              ) : null}
+
               <button
                 className="p-2 m-2"
                 style={{ background: "var(--itemColor)", borderRadius: "8px" }}
@@ -342,13 +364,18 @@ const Profile = ({ userId }) => {
               >
                 Thread created
               </button>
-              <button
-                className="p-2 m-2"
-                style={{ background: "var(--itemColor)", borderRadius: "8px" }}
-                onClick={getSavedThreads}
-              >
-                Thread saved
-              </button>
+              {currentUser === userId ? (
+                <button
+                  className="p-2 m-2"
+                  style={{
+                    background: "var(--itemColor)",
+                    borderRadius: "8px",
+                  }}
+                  onClick={getSavedThreads}
+                >
+                  Thread saved
+                </button>
+              ) : null}
             </div>
             <div>{current}</div>
             <div className="daddy my-4 w-100 d-flex  align-items-center">
