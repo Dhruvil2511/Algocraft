@@ -10,7 +10,7 @@ const Profile = ({ userId }) => {
   const [threadList, setThreadList] = useState([]);
   const [questionList, setQuestionList] = useState([]);
   const [current, setCurrent] = useState("Bookmarked Questions");
-  const [currentUser, setCurrentUser] = useState([]);
+  const [owner, setOwner] = useState();
 
   const fetchUser = async () => {
     await axios
@@ -23,6 +23,7 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data.data);
+          if(res.data.data.owner) setOwner(true);
           getSavedQuestions();
         }
       })
@@ -30,21 +31,10 @@ const Profile = ({ userId }) => {
         setUser({});
       });
   };
-  const fetchCurrentUser = async () => {
-    await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setCurrentUser(res.data.data.user?.username);
-        }
-      });
-  };
+ 
 
   useEffect(() => {
     fetchUser();
-    fetchCurrentUser();
     return () => {};
   }, []);
 
@@ -331,7 +321,7 @@ const Profile = ({ userId }) => {
               </div>
             </div>
             <div className="d-flex flex-wrap justify-content-start align-items-center w-100 daddy my-4">
-              {currentUser === userId ? (
+              {owner ? (
                 <button
                   className="p-2 m-2"
                   style={{
@@ -364,7 +354,7 @@ const Profile = ({ userId }) => {
               >
                 Thread created
               </button>
-              {currentUser === userId ? (
+              {owner? (
                 <button
                   className="p-2 m-2"
                   style={{

@@ -273,7 +273,6 @@ const updateAvatar = asyncHandler(async (req, res) => {
 
 const getUserProfile = asyncHandler(async (req, res) => {
     const username = req.query.username;
-    console.log(username);
 
     if (!username?.trim) throw new ApiError(400, "error", "username is missing");
 
@@ -325,7 +324,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
             },
         },
     ]);
-
+    username === req.user?.username ? (userDetails[0].owner = true) : (userDetails[0].owner = false);
+    
     if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
     userDetails[0].password = "Nice try mf!🤣";
     return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));
