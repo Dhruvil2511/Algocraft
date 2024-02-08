@@ -9,6 +9,7 @@ const CodingSheet = () => {
   const { pathname } = useLocation();
   const [sheet, setSheet] = useState([]);
   const tagbutton = useRef();
+  const anchorRefs = useRef([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isDataAvail, setIsDataAvail] = useState(true);
   const [isTagsVisible, setIsTagsVisible] = useState(true);
@@ -17,6 +18,7 @@ const CodingSheet = () => {
   const [filterText, setFilterText] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [user, setUser] = useState(null);
+  const [status, setStatus] = useState();
   const perPage = 50;
 
   const fetchQuestions = async () => {
@@ -29,6 +31,7 @@ const CodingSheet = () => {
           limit: perPage,
           difficulty: selectedDifficulty,
           selectedTags: selectedTags,
+          status: status,
         },
         withCredentials: true,
       })
@@ -66,7 +69,7 @@ const CodingSheet = () => {
   useEffect(() => {
     fetchQuestions();
     return () => {};
-  }, [currentPage, selectedDifficulty, selectedTags]);
+  }, [currentPage, selectedDifficulty, selectedTags, status]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -157,6 +160,15 @@ const CodingSheet = () => {
       .catch((err) => console.error(err));
   };
 
+  function handlePickQuestion() {
+    const anchors = anchorRefs.current;
+
+    if (anchors.length === 0) {
+      return; // No anchor tags found, do nothing
+    }
+    const randomIndex = Math.floor(Math.random() * anchors.length);
+    anchors[randomIndex].click();
+  }
   return (
     <>
       <div className="content-header">
@@ -183,43 +195,43 @@ const CodingSheet = () => {
               className={`sheet ${isActive("/coding-sheets/love_babbar")}`}
               href="/coding-sheets/love_babbar"
             >
-              love babbar
+              Love Babbar
             </a>
             <a
-              className={`sheet ${isActive("/coding-sheets/leetcode")}`}
-              href="/coding-sheets/leetcode"
+              className={`sheet ${isActive("/coding-sheets/leetcode_top")}`}
+              href="/coding-sheets/leetcode_top"
             >
-              leet code
+              Leetcode Top
             </a>
             <a
-              className={`sheet ${isActive("/coding-sheets/neetcode75")}`}
-              href="/coding-sheets/neetcode75"
+              className={`sheet ${isActive("/coding-sheets/blind75")}`}
+              href="/coding-sheets/blind75"
             >
-              neet code
+              Blind 75
             </a>
             <a
               className={`sheet ${isActive("/coding-sheets/apna_college")}`}
               href="/coding-sheets/apna_college"
             >
-              apna college
+              Apna College
             </a>
             <a
               className={`sheet ${isActive("/coding-sheets/neetcode150")}`}
               href="/coding-sheets/neetcode150"
             >
-              neetcode 150
+              Neetcode 150
             </a>
             <a
               className={`sheet ${isActive("/coding-sheets/fraz")}`}
               href="/coding-sheets/fraz"
             >
-              fraz
+              Fraz
             </a>
             <a
               className={`sheet ${isActive("/coding-sheets/neetcode300")}`}
               href="/coding-sheets/neetcode300"
             >
-              neet code 300
+              Neetcode 300
             </a>
           </div>
         </div>
@@ -300,19 +312,22 @@ const CodingSheet = () => {
               </button>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => setStatus("Solved")}
+                    style={{ color: "var(--mainTextColor)" }}
+                  >
                     Solved
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => setStatus("Marked")}
+                    style={{ color: "var(--mainTextColor)" }}
+                  >
                     Marked
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Unsolved
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -359,7 +374,7 @@ const CodingSheet = () => {
               </button>
             </div>
             <div className="random">
-              <button className="options">
+              <button className="options" onClick={handlePickQuestion}>
                 <i
                   className="fa-solid fa-shuffle pe-2"
                   style={{ color: "#63E6BE" }}
@@ -370,6 +385,21 @@ const CodingSheet = () => {
           </div>
         </div>
         <div className="selected-tags py-2 d-flex justify-content-center align-items-center">
+          {status ? (
+            <div
+              className="tags px-2  d-flex justify-content-center align-items-center"
+              style={{ width: "fit-content" }}
+            >
+              <span>{status}</span>
+              <button
+                style={{ background: "transparent", border: "none" }}
+                onClick={() => setStatus("")}
+              >
+                {" "}
+                <i class="fa-solid fa-xmark"></i>{" "}
+              </button>
+            </div>
+          ) : null}
           <span
             className="mx-2"
             style={{ color: getColor(selectedDifficulty) }}
@@ -412,6 +442,7 @@ const CodingSheet = () => {
                     <div className="title d-flex flex-column justify-content-center align-items-start">
                       <div className="text-start d-flex justify-content-center align-items-center">
                         <a
+                          ref={(el) => (anchorRefs.current[index] = el)}
                           style={{ textDecoration: "none" }}
                           href={question.problemlink}
                           target="_blank"
