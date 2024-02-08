@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import { questions as questionsData } from "../../public/questions.js";
 import { Question } from "../models/question.model.js";
 import { Sheet } from "../models/sheets.model.js";
-
+import "dotenv/config.js"
 // MongoDB connection URI
-const mongoURI = "mongodb+srv://dhruvil:T7ULWHF39VZs0Zux@cluster0.x0x9di8.mongodb.net";
+const mongoURI = process.env.MONGODB_URI;
 
 // Connect to MongoDB
 mongoose
