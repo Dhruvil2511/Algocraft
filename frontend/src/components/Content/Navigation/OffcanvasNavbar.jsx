@@ -65,7 +65,7 @@ const OffcanvasNavbar = () => {
             <a
               href="/coding-sheets/striver"
               className={
-                path === "/coding-sheets/striver" ? "nav-link active" : "nav-link"
+                path.includes("/coding-sheets/" ) ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >
@@ -77,7 +77,7 @@ const OffcanvasNavbar = () => {
             <a
               href="/upcoming-contests"
               className={
-                path === "/upcoming-contests" ? "nav-link active" : "nav-link"
+                path.includes("/upcoming-contests") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
@@ -88,7 +88,7 @@ const OffcanvasNavbar = () => {
             <a
               href="/coding-resources"
               className={
-                path === "/coding-resources" ? "nav-link active" : "nav-link"
+                path.includes("/coding-resources") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { allTags } from "../../constants/allTags.js";
+import { Chart } from "react-google-charts";
 
 const CodingSheet = () => {
   const { author } = useParams();
@@ -19,9 +20,10 @@ const CodingSheet = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState();
-  const [progress, setProgress] = useState();
+  const [progress, setProgress] = useState(0);
   const [sheetId, setSheetId] = useState();
   const [totalQuestions, setTotalQuestions] = useState();
+  const [analysisToggle, setAnalysisToggle] = useState(false);
   const perPage = 50;
 
   const fetchQuestions = async () => {
@@ -77,18 +79,24 @@ const CodingSheet = () => {
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status]);
 
+   const data = [
+    ["Tag", "Questions"],
+    ["Work", 11],
+    ["Eat", 2],
+    ["Commute", 2],
+    ["Watch TV", 2],
+    ["Sleep", 7],
+  ];
   useEffect(() => {
     if (user && sheetId) {
       let count = 0;
       for (const q of user.solvedQuestions) {
         if (q.questionFrom === sheetId) count++;
       }
-      console.log(count);
       if (count > 0 && totalQuestions > 0) {
         console.log(count, totalQuestions);
         const prg = Math.floor((count / totalQuestions) * 100);
         setProgress(prg);
-        console.log(prg);
       }
     }
   }, [sheetId, user]);
@@ -266,12 +274,12 @@ const CodingSheet = () => {
             className="progress"
             role="progressbar"
             aria-label="Example with label"
-            aria-valuenow="0"
+            aria-valuenow="25"
             aria-valuemin="0"
             aria-valuemax="100"
           >
             <div
-              className="progress-bar bg-success"
+              className="progress-bar bg-success progress-bar-striped progress-bar-animated"
               style={{
                 width: `${progress}%`,
               }}
@@ -280,7 +288,78 @@ const CodingSheet = () => {
             </div>
           </div>
         </div>
-        <div className="visualization py-2">visualiztion content here</div>
+        <div className="my-2">
+          <button
+            className="options"
+            style={{ margin: "0" }}
+            onClick={() => setAnalysisToggle(!analysisToggle)}
+          >
+            Analysis <i class="fa-solid fa-chart-pie"></i>
+          </button>
+        </div>
+        {analysisToggle ? (
+          <div className="daddy d-flex justify-content-center align-items-center my-4 visualization py-2">
+            <div className="d-flex w-50 p-3 justify-content-center align-items-center">
+              <Chart
+                chartType="PieChart"
+                data={data}
+                options={{
+                  title: "My Daily Activities",
+                  is3D: true,
+                }}
+                width={"100%"}
+                height={"400px"}
+              ></Chart>
+            </div>
+            <div className="d-flex w-50 p-3 justify-content-center align-items-center">
+              <div className="bars w-100">
+                <span>Easy</span>
+                <div
+                  className="progress m-2"
+                  role="progressbar"
+                  aria-label="Success example"
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    className="progress-bar bg-success"
+                    style={{ width: "25%" }}
+                  ></div>
+                </div>
+                <span>Medium</span>
+                <div
+                  className="progress m-2"
+                  role="progressbar"
+                  aria-label="Warning example"
+                  aria-valuenow="75"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    className="progress-bar bg-warning"
+                    style={{ width: "75%" }}
+                  ></div>
+                </div>
+                <span>Hard</span>
+                <div
+                  className="progress m-2"
+                  role="progressbar"
+                  aria-label="Danger example"
+                  aria-valuenow="100"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    className="progress-bar bg-danger"
+                    style={{ width: "100%" }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         <div className="d-flex flex-wrap justify-content-between align-items-center w-100 daddy my-4">
           <div className="d-flex justify-content-center align-items-center flex-wrap">
             <div className="dropdown ">

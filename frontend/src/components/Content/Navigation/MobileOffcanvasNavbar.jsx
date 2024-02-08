@@ -105,7 +105,7 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/coding-sheets?author=striver"
               className={
-                path === "/coding-sheets?author=striver" ? "nav-link active" : "nav-link"
+                path.includes("/coding-sheets")  ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >
@@ -116,7 +116,7 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/upcoming-contests"
               className={
-                path === "/upcoming-contests" ? "nav-link active" : "nav-link"
+                path.includes("/upcoming-contests") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
@@ -126,7 +126,7 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/coding-resources"
               className={
-                path === "/coding-resources" ? "nav-link active" : "nav-link"
+                path.includes("/coding-resources") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>

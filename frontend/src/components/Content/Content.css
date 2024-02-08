@@ -72,7 +72,9 @@
 
 }
 
-
+.progress{
+    --bs-progress-bg:var(--secondaryColor);
+}
 .number {
     font-size: x-large;
     font-weight: bold;
