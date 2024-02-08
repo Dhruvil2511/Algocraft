@@ -7,6 +7,7 @@ import {
     uploadReply,
     upvoteThread,
     saveThread,
+    deleteThread,
 } from "../controllers/thread.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { Router } from "express";
@@ -20,5 +21,7 @@ router.route("/upload-comment").post(verifyJWT, uploadComment);
 router.route("/upload-reply").post(verifyJWT, uploadReply);
 router.route("/get-replies").get(verifyJWT, getReplies);
 router.route("/save-thread").patch(verifyJWT, saveThread);
+router.route("/unsave-thread").patch(verifyJWT, saveThread);
+router.route("/delete-thread").delete(verifyJWT, deleteThread);
 
 export default router;

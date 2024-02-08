@@ -47,6 +47,12 @@ const userSchema = new Schema(
                 ref: "Question",
             },
         ],
+        solvedQuestions: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Question",
+            },
+        ],
         refreshToken: {
             type: String,
         },
@@ -62,7 +68,6 @@ const userSchema = new Schema(
                 ref: "Thread",
             },
         ],
-        interactions: [{ type: Schema.Types.ObjectId, ref: "UserInteraction" }],
     },
     { timestamps: true }
 );

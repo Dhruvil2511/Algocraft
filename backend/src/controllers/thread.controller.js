@@ -293,4 +293,14 @@ const saveThread = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, user, message));
 });
-export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies, saveThread };
+
+const deleteThread = asyncHandler(async (req, res) => {
+    const threadId = req.query.threadId;
+    const userId = req.user._id;
+
+    await User.findByIdAndUpdate(userId, { $pull: { threadsCreated: { _id: new ObjectId(threadId) } } });
+    await Thread.findByIdAndDelete(threadId);
+
+    return res.status(200).json(new ApiResponse(200, {}, "Successfully deleted"));
+});
+export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies, saveThread,deleteThread };

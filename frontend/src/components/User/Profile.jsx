@@ -9,6 +9,7 @@ const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
   const [questionList, setQuestionList] = useState([]);
+  const [current, setCurrent] = useState("Bookmarked Questions");
 
   const fetchUser = async () => {
     await axios
@@ -34,6 +35,18 @@ const Profile = ({ userId }) => {
     return () => {};
   }, []);
 
+  function getColor(difficulty) {
+    switch (difficulty) {
+      case "Easy":
+        return "green";
+      case "Medium":
+        return "orange";
+      case "Hard":
+        return "red";
+      default:
+        return "var(--mainTextColor)";
+    }
+  }
   async function getCreatedThreads() {
     await axios
       .get(
@@ -47,8 +60,9 @@ const Profile = ({ userId }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.data);
           setThreadList(res.data.data.threadsCreated);
+          setQuestionList([]);
+          setCurrent("Threads created");
         }
       })
       .catch((err) => {
@@ -62,15 +76,15 @@ const Profile = ({ userId }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.data);
           setThreadList(res.data.data.threadsSaved);
+          setQuestionList([]);
+          setCurrent("Threads saved");
         }
       })
       .catch((err) => {
         console.error(err);
       });
   }
-
   async function getSavedQuestions() {
     await axios
       .get(
@@ -82,25 +96,37 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           setQuestionList(res.data.data);
+          setCurrent("Bookmarked Questions");
+          setThreadList([]);
         }
       })
       .catch((err) => {
         console.error(err);
       });
   }
-  function getColor(difficulty) {
-    switch (difficulty) {
-      case "Easy":
-        return "green";
-      case "Medium":
-        return "orange";
-      case "Hard":
-        return "red";
-      default:
-        return "var(--mainTextColor)";
-    }
+  async function getSolvedQuestions() {
+    await axios
+      .get(
+        process.env.REACT_APP_BASE_URL + "/api/v1/users/get-solved-questions",
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data.data);
+          setCurrent("Solved Questions");
+
+          setQuestionList(res.data.data);
+          setThreadList([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
-  const removeBookmark = async (questionId) => {
+
+  const removeSavedQuestion = async (questionId) => {
     if (!questionId || questionId.trim() === "") return;
 
     await axios
@@ -118,6 +144,56 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => console.error(err));
   };
+  const removeSolvedQuestion = async (questionId) => {
+    if (!questionId || questionId.trim() === "") return;
+
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/mark-question",
+        { questionId: questionId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.message === "unsave") {
+            getSolvedQuestions();
+          }
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const removeSavedThread = async (threadId) => {
+    if (!threadId || threadId.trim() === "") return;
+
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/threads/unsave-thread",
+        { threadId: threadId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.message === "unsave") {
+            getSavedThreads();
+          }
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+  const removeCreatedThread = async (threadId) => {
+    await axios
+      .delete(
+        process.env.REACT_APP_BASE_URL + "/api/v1/threads/delete-thread",
+        { params: { threadId: threadId }, withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          getCreatedThreads();
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       <div className="content-header d-flex flex-column justify-content-center w-100 ">
@@ -244,7 +320,14 @@ const Profile = ({ userId }) => {
                 style={{ background: "var(--itemColor)", borderRadius: "8px" }}
                 onClick={getSavedQuestions}
               >
-                Marked Question
+                Bookmarked Questions
+              </button>
+              <button
+                className="p-2 m-2"
+                style={{ background: "var(--itemColor)", borderRadius: "8px" }}
+                onClick={getSolvedQuestions}
+              >
+                Solved Questions
               </button>
               <button
                 className="p-2 m-2"
@@ -267,6 +350,7 @@ const Profile = ({ userId }) => {
                 Thread saved
               </button>
             </div>
+            <div>{current}</div>
             <div className="daddy my-4 w-100 d-flex  align-items-center">
               <div className="my-2 table-list w-100" style={{ border: "none" }}>
                 {threadList &&
@@ -316,12 +400,32 @@ const Profile = ({ userId }) => {
                               {thread.views?.length}
                             </small>
                           </div>
+                          <div className="mark-later px-2">
+                            {current === "Threads saved" ? (
+                              <button
+                                className="btn-list"
+                                onClick={() => removeSavedThread(thread._id)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>{" "}
+                              </button>
+                            ) : (
+                              <button
+                                className="btn-list"
+                                onClick={() => removeCreatedThread(thread._id)}
+                              >
+                                <i
+                                  className="fa-solid fa-trash-can"
+                                  style={{ color: "red" }}
+                                ></i>
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   ))}
                 {questionList &&
-                  questionList.map((question, index) => (
+                  questionList?.map((question, index) => (
                     <div className="row w-100 p-2 " key={index + 1}>
                       <div className="question  d-flex align-items-center justify-content-between ">
                         <div className="d-flex justify-content-center align-items-center">
@@ -355,20 +459,25 @@ const Profile = ({ userId }) => {
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
                           <div className="mark-complete px-2">
-                            <button className="btn-list">
-                              <i
-                                className="fa-solid fa-circle-check fa-lg"
-                                style={{ color: "#63E6BE" }}
-                              ></i>
-                            </button>
-                          </div>
-                          <div className="mark-later px-2">
-                            <button
-                              className="btn-list"
-                              onClick={() => removeBookmark(question._id)}
-                            >
-                              <i className="fa-solid fa-xmark"></i>
-                            </button>
+                            {current === "Solved Questions" ? (
+                              <button
+                                className="btn-list"
+                                onClick={() =>
+                                  removeSolvedQuestion(question._id)
+                                }
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            ) : (
+                              <button
+                                className="btn-list"
+                                onClick={() =>
+                                  removeSavedQuestion(question._id)
+                                }
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            )}
                           </div>
                           <div className="solution px-2">
                             <a href="#" className="btn-list">

@@ -1,18 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-const userInteractionsSchema = new mongoose.Schema(
-    {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-        },
-        question: { type: Schema.Types.ObjectId, ref: "Question" },
-        status: { type: String, enum: ["finished", "later", "pending"] },
-    },
-    { timestamps: true }
-);
-
-export const UserInteraction = mongoose.model("UserInteraction", userInteractionsSchema);
 const questionSchema = new mongoose.Schema(
     {
         title: String,
@@ -30,7 +17,6 @@ const questionSchema = new mongoose.Schema(
             type: [String], // Array of strings
             default: [],
         },
-        userInteractions: [userInteractionsSchema],
     },
     { timestamps: true }
 );

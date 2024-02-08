@@ -321,6 +321,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
                 threadsCreated: 1,
                 threadsSaved: 1,
                 bookmarkedQuestions: 1,
+                solvedQuestions: 1,
             },
         },
     ]);
@@ -355,7 +356,18 @@ const getUserSavedQuestions = asyncHandler(async (req, res) => {
     try {
         const user = await User.findById(userId).populate("bookmarkedQuestions");
 
-        return res.status(200).json(new ApiResponse(200, user?.bookmarkedQuestions, "Threads fetched "));
+        return res.status(200).json(new ApiResponse(200, user?.bookmarkedQuestions, "Questions fetched "));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+const getUserSolvedQuestions = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    try {
+        const user = await User.findById(userId).populate("solvedQuestions");
+
+        return res.status(200).json(new ApiResponse(200, user?.solvedQuestions, "Questions fetched "));
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
@@ -375,4 +387,5 @@ export {
     getUserSavedThread,
     getUserCreatedThreads,
     getUserSavedQuestions,
+    getUserSolvedQuestions
 };

@@ -74,7 +74,6 @@ const saveQuestion = asyncHandler(async (req, res) => {
     const { questionId } = req.body;
     const userId = req.user._id;
 
-    // console.log(questionId);
     const user = await User.findById(userId);
     const userIndex = user.bookmarkedQuestions.findIndex((ques) => ques.equals(questionId));
 
@@ -94,4 +93,25 @@ const saveQuestion = asyncHandler(async (req, res) => {
     // res.send(200);
 });
 
-export { getSheet, saveQuestion };
+const markQuestionAsDone = asyncHandler(async (req, res) => {
+    const { questionId } = req.body;
+    const userId = req.user._id;
+
+    const user = await User.findById(userId);
+    const userIndex = user.solvedQuestions.findIndex((ques) => ques.equals(questionId));
+
+    let message = "";
+    if (userIndex !== -1) {
+        user.solvedQuestions.splice(userIndex, 1);
+        message = "unsave";
+    } else {
+        user.solvedQuestions.push(questionId);
+        message = "save";
+    }
+
+    await user.save({ validateBeforeSave: false });
+
+    return res.status(200).json(new ApiResponse(200, user, message));
+});
+
+export { getSheet, saveQuestion, markQuestionAsDone };

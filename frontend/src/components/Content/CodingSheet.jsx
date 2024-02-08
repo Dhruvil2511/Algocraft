@@ -140,6 +140,22 @@ const CodingSheet = () => {
       })
       .catch((err) => console.error(err));
   };
+  const markQuestion = async (questionId) => {
+    if (!questionId || questionId.trim() === "") return;
+
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/mark-question",
+        { questionId: questionId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          fetchUser();
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
@@ -422,11 +438,18 @@ const CodingSheet = () => {
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
                     <div className="mark-complete px-2">
-                      <button className="btn-list">
-                        <i
-                          className="fa-solid fa-circle-check fa-lg"
-                          style={{ color: "#63E6BE" }}
-                        ></i>
+                      <button
+                        className="btn-list"
+                        onClick={() => markQuestion(question._id)}
+                      >
+                        {user && user.solvedQuestions.includes(question._id) ? (
+                          <i
+                            className="fa-solid fa-circle-check fa-lg"
+                            style={{ color: "#63E6BE" }}
+                          ></i>
+                        ) : (
+                          <i className="fa-regular fa-circle-check fa-lg"></i>
+                        )}
                       </button>
                     </div>
                     <div className="mark-later px-2">

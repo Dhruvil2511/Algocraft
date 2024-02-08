@@ -6,6 +6,7 @@ import {
     getUserProfile,
     getUserSavedQuestions,
     getUserSavedThread,
+    getUserSolvedQuestions,
     loginUser,
     logoutUser,
     refreshAccessToken,
@@ -32,5 +33,6 @@ router.route("/get-user-profile").get(verifyJWT, getUserProfile);
 router.route("/get-saved-threads").get(verifyJWT, getUserSavedThread);
 router.route("/get-created-threads").get(verifyJWT, getUserCreatedThreads);
 router.route("/get-saved-questions").get(verifyJWT, getUserSavedQuestions);
+router.route("/get-solved-questions").get(verifyJWT, getUserSolvedQuestions);
 
 export default router;
