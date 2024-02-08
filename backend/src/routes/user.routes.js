@@ -4,6 +4,7 @@ import {
     getCurrentUser,
     getUserCreatedThreads,
     getUserProfile,
+    getUserSavedQuestions,
     getUserSavedThread,
     loginUser,
     logoutUser,
@@ -30,5 +31,6 @@ router.route("/update-avatar").patch(verifyJWT, upload.single("avatar"), updateA
 router.route("/get-user-profile").get(verifyJWT, getUserProfile);
 router.route("/get-saved-threads").get(verifyJWT, getUserSavedThread);
 router.route("/get-created-threads").get(verifyJWT, getUserCreatedThreads);
+router.route("/get-saved-questions").get(verifyJWT, getUserSavedQuestions);
 
 export default router;

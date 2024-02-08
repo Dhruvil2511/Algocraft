@@ -9,16 +9,38 @@ import DiscussionThread from "../Content/Discussion/DiscussionThread";
 import MobileOffcanvasNavbar from "../Content/Navigation/MobileOffcanvasNavbar";
 import Profile from "../User/Profile";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function CheckContentPath() {
   let { userid } = useParams();
   let path = window.location.pathname;
 
-  if (path.includes("/coding-sheets/")) return <CodingSheet />;
-  else if (path === "/upcoming-contests") return <UpcomingContests />;
-  else if (path === "/coding-resources") return <CodingResources />;
-  else if (path === "/discussion") return <Discussion />;
-  else if (path === "/coding-ide") return <CodingIDE />;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
+        setUser(response.data.data.user);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
+  else if (path === "/upcoming-contests")
+    return <UpcomingContests user={user} />;
+  else if (path === "/coding-resources") return <CodingResources user={user} />;
+  else if (path === "/discussion") return <Discussion user={user} />;
+  else if (path === "/coding-ide") return <CodingIDE user={user} />;
   else if (
     path.startsWith("/discussion/interview-experience/") ||
     path.startsWith("/discussion/algorithms/") ||
@@ -37,7 +59,26 @@ function CheckDevice() {
 }
 const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
   useEffect(() => {
     const path = window.location.pathname;
     if (path === "/coding-ide") {
@@ -49,6 +90,29 @@ const Layout = () => {
 
   return (
     <>
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "fixed",
+            height: "45px",
+            width: "45px",
+            border: "none",
+            borderRadius: "50px",
+            fontSize: "20px",
+            bottom: "40px",
+            right: "40px",
+            backgroundColor: "var(--blue-shade)",
+            color: "var(--mainTextColor)",
+            textAlign: "center",
+          }}
+        >
+          <i className="fa-solid fa-chevron-up fa-xl"></i>
+        </button>
+      )}
       <div className="content ">
         <CheckDevice />
         <div className="main-content">

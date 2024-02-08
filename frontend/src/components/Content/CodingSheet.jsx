@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { allTags } from "../../constants/allTags.js";
 
 const CodingSheet = () => {
   const { author } = useParams();
+  const { pathname } = useLocation();
   const [sheet, setSheet] = useState([]);
   const tagbutton = useRef();
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,9 +16,11 @@ const CodingSheet = () => {
   const [filteredTags, setFilteredTags] = useState(allTags);
   const [filterText, setFilterText] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
+  const [user, setUser] = useState(null);
   const perPage = 50;
 
   const fetchQuestions = async () => {
+    console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/sheets/get-sheet", {
         params: {
@@ -25,7 +28,7 @@ const CodingSheet = () => {
           page: currentPage,
           limit: perPage,
           difficulty: selectedDifficulty,
-          selectedTags:selectedTags
+          selectedTags: selectedTags,
         },
         withCredentials: true,
       })
@@ -43,10 +46,27 @@ const CodingSheet = () => {
       });
   };
 
+  const fetchUser = async () => {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setUser(res.data.data.user);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
   useEffect(() => {
     fetchQuestions();
     return () => {};
-  }, [currentPage, selectedDifficulty,selectedTags]);
+  }, [currentPage, selectedDifficulty, selectedTags]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -98,6 +118,29 @@ const CodingSheet = () => {
     setSelectedTags((prevTags) => prevTags.filter((_, i) => i !== idx));
   }
 
+  const isActive = (path) => {
+    return path === pathname ? "selected" : "";
+  };
+
+  const saveQuestion = async (questionId) => {
+    if (!questionId || questionId.trim() === "") return;
+
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/save-question",
+        { questionId: questionId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          const data = res.data.data;
+          // console.log(data);
+          fetchUser();
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       <div className="content-header">
@@ -114,37 +157,58 @@ const CodingSheet = () => {
 
         <div className="main-sheet py-2">
           <div className="sheets d-flex flex-wrap">
-            <a className="sheet selected" href="/coding-sheets/striver">
+            <a
+              className={`sheet ${isActive("/coding-sheets/striver")}`}
+              href="/coding-sheets/striver"
+            >
               Striver
             </a>
-            <a className="sheet" href="/coding-sheets/love_babbar">
+            <a
+              className={`sheet ${isActive("/coding-sheets/love_babbar")}`}
+              href="/coding-sheets/love_babbar"
+            >
               love babbar
             </a>
-            <a className="sheet" href="/coding-sheets/leetcode">
+            <a
+              className={`sheet ${isActive("/coding-sheets/leetcode")}`}
+              href="/coding-sheets/leetcode"
+            >
               leet code
             </a>
-            <a className="sheet" href="/coding-sheets/neetcode75">
+            <a
+              className={`sheet ${isActive("/coding-sheets/neetcode75")}`}
+              href="/coding-sheets/neetcode75"
+            >
               neet code
             </a>
-            <a className="sheet" href="/coding-sheets/apna_college">
+            <a
+              className={`sheet ${isActive("/coding-sheets/apna_college")}`}
+              href="/coding-sheets/apna_college"
+            >
               apna college
             </a>
-            <a className="sheet" href="/coding-sheets/neetcode150">
+            <a
+              className={`sheet ${isActive("/coding-sheets/neetcode150")}`}
+              href="/coding-sheets/neetcode150"
+            >
               neetcode 150
             </a>
-            <a className="sheet" href="/coding-sheets/fraz">
+            <a
+              className={`sheet ${isActive("/coding-sheets/fraz")}`}
+              href="/coding-sheets/fraz"
+            >
               fraz
             </a>
-            <a className="sheet" href="/coding-sheets/neetcode300">
+            <a
+              className={`sheet ${isActive("/coding-sheets/neetcode300")}`}
+              href="/coding-sheets/neetcode300"
+            >
               neet code 300
-            </a>
-            <a className="sheet" href="/">
-              custom
             </a>
           </div>
         </div>
         <div className="author alert bg-success">
-          All credits goes to {author}
+          All credits goes href {author}
         </div>
         <div className="progress-section py-2">
           <span> Progress :</span>
@@ -261,7 +325,7 @@ const CodingSheet = () => {
                   <li key={idx + 1}>
                     <button
                       className="dropdown-item"
-                      style={{color:"var(--mainTextColor)"}}
+                      style={{ color: "var(--mainTextColor)" }}
                       onClick={() => handleSelectTag(tg)}
                     >
                       {tg}
@@ -290,11 +354,23 @@ const CodingSheet = () => {
           </div>
         </div>
         <div className="selected-tags py-2 d-flex justify-content-center align-items-center">
-          <span className="mx-2" style={{color:getColor(selectedDifficulty)}}>{selectedDifficulty}</span>
+          <span
+            className="mx-2"
+            style={{ color: getColor(selectedDifficulty) }}
+          >
+            {selectedDifficulty}
+          </span>
           {selectedTags.map((tg, index) => (
-            <div key={index + 1} className="tags px-2  d-flex justify-content-center align-items-center" style={{width:"fit-content"}}>
+            <div
+              key={index + 1}
+              className="tags px-2  d-flex justify-content-center align-items-center"
+              style={{ width: "fit-content" }}
+            >
               <span>{tg}</span>
-              <button style={{background:"transparent",border:"none"}} onClick={() => removeSelectTag(index)}>
+              <button
+                style={{ background: "transparent", border: "none" }}
+                onClick={() => removeSelectTag(index)}
+              >
                 {" "}
                 <i class="fa-solid fa-xmark"></i>{" "}
               </button>
@@ -336,7 +412,7 @@ const CodingSheet = () => {
                       </div>
                       <div className="taglist d-flex jutify-content-center align-items-center">
                         {isTagsVisible &&
-                          question.problemTag?.map((tag, index) => (
+                          question.problemTags?.map((tag, index) => (
                             <span key={index + 1} className="tags px-2">
                               {tag}
                             </span>
@@ -354,8 +430,17 @@ const CodingSheet = () => {
                       </button>
                     </div>
                     <div className="mark-later px-2">
-                      <button className="btn-list">
-                        <i className="fa-solid fa-bookmark fa-lg"></i>
+                      {/* {console.log(question)} */}
+                      <button
+                        className="btn-list"
+                        onClick={() => saveQuestion(question._id)}
+                      >
+                        {user &&
+                        user.bookmarkedQuestions.includes(question._id) ? (
+                          <i className="fa-solid fa-bookmark fa-lg"></i>
+                        ) : (
+                          <i className="fa-regular fa-bookmark fa-lg"></i>
+                        )}
                       </button>
                     </div>
                     <div className="solution px-2">
@@ -400,5 +485,4 @@ const CodingSheet = () => {
     </>
   );
 };
-
 export default CodingSheet;

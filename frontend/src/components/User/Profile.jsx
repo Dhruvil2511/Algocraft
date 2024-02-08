@@ -8,6 +8,7 @@ import notfound from "../../assets/animations/notfound.json";
 const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
+  const [questionList, setQuestionList] = useState([]);
 
   const fetchUser = async () => {
     await axios
@@ -19,8 +20,8 @@ const Profile = ({ userId }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.data);
           setUser(res.data.data);
+          getSavedQuestions()
         }
       })
       .catch((err) => {
@@ -69,6 +70,54 @@ const Profile = ({ userId }) => {
         console.error(err);
       });
   }
+
+  async function getSavedQuestions() {
+    await axios
+      .get(
+        process.env.REACT_APP_BASE_URL + "/api/v1/users/get-saved-questions",
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          setQuestionList(res.data.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  function getColor(difficulty) {
+    switch (difficulty) {
+      case "Easy":
+        return "green";
+      case "Medium":
+        return "orange";
+      case "Hard":
+        return "red";
+      default:
+        return "var(--mainTextColor)";
+    }
+  }
+  const removeBookmark = async (questionId) => {
+    if (!questionId || questionId.trim() === "") return;
+
+    await axios
+      .patch(
+        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/save-question",
+        { questionId: questionId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.message === "unsave") {
+            getSavedQuestions();
+          }
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <>
       <div className="content-header d-flex flex-column justify-content-center w-100 ">
@@ -193,6 +242,7 @@ const Profile = ({ userId }) => {
               <button
                 className="p-2 m-2"
                 style={{ background: "var(--itemColor)", borderRadius: "8px" }}
+                onClick={getSavedQuestions}
               >
                 Marked Question
               </button>
@@ -219,54 +269,119 @@ const Profile = ({ userId }) => {
             </div>
             <div className="daddy my-4 w-100 d-flex  align-items-center">
               <div className="my-2 table-list w-100" style={{ border: "none" }}>
-                {threadList.map((thread) => (
-                  <div className="row p-2" key={thread._id}>
-                    <div className="question d-flex align-items-center justify-content-between">
-                      <div className="d-flex justify-content-center align-items-center">
-                        <div className="number pfp">
-                          {thread.avatar ? (
-                            <img src={thread.avatar} alt="Avatar" />
-                          ) : (
-                            <i className="fa-solid fa-user "></i>
-                          )}
-                        </div>
+                {threadList &&
+                  threadList?.map((thread) => (
+                    <div className="row p-2" key={thread._id}>
+                      <div className="question d-flex align-items-center justify-content-between">
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="number pfp">
+                            {thread.avatar ? (
+                              <img src={thread.avatar} alt="Avatar" />
+                            ) : (
+                              <i className="fa-solid fa-user "></i>
+                            )}
+                          </div>
 
-                        <div className="title d-flex flex-column justify-content-center align-items-start">
-                          <a
-                            href={`/discussion/${thread.category}/${thread._id}`}
-                            className="thread-title text-start"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {thread.title}
-                          </a>
-                          <div className="dis-taglist d-flex justify-content-center align-items-center">
-                            <a href="#" className="username">
-                              {thread.uploader.username}
+                          <div className="title d-flex flex-column justify-content-center align-items-start">
+                            <a
+                              href={`/discussion/${thread.category}/${thread._id}`}
+                              className="thread-title text-start"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {thread.title}
                             </a>
-                            {thread.tags?.map((tag, index) => (
-                              <span key={index} className="tags px-2">
-                                {tag}
-                              </span>
-                            ))}
+                            <div className="dis-taglist d-flex justify-content-center align-items-center">
+                              <a href="#" className="username">
+                                {thread.uploader.username}
+                              </a>
+                              {thread.tags?.map((tag, index) => (
+                                <span key={index} className="tags px-2">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="mark-complete px-2">
+                            <i className="fa-regular fa-circle-up "></i>
+                            <small className="px-2">
+                              {thread.upvotes?.length}
+                            </small>
+                          </div>
+                          <div className="mark-later px-2">
+                            <i className="fa-regular fa-eye "></i>
+                            <small className="px-2">
+                              {thread.views?.length}
+                            </small>
                           </div>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-center align-items-center">
-                        <div className="mark-complete px-2">
-                          <i className="fa-regular fa-circle-up "></i>
-                          <small className="px-2">
-                            {thread.upvotes?.length}
-                          </small>
+                    </div>
+                  ))}
+                {questionList &&
+                  questionList.map((question, index) => (
+                    <div className="row w-100 p-2 " key={index + 1}>
+                      <div className="question  d-flex align-items-center justify-content-between ">
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="number">{index + 1}</div>
+                          {/* <div className="status"></div> */}
+                          <div className="title d-flex flex-column justify-content-center align-items-start">
+                            <div className="text-start d-flex justify-content-center align-items-center">
+                              <a
+                                style={{ textDecoration: "none" }}
+                                href={question.problemlink}
+                                target="_blank"
+                                rel="noreffrer"
+                              >
+                                {question.title}
+                              </a>
+                              <span
+                                className="ms-3 fs-6"
+                                style={{ color: getColor(question.difficulty) }}
+                              >
+                                ({question.difficulty})
+                              </span>
+                            </div>
+                            <div className="taglist d-flex jutify-content-center align-items-center">
+                              {question.problemTags?.map((tag, index) => (
+                                <span key={index + 1} className="tags px-2">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                        <div className="mark-later px-2">
-                          <i className="fa-regular fa-eye "></i>
-                          <small className="px-2">{thread.views?.length}</small>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="mark-complete px-2">
+                            <button className="btn-list">
+                              <i
+                                className="fa-solid fa-circle-check fa-lg"
+                                style={{ color: "#63E6BE" }}
+                              ></i>
+                            </button>
+                          </div>
+                          <div className="mark-later px-2">
+                            <button
+                              className="btn-list"
+                              onClick={() => removeBookmark(question._id)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                          <div className="solution px-2">
+                            <a href="#" className="btn-list">
+                              <i
+                                className="fa-brands fa-youtube fa-lg"
+                                style={{ color: "#ff0000" }}
+                              ></i>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </>

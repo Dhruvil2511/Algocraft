@@ -227,7 +227,7 @@ const changePassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-    return res.status(200).json(new ApiResponse(200, req.user, "User fetched"));
+    return res.status(200).json(new ApiResponse(200, { user: req.user }, "User fetched"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -319,7 +319,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
                 following: 1,
                 avatar: 1,
                 threadsCreated: 1,
-                threadsSaved :1
+                threadsSaved: 1,
+                bookmarkedQuestions: 1,
             },
         },
     ]);
@@ -349,6 +350,18 @@ const getUserSavedThread = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, user, "Threads fetched "));
 });
 
+const getUserSavedQuestions = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    try {
+        const user = await User.findById(userId).populate("bookmarkedQuestions");
+
+        return res.status(200).json(new ApiResponse(200, user?.bookmarkedQuestions, "Threads fetched "));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 export {
     registerUser,
     loginUser,
@@ -361,4 +374,5 @@ export {
     getUserProfile,
     getUserSavedThread,
     getUserCreatedThreads,
+    getUserSavedQuestions,
 };

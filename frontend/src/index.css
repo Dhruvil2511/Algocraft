@@ -37,9 +37,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* min-height: 100vh; */
-  /* min-height: -webkit-fill-available; */
-  /* height: 100%; */
   text-overflow: ellipsis;
 }
 
@@ -50,10 +47,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-/* #root {
-  min-height: 100vh;
-} */
 
 p,
 a,
@@ -70,7 +63,9 @@ p {
   text-align: justify;
 }
 
-
+a:hover{
+  opacity: 0.5;
+}
 footer {
   background-color: var(--secondaryColor);
 }

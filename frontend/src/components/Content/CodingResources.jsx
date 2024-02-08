@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CodingResources = () => {
+const CodingResources = ({user}) => {
     return (
         <div className='content-header'>
             <h1>Coding Resources</h1>
