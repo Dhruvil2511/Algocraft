@@ -15,7 +15,8 @@ mongoose
     .then(() => {
         console.log("Connected to MongoDB successfully");
         // Call your saveData function here to ensure it's executed after the connection is established
-        saveData();
+        // saveData();
+        
     })
     .catch((error) => {
         console.error("Error connecting to MongoDB:", error);

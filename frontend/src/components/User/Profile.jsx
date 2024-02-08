@@ -9,7 +9,7 @@ const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
   const [questionList, setQuestionList] = useState([]);
-  const [current, setCurrent] = useState("Bookmarked Questions");
+  const [current, setCurrent] = useState("");
   const [owner, setOwner] = useState();
 
   const fetchUser = async () => {
@@ -23,15 +23,16 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data.data);
-          if(res.data.data.owner) setOwner(true);
-          getSavedQuestions();
+          if (res.data.data.owner) {
+            setOwner(true);
+            getSavedQuestions();
+          }
         }
       })
       .catch((err) => {
         setUser({});
       });
   };
- 
 
   useEffect(() => {
     fetchUser();
@@ -354,7 +355,7 @@ const Profile = ({ userId }) => {
               >
                 Thread created
               </button>
-              {owner? (
+              {owner ? (
                 <button
                   className="p-2 m-2"
                   style={{
@@ -418,23 +419,31 @@ const Profile = ({ userId }) => {
                             </small>
                           </div>
                           <div className="mark-later px-2">
-                            {current === "Threads saved" ? (
-                              <button
-                                className="btn-list"
-                                onClick={() => removeSavedThread(thread._id)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>{" "}
-                              </button>
-                            ) : (
-                              <button
-                                className="btn-list"
-                                onClick={() => removeCreatedThread(thread._id)}
-                              >
-                                <i
-                                  className="fa-solid fa-trash-can"
-                                  style={{ color: "red" }}
-                                ></i>
-                              </button>
+                            {owner && (
+                              <>
+                                {current === "Threads saved" ? (
+                                  <button
+                                    className="btn-list"
+                                    onClick={() =>
+                                      removeSavedThread(thread._id)
+                                    }
+                                  >
+                                    <i className="fa-solid fa-xmark"></i>{" "}
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="btn-list"
+                                    onClick={() =>
+                                      removeCreatedThread(thread._id)
+                                    }
+                                  >
+                                    <i
+                                      className="fa-solid fa-trash-can"
+                                      style={{ color: "red" }}
+                                    ></i>
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
@@ -476,24 +485,28 @@ const Profile = ({ userId }) => {
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
                           <div className="mark-complete px-2">
-                            {current === "Solved Questions" ? (
-                              <button
-                                className="btn-list"
-                                onClick={() =>
-                                  removeSolvedQuestion(question._id)
-                                }
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            ) : (
-                              <button
-                                className="btn-list"
-                                onClick={() =>
-                                  removeSavedQuestion(question._id)
-                                }
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
+                            {owner && (
+                              <>
+                                {current === "Solved Questions" ? (
+                                  <button
+                                    className="btn-list"
+                                    onClick={() =>
+                                      removeSolvedQuestion(question._id)
+                                    }
+                                  >
+                                    <i className="fa-solid fa-xmark"></i>
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="btn-list"
+                                    onClick={() =>
+                                      removeSavedQuestion(question._id)
+                                    }
+                                  >
+                                    <i className="fa-solid fa-xmark"></i>
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                           <div className="solution px-2">

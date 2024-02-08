@@ -19,10 +19,13 @@ const CodingSheet = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState();
+  const [progress, setProgress] = useState();
+  const [sheetId, setSheetId] = useState();
+  const [totalQuestions, setTotalQuestions] = useState();
   const perPage = 50;
 
   const fetchQuestions = async () => {
-    console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
+    // console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/sheets/get-sheet", {
         params: {
@@ -37,9 +40,11 @@ const CodingSheet = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.data)
           setIsDataAvail(true);
           setSheet(res.data.data?.sheet_data);
+          setSheetId(res.data.data?._id);
+          setTotalQuestions(res.data.data?.totalQuestions);
+          setProgress("");
         }
       })
       .catch((err) => {
@@ -56,7 +61,8 @@ const CodingSheet = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          setUser(res.data.data.user);
+          const data = res.data.data;
+          setUser(data.user);
         }
       })
       .catch((err) => {
@@ -70,6 +76,22 @@ const CodingSheet = () => {
     fetchQuestions();
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status]);
+
+  useEffect(() => {
+    if (user && sheetId) {
+      let count = 0;
+      for (const q of user.solvedQuestions) {
+        if (q.questionFrom === sheetId) count++;
+      }
+      console.log(count);
+      if (count > 0 && totalQuestions > 0) {
+        console.log(count, totalQuestions);
+        const prg = Math.floor((count / totalQuestions) * 100);
+        setProgress(prg);
+        console.log(prg);
+      }
+    }
+  }, [sheetId, user]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -164,7 +186,7 @@ const CodingSheet = () => {
     const anchors = anchorRefs.current;
 
     if (anchors.length === 0) {
-      return; // No anchor tags found, do nothing
+      return;
     }
     const randomIndex = Math.floor(Math.random() * anchors.length);
     anchors[randomIndex].click();
@@ -244,12 +266,17 @@ const CodingSheet = () => {
             className="progress"
             role="progressbar"
             aria-label="Example with label"
-            aria-valuenow="25"
+            aria-valuenow="0"
             aria-valuemin="0"
             aria-valuemax="100"
           >
-            <div className="progress-bar bg-success" style={{ width: "25%" }}>
-              25%
+            <div
+              className="progress-bar bg-success"
+              style={{
+                width: `${progress}%`,
+              }}
+            >
+              {progress}%
             </div>
           </div>
         </div>
@@ -396,7 +423,7 @@ const CodingSheet = () => {
                 onClick={() => setStatus("")}
               >
                 {" "}
-                <i class="fa-solid fa-xmark"></i>{" "}
+                <i className="fa-solid fa-xmark"></i>{" "}
               </button>
             </div>
           ) : null}
@@ -473,7 +500,10 @@ const CodingSheet = () => {
                         className="btn-list"
                         onClick={() => markQuestion(question._id)}
                       >
-                        {user && user.solvedQuestions.includes(question._id) ? (
+                        {user &&
+                        user.solvedQuestions.some(
+                          (ques) => ques._id === question._id
+                        ) ? (
                           <i
                             className="fa-solid fa-circle-check fa-lg"
                             style={{ color: "#63E6BE" }}

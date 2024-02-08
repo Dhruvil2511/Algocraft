@@ -9,6 +9,7 @@ const sheetsSchema = new mongoose.Schema(
                 ref: "Question",
             },
         ],
+        totalQuestions: Number,
     },
     { timestamps: true }
 );

@@ -227,7 +227,9 @@ const changePassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-    return res.status(200).json(new ApiResponse(200, { user: req.user }, "User fetched"));
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate("solvedQuestions");
+    return res.status(200).json(new ApiResponse(200, { user: user }, "User fetched"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -325,7 +327,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
         },
     ]);
     username === req.user?.username ? (userDetails[0].owner = true) : (userDetails[0].owner = false);
-    
+
     if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
     userDetails[0].password = "Nice try mf!🤣";
     return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));

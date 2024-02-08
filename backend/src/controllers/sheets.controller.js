@@ -21,7 +21,7 @@ const getSheet = asyncHandler(async (req, res) => {
         "sheet_data.problemTags":
             selectedTags !== undefined && selectedTags.length > 0 ? { $in: selectedTags } : { $exists: true },
     };
-    let statusMatchQuery = {$exists: true};
+    let statusMatchQuery = { $exists: true };
     if (status === "Solved") {
         statusMatchQuery = { $in: user.solvedQuestions }; // Assuming userId contains user data including solvedQuestions
     } else if (status === "Marked") {
@@ -64,6 +64,7 @@ const getSheet = asyncHandler(async (req, res) => {
                 _id: "$_id",
                 sheet_author: { $first: "$sheet_author" },
                 sheet_data: { $push: "$sheet_data" },
+                totalQuestions: { $first: "$totalQuestions" },
             },
         },
         {
@@ -72,6 +73,7 @@ const getSheet = asyncHandler(async (req, res) => {
                 sheet_data: {
                     $slice: ["$sheet_data", skip, limit],
                 },
+                totalQuestions: 1,
             },
         },
     ]);
