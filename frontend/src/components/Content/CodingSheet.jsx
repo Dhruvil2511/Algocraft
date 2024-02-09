@@ -105,7 +105,7 @@ const CodingSheet = () => {
   ];
 
   function countProgress(count, total) {
-    return Math.floor((count / total) * 100);
+    return Math.floor((count / total) * 100);                                                                             
   }
   useEffect(() => {
     if (user && sheetId) {
@@ -117,7 +117,7 @@ const CodingSheet = () => {
           if (q.difficulty === "Easy") setEasyCount(easyCount + 1);
           else if (q.difficulty === "Medium") setMediumCount(mediumCount + 1);
           else if (q.difficulty === "Hard") setHardCount(hardCount + 1);
-        }
+        } 
       }
 
       if (count > 0 && totalQuestions > 0) {
