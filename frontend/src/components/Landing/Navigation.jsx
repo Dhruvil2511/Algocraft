@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./Landing.css";
 import { updateTheme } from "../../utils/updateTheme";
 
-const Navigation = () => {
+const Navigation = ({ user }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
-
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") setDarkTheme(true);
-    else if (theme === "light") setDarkTheme(false);
-  }, []);
 
   function handleTheme() {
     if (isDarkTheme) localStorage.setItem("theme", "light");
@@ -25,7 +19,10 @@ const Navigation = () => {
           <div className="d-flex justify-content-start align-items-center">
             <div
               className="gola ms-2"
-              style={{ backgroundColor: "rgba(0, 208, 219, 1)" }}
+              style={{
+                background:
+                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
+              }}
             >
               <i className="fa-solid fa-code fa-l"></i>
             </div>
@@ -86,19 +83,29 @@ const Navigation = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link mx-2 text-links" href="/coding-sheets">
-                  Products
+                <a
+                  className="nav-link mx-2 text-links"
+                  href="#features"
+                >
+                  Features
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link mx-2 text-links" href="/">
-                  Pricing
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="/register" className="nav-link mx-2 text-links">
-                  Register
-                </a>
+                {user ? (
+                  <a href={`/${user.username}`}>
+                    <img
+                      src={`${user.avatar}`}
+                      alt="X"
+                      width="32"
+                      height="32"
+                      className="rounded-circle m-2"
+                    />
+                  </a>
+                ) : (
+                  <a href="/login" className="nav-link mx-2 text-links">
+                    Sign In
+                  </a>
+                )}
               </li>
             </ul>
           </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
 
-const MobileOffcanvasNavbar = () => {
+const MobileOffcanvasNavbar = ({ user }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const [path, setPath] = useState(window.location.pathname);
 
@@ -49,7 +49,7 @@ const MobileOffcanvasNavbar = () => {
               aria-expanded="false"
             >
               <img
-                src="https://avatars.githubusercontent.com/u/91490304?v=4"
+                src={`${user?.avatar}`}
                 alt=""
                 width="32"
                 height="32"
@@ -61,12 +61,15 @@ const MobileOffcanvasNavbar = () => {
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a className="dropdown-item" href="/">
-                  Settings
+                <a
+                  className="dropdown-item"
+                  href={`${user?.username}/edit-profile`}
+                >
+                  Edit
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="/">
+                <a className="dropdown-item" href={`${user?.username}`}>
                   Profile
                 </a>
               </li>
@@ -74,7 +77,7 @@ const MobileOffcanvasNavbar = () => {
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="/">
+                <a className="dropdown-item" href="/logout">
                   Sign out
                 </a>
               </li>
@@ -103,9 +106,9 @@ const MobileOffcanvasNavbar = () => {
         <div className="offcanvas-body d-flex justify-content-start align-items-center flex-column">
           <div className="py-3">
             <a
-              href="/coding-sheets?author=striver"
+              href="/coding-sheets/striver"
               className={
-                path.includes("/coding-sheets")  ? "nav-link active" : "nav-link"
+                path.includes("/coding-sheets") ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >
@@ -116,7 +119,9 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/upcoming-contests"
               className={
-                path.includes("/upcoming-contests") ? "nav-link active" : "nav-link"
+                path.includes("/upcoming-contests")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
@@ -126,7 +131,9 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/coding-resources"
               className={
-                path.includes("/coding-resources") ? "nav-link active" : "nav-link"
+                path.includes("/coding-resources")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>
@@ -136,9 +143,7 @@ const MobileOffcanvasNavbar = () => {
             <a
               href="/discussion?category=all"
               className={
-               path.includes("discussion")
-                  ? "nav-link active"
-                  : "nav-link"
+                path.includes("discussion") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>

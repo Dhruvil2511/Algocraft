@@ -21,11 +21,13 @@ import userRouter from "./routes/user.routes.js";
 import threadRouter from "./routes/thread.routes.js";
 import upcomingContestRouter from "./routes/upcoming-contests.routes.js";
 import sheetsRouter from "./routes/sheets.routes.js";
+import newsLetterRouter from "./routes/newsletter.routes.js";
 // routes declaration
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/threads", threadRouter);
 app.use("/api/v1/contests", upcomingContestRouter);
 app.use("/api/v1/sheets", sheetsRouter);
+app.use("/api/v1/newsletter", newsLetterRouter);
 
 export { app };

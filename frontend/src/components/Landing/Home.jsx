@@ -1,39 +1,44 @@
-import React from "react";
-
+import React, { useState } from "react";
 import Lottie from "lottie-react";
 import codingAnimation from "../../assets/animations/home.json";
 import ballAnimation from "../../assets/animations/ball-animation.json";
 import "./Landing.css";
 import Typewriter from "typewriter-effect";
-import { Flip, Fade } from "react-reveal";
+import { Fade } from "react-reveal";
 import { Navigation } from "./Navigation";
+import axios from "axios";
 
-const Home = () => {
+const Home = ({ user }) => {
+  const [email, setEmail] = useState("");
+
+  async function handleNewsletterSubmit(event) {
+    if (email.trim() === "") return;
+    event.preventDefault();
+
+    await axios
+      .post(process.env.REACT_APP_BASE_URL + "/api/v1/newsletter/add-user", {
+        email: email,
+      })
+      .then((res) => {
+        // add toastify
+        if (res.status === 200) alert("email subbed");
+      })
+      .catch((err) => {
+        if (err.response.status === 400) alert("email already subbed");
+      });
+    setEmail("");
+  }
   return (
     <>
-      <Navigation />
+      <Navigation user={user} />
       <div className="page1 h-100">
         <div className="container-fluid d-flex justify-content-center align-items-center ">
           <div className="mc container my-4 d-flex justify-content-between align-items-center ">
-            <div className="background-animation">
-              <Lottie
-                animationData={ballAnimation}
-                loop={true}
-                style={{ width: "100%" }}
-              ></Lottie>
-            </div>
-            <div className="left">
-              <Lottie
-                animationData={codingAnimation}
-                loop={true}
-                style={{ width: "100%" }}
-              ></Lottie>
-            </div>
-
-            <div className="right  mx-3 d-flex justify-content-center align-items-center ">
+          <div className="right  mx-3 d-flex justify-content-center align-items-center ">
               <div className=" d-flex justify-content-center align-items-center flex-column">
                 <h1 className="mt-2 drop-in" style={{ overflow: "hidden" }}>
-                  Unlock Your Coding Potential with Algocraft.{" "}
+                  Empowering Engineers, Mastering Interviews, Crafting
+                  Futures.{" "}
                 </h1>
 
                 <h3 className="mt-4 drop-in-2" style={{ overflow: "hidden" }}>
@@ -53,19 +58,49 @@ const Home = () => {
                   An ultimate platform to help you crack your Software
                   engineering interview.
                 </span>
-                <form action="/coding-sheets/striver">
-                  <button
-                    className="grad-btn mt-2 drop-in-4"
-                    style={{ overflow: "hidden" }}
-                  >
-                    Lets Crack it
-                    <div className="hoverEffect">
-                      <div></div>
-                    </div>
-                  </button>
-                </form>
+                {user ? (
+                  <form action="/coding-sheets/striver">
+                    <button
+                      className="grad-btn mt-2 drop-in-4"
+                      style={{ overflow: "hidden" }}
+                    >
+                      Lets Crack it
+                      <div className="hoverEffect">
+                        <div></div>
+                      </div>
+                    </button>
+                  </form>
+                ) : (
+                  <form action="/login">
+                    <button
+                      className="grad-btn mt-2 drop-in-4"
+                      style={{ overflow: "hidden" }}
+                    >
+                      Lets Crack it
+                      <div className="hoverEffect">
+                        <div></div>
+                      </div>
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
+            <div className="background-animation">
+              <Lottie
+                animationData={ballAnimation}
+                loop={true}
+                style={{ width: "100%" }}
+              ></Lottie>
+            </div>
+            <div className="left">
+              <Lottie
+                animationData={codingAnimation}
+                loop={true}
+                style={{ width: "100%" }}
+              ></Lottie>
+            </div>
+
+            
           </div>
         </div>
       </div>
@@ -99,7 +134,7 @@ const Home = () => {
         <p className="fs-6 py-2 ">Scroll down</p>
       </div>
 
-      <div className="page2 my-5">
+      <div className="page2 my-5" id="features">
         <div className="py-3 d-flex justify-content-center align-items-center">
           <div className="p-3 info d-flex flex-column justify-content-center align-items-center">
             <h2>Why Algocraft? What does it offers?</h2>
@@ -111,7 +146,7 @@ const Home = () => {
         </div>
         <div className="container text-center ">
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-            <Fade left>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -141,7 +176,7 @@ const Home = () => {
                 </div>
               </div>
             </Fade>
-            <Flip top>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -173,8 +208,8 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </Flip>
-            <Fade right>
+            </Fade>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -198,7 +233,7 @@ const Home = () => {
                 </div>
               </div>
             </Fade>
-            <Fade left>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -222,7 +257,7 @@ const Home = () => {
                 </div>
               </div>
             </Fade>
-            <Flip bottom>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -248,8 +283,8 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </Flip>
-            <Fade right>
+            </Fade>
+            <Fade top>
               <div className="col">
                 <div
                   className="card  mb-3"
@@ -385,30 +420,35 @@ const Home = () => {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <i className="fa-brands fa-github fa-2xl "></i> 
+                <i className="fa-brands fa-github fa-2xl "></i>
               </a>
               <span className="ps-3">Github</span>
             </div>
             <div className="linkedin">
-              <a href="/" target="_blank" rel="noreferrer noopener">
+              <a
+                href="https://www.linkedin.com/in/dhruvil-prajapati-187759221/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 <i className="fa-brands fa-linkedin fa-2xl"></i>
               </a>
               <span className="ps-3">Linkedin</span>
-
             </div>
             <div className="mail">
-              <a href="/" target="_blank" rel="noreferrer noopener">
+              <a
+                href="mailto:dhruvilprajapati2003@gmail.com"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 <i className="fa-solid fa-envelope fa-2xl"></i>
               </a>
               <span className="ps-3">Email</span>
-
             </div>
             <div className="discord">
-              <a href="/" target="_blank" rel="noreferrer noopener">
+              <a href="#" target="_blank" rel="noreferrer noopener">
                 <i className="fa-brands fa-discord fa-2xl"></i>
               </a>
               <span className="ps-3">Discord</span>
-
             </div>
           </div>
         </div>
@@ -421,7 +461,10 @@ const Home = () => {
                 <div className="col-lg-4 col-md-6">
                   <div
                     className="gola m-auto"
-                    style={{ backgroundColor: "rgba(0, 208, 219, 1)" }}
+                    style={{
+                      background:
+                        "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
+                    }}
                   >
                     <i className="fa-solid fa-code fa-lg "></i>
                   </div>
@@ -442,17 +485,20 @@ const Home = () => {
                       </a>
                     </li>
                     <li>
-                      <a className="text-links" href="/">
+                      <a className="text-links" href="/about-us">
                         About us
                       </a>
                     </li>
                     <li>
-                      <a className="text-links" href="/">
+                      <a
+                        className="text-links"
+                        href="mailto:dhruvilprajapati2003@gmail.com"
+                      >
                         Contact
                       </a>
                     </li>
                     <li>
-                      <a className="text-links" href="/">
+                      <a className="text-links" href="/upcoming-updates">
                         Future scopes
                       </a>
                     </li>
@@ -460,17 +506,23 @@ const Home = () => {
                 </div>
                 <div className="col-lg-2 col-md-6">
                   <h5 className=" mb-3">User</h5>
+
                   <ul className="list-unstyled text-muted">
-                    <li>
-                      <a className="text-links" href="/">
-                        Login
-                      </a>
-                    </li>
-                    <li>
-                      <a className="text-links" href="/">
-                        Create Account
-                      </a>
-                    </li>
+                    {!user ? (
+                      <React.Fragment>
+                        <li>
+                          <a className="text-links" href="/login">
+                            Login
+                          </a>
+                        </li>
+                        <li>
+                          <a className="text-links" href="/">
+                            Create Account
+                          </a>
+                        </li>
+                      </React.Fragment>
+                    ) : null}
+
                     <li>
                       <a className="text-links" href="/">
                         Privacy policy
@@ -489,19 +541,21 @@ const Home = () => {
                     Subscribe us if you wish to receive updates and connect with
                     us.
                   </p>
-                  <form action="/">
+                  <form onSubmit={handleNewsletterSubmit}>
                     <div className="input-group mb-3">
                       <input
                         className="form-control"
-                        type="text"
+                        type="email"
                         placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="button-addon2"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
                       />
                       <button
                         className="grad-btn"
                         id="button-addon2"
-                        type="button"
+                        type="submit"
                       >
                         Send{" "}
                         <div className="hoverEffect">

@@ -64,3 +64,4 @@ export const allTags = [
   "Bit Magic",
   "Mathematical",
 ];
+

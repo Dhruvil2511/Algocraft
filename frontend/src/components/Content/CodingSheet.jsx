@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { allTags } from "../../constants/allTags.js";
 
 import { Chart } from "chart.js/auto";
-import {Pie} from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 const CodingSheet = () => {
   const { author } = useParams();
@@ -97,19 +97,47 @@ const CodingSheet = () => {
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status]);
 
-  const labels = ["January", "February", "March", "April", "May", "June"];
-
   // Defined an object.
   const data = {
-    labels: labels,
+    labels: allTags,
     datasets: [
       {
         label: "My First dataset",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(0,0,255)",
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: [
+          0,
+          10,
+          5,
+          2,
+          20,
+          30,
+          45,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          ,
+          1,
+          1,
+          1,
+          1,
+        ],
+        hoverOffset: 4,
       },
     ],
+  };
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
   function countProgress(count, total) {
@@ -244,13 +272,17 @@ const CodingSheet = () => {
       <div className="content-header">
         <h1>Coding Sheets</h1>
         <p>
-          Looking for a convenient way to access a variety of coding practice
-          sheets from different sources? Look no further than Coding Sheets, a
-          feature on the Algocraft website. Not only can you find a wide range
-          of sheets all in one place, but the included analysis graphs make
-          solving them even more enjoyable by allowing you to track your
-          progress. Plus, a discussion section is coming soon to provide support
-          and guidance as you work through each sheet. Happy coding!
+          Are you searching for an effortless method to access diverse coding
+          practice materials sourced from various platforms?
+          <br />
+          Your quest ends with Algocraft. Dive into a vast collection of
+          coding sheets conveniently consolidated in one location. Elevate
+          your coding experience with insightful analysis charts that enhance
+          your problem-solving journey by monitoring your advancement.Stay tuned
+          for the upcoming interactive discussion forum designed to offer
+          assistance and valuable insights as you tackle each practice sheet.
+          <br />
+          Crack Code, Craft Careers.
         </p>
 
         <div className="main-sheet py-2">
@@ -407,7 +439,7 @@ const CodingSheet = () => {
               className="    d-flex  p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
-              <Pie data={data} />
+              <Pie data={data} options={options} />
             </div>
           </div>
         ) : null}

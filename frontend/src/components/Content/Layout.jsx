@@ -11,55 +11,56 @@ import Profile from "../User/Profile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function CheckContentPath() {
-  let { userid } = useParams();
-  let path = window.location.pathname;
-
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-          {
-            withCredentials: true,
-          }
-        );
-        setUser(response.data.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
-  else if (path === "/upcoming-contests")
-    return <UpcomingContests user={user} />;
-  else if (path === "/coding-resources") return <CodingResources user={user} />;
-  else if (path === "/discussion") return <Discussion user={user} />;
-  else if (path === "/coding-ide") return <CodingIDE user={user} />;
-  else if (
-    path.startsWith("/discussion/interview-experience/") ||
-    path.startsWith("/discussion/algorithms/") ||
-    path.startsWith("/discussion/development/") ||
-    path.startsWith("/discussion/miscellaneous/")
-  )
-    return <DiscussionThread />;
-  else if (userid) return <Profile userId={userid} />;
-}
-
-function CheckDevice() {
-  if (window.screen.width <= 1431) {
-    return <MobileOffcanvasNavbar />;
-  }
-  return <OffcanvasNavbar />;
-}
-const Layout = () => {
+const Layout = ({ user }) => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  function CheckContentPath() {
+    let { userid } = useParams();
+    let path = window.location.pathname;
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get(
+            process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
+            {
+              withCredentials: true,
+            }
+          );
+          setUser(response.data.data.user);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+
+      fetchUser();
+    }, []);
+
+    if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
+    else if (path === "/upcoming-contests")
+      return <UpcomingContests user={user} />;
+    else if (path === "/coding-resources")
+      return <CodingResources user={user} />;
+    else if (path === "/discussion") return <Discussion user={user} />;
+    else if (path === "/coding-ide") return <CodingIDE user={user} />;
+    else if (
+      path.startsWith("/discussion/interview-experience/") ||
+      path.startsWith("/discussion/algorithms/") ||
+      path.startsWith("/discussion/development/") ||
+      path.startsWith("/discussion/miscellaneous/")
+    )
+      return <DiscussionThread />;
+    else if (userid) return <Profile userId={userid} />;
+  }
+
+  function CheckDevice() {
+    if (window.screen.width <= 1431) {
+      return <MobileOffcanvasNavbar user={user} />;
+    }
+    return <OffcanvasNavbar user={user} />;
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -105,7 +106,8 @@ const Layout = () => {
             fontSize: "20px",
             bottom: "40px",
             right: "40px",
-            backgroundColor: "var(--blue-shade)",
+            background:
+                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
             color: "var(--mainTextColor)",
             textAlign: "center",
           }}

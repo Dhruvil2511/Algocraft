@@ -38,6 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-overflow: ellipsis;
+  scroll-behavior: smooth;
 }
 
 
@@ -62,6 +63,7 @@ iframe#webpack-dev-server-client-overlay {
 p {
   text-align: justify;
 }
+
 
 a:hover{
   opacity: 0.5;

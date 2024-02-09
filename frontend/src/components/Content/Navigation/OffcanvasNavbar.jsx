@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
 
-const OffcanvasNavbar = () => {
+const OffcanvasNavbar = ({user}) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const [path, setPath] = useState(window.location.pathname);
 
@@ -24,12 +24,13 @@ const OffcanvasNavbar = () => {
       <div className="d-flex flex-column flex-shrink-0 p-3  sidebar sticky-top">
         <div className="d-flex justify-content-between align-items center">
           <a
-            href="/"
+            href="#"
             className="d-flex align-items-center mb-3 mb-md-0   text-decoration-none"
           >
             <div
               className="gola ms-2"
-              style={{ backgroundColor: "rgba(0, 208, 219, 1)" }}
+              style={{ background:
+                "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)", }}
             >
               <i className="fa-solid fa-code fa-lg"></i>
             </div>
@@ -65,7 +66,9 @@ const OffcanvasNavbar = () => {
             <a
               href="/coding-sheets/striver"
               className={
-                path.includes("/coding-sheets/" ) ? "nav-link active" : "nav-link"
+                path.includes("/coding-sheets/")
+                  ? "nav-link active"
+                  : "nav-link"
               }
               aria-current="page"
             >
@@ -77,7 +80,9 @@ const OffcanvasNavbar = () => {
             <a
               href="/upcoming-contests"
               className={
-                path.includes("/upcoming-contests") ? "nav-link active" : "nav-link"
+                path.includes("/upcoming-contests")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
@@ -88,7 +93,9 @@ const OffcanvasNavbar = () => {
             <a
               href="/coding-resources"
               className={
-                path.includes("/coding-resources") ? "nav-link active" : "nav-link"
+                path.includes("/coding-resources")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>
@@ -99,7 +106,7 @@ const OffcanvasNavbar = () => {
             <a
               href="/discussion?category=all"
               className={
-               path.includes("discussion") ? "nav-link active" : "nav-link"
+                path.includes("discussion") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>
@@ -129,18 +136,21 @@ const OffcanvasNavbar = () => {
           </button>
           <ul className="dropdown-menu mx-3">
             <li>
-              <a className="dropdown-item" href="#">
-                Action
+              <a className="dropdown-item" href="/">
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                className="dropdown-item"
+                href="https://github.com/Dhruvil2511/Algocraft"
+              >
+                Github
               </a>
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                Action two
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Action three
+                About project
               </a>
             </li>
           </ul>
@@ -155,25 +165,28 @@ const OffcanvasNavbar = () => {
             aria-expanded="false"
           >
             <img
-              src="https://avatars.githubusercontent.com/u/91490304?v=4"
+              src={`${user?.avatar}`}
               alt=""
               width="32"
               height="32"
               className="rounded-circle me-2"
             />
-            <strong>Dhruvil</strong>
+            <strong>{user?.username}</strong>
           </a>
           <ul
             className="dropdown-menu dropdown-menu-dark text-small shadow"
             aria-labelledby="dropdownUser1"
           >
             <li>
-              <a className="dropdown-item" href="/">
-                Settings
+              <a
+                className="dropdown-item"
+                href={`${user?.username}/edit-profile`}
+              >
+                Edit
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="/kalash_shah_99">
+              <a className="dropdown-item" href={`/${user?.username}`}>
                 Profile
               </a>
             </li>
@@ -181,7 +194,7 @@ const OffcanvasNavbar = () => {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="/">
+              <a className="dropdown-item" href="/logout">
                 Sign out
               </a>
             </li>

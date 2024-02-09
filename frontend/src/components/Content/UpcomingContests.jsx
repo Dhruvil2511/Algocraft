@@ -4,7 +4,6 @@ import axios from "axios";
 const UpcomingContests = () => {
   const [contestData, setContestData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [iconName, setIconName]= useState("");
 
   const fetchContest = async () => {
     try {
@@ -13,7 +12,7 @@ const UpcomingContests = () => {
         { withCredentials: true }
       );
       if (response.status === 200) {
-        // console.log(response.data.data.objects);
+        
         setContestData(response.data.data.objects);
         setLoading(false);
       }
@@ -39,7 +38,7 @@ const UpcomingContests = () => {
         the loop.
       </p>
 
-      <div className="visualization py-2">visualization content here</div>
+      {/* <div className="visualization py-2">visualization content here</div> */}
       <div className="d-flex flex-nowrap justify-content-start align-items-center">
         <div className="dropdown">
           <button
