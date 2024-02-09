@@ -33,6 +33,7 @@ const CodingSheet = () => {
   const [totalMedium, setTotalMedium] = useState(0);
   const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
+  const [isUnsolved, setIsUnsolved] = useState(false);
   const perPage = 50;
 
   const fetchQuestions = async () => {
@@ -105,19 +106,26 @@ const CodingSheet = () => {
   ];
 
   function countProgress(count, total) {
-    return Math.floor((count / total) * 100);                                                                             
+    return Math.floor((count / total) * 100);
   }
   useEffect(() => {
     if (user && sheetId) {
       let count = 0;
 
       for (const q of user.solvedQuestions) {
+        // console.log(q)
         if (q.questionFrom === sheetId) {
           count++;
-          if (q.difficulty === "Easy") setEasyCount(easyCount + 1);
-          else if (q.difficulty === "Medium") setMediumCount(mediumCount + 1);
+          if (q.difficulty === "Easy") {
+            if(isUnsolved){
+              setEasyCount(easyCount - 1)
+              setIsUnsolved(false);
+            }else{
+              setEasyCount(easyCount + 1);
+            }              
+          } else if (q.difficulty === "Medium") setMediumCount(mediumCount + 1);
           else if (q.difficulty === "Hard") setHardCount(hardCount + 1);
-        } 
+        }
       }
 
       if (count > 0 && totalQuestions > 0) {
@@ -213,6 +221,9 @@ const CodingSheet = () => {
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data.data);
+
+          if (res.data.message === "unsave") setIsUnsolved(true);
+          else setIsUnsolved(false);
           fetchUser();
         }
       })
