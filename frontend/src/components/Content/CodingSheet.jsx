@@ -6,6 +6,7 @@ import { allTags } from "../../constants/allTags.js";
 
 import { Chart } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
+import Loader from "./Loader.jsx";
 
 const CodingSheet = () => {
   const { author } = useParams();
@@ -35,10 +36,12 @@ const CodingSheet = () => {
   const [totalMedium, setTotalMedium] = useState(0);
   const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const perPage = 50;
 
   const fetchQuestions = async () => {
     // console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
+    setIsLoading(true);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/sheets/get-sheet", {
         params: {
@@ -53,7 +56,7 @@ const CodingSheet = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
+          setIsLoading(false);
           setIsDataAvail(true);
           setSheet(res.data.data?.sheet_data);
           setSheetId(res.data.data?._id);
@@ -71,7 +74,8 @@ const CodingSheet = () => {
         setIsDataAvail(false);
         setSheet([]);
         console.error(err);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const fetchUser = async () => {
@@ -275,12 +279,12 @@ const CodingSheet = () => {
           Are you searching for an effortless method to access diverse coding
           practice materials sourced from various platforms?
           <br />
-          Your quest ends with Algocraft. Dive into a vast collection of
-          coding sheets conveniently consolidated in one location. Elevate
-          your coding experience with insightful analysis charts that enhance
-          your problem-solving journey by monitoring your advancement.Stay tuned
-          for the upcoming interactive discussion forum designed to offer
-          assistance and valuable insights as you tackle each practice sheet.
+          Your quest ends with Algocraft. Dive into a vast collection of coding
+          sheets conveniently consolidated in one location. Elevate your coding
+          experience with insightful analysis charts that enhance your
+          problem-solving journey by monitoring your advancement.Stay tuned for
+          the upcoming interactive discussion forum designed to offer assistance
+          and valuable insights as you tackle each practice sheet.
           <br />
           Crack Code, Craft Careers.
         </p>
@@ -613,96 +617,102 @@ const CodingSheet = () => {
             </div>
           ))}
         </div>
-        <div className="daddy my-4 w-100 d-flex  align-items-center">
-          <div className="my-2 table-list w-100" style={{ border: "none" }}>
-            {!isDataAvail ? (
-              <div className="p-5 d-flex justify-content-center align-items-center flex-column">
-                <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
-                <span className="fs-4">That's it for now!</span>
-              </div>
-            ) : null}
-            {sheet?.map((question, index) => (
-              <div className="row w-100 p-2 " key={uuidv4()}>
-                <div className="question  d-flex align-items-center justify-content-between ">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <div className="number">
-                      {calculateDisplayedNumber(index)}
-                    </div>
-                    {/* <div className="status"></div> */}
-                    <div className="title d-flex flex-column justify-content-center align-items-start">
-                      <div className="text-start d-flex justify-content-center align-items-center">
-                        <a
-                          ref={(el) => (anchorRefs.current[index] = el)}
-                          style={{ textDecoration: "none" }}
-                          href={question.problemlink}
-                          target="_blank"
-                          rel="noreffrer"
-                        >
-                          {question.title}
-                        </a>
-                        <span
-                          className="ms-3 fs-6"
-                          style={{ color: getColor(question.difficulty) }}
-                        >
-                          ({question.difficulty})
-                        </span>
+        <div className="daddy my-4 w-100 d-flex justify-content-center  align-items-center">
+          {isLoading ? (
+            <div className="p-4 d-flex justify-content-center align-items-center">
+            <Loader />
+          </div>
+          ) : (
+            <div className="my-2 table-list w-100" style={{ border: "none" }}>
+              {!isDataAvail ? (
+                <div className="p-5 d-flex justify-content-center align-items-center flex-column">
+                  <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
+                  <span className="fs-4">That's it for now!</span>
+                </div>
+              ) : null}
+              {sheet?.map((question, index) => (
+                <div className="row w-100 p-2 " key={uuidv4()}>
+                  <div className="question  d-flex align-items-center justify-content-between ">
+                    <div className="d-flex justify-content-center align-items-center">
+                      <div className="number">
+                        {calculateDisplayedNumber(index)}
                       </div>
-                      <div className="taglist d-flex jutify-content-center align-items-center">
-                        {isTagsVisible &&
-                          question.problemTags?.map((tag, index) => (
-                            <span key={index + 1} className="tags px-2">
-                              {tag}
-                            </span>
-                          ))}
+                      {/* <div className="status"></div> */}
+                      <div className="title d-flex flex-column justify-content-center align-items-start">
+                        <div className="text-start d-flex justify-content-center align-items-center">
+                          <a
+                            ref={(el) => (anchorRefs.current[index] = el)}
+                            style={{ textDecoration: "none" }}
+                            href={question.problemlink}
+                            target="_blank"
+                            rel="noreffrer"
+                          >
+                            {question.title}
+                          </a>
+                          <span
+                            className="ms-3 fs-6"
+                            style={{ color: getColor(question.difficulty) }}
+                          >
+                            ({question.difficulty})
+                          </span>
+                        </div>
+                        <div className="taglist d-flex jutify-content-center align-items-center">
+                          {isTagsVisible &&
+                            question.problemTags?.map((tag, index) => (
+                              <span key={index + 1} className="tags px-2">
+                                {tag}
+                              </span>
+                            ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="d-flex justify-content-center align-items-center">
-                    <div className="mark-complete px-2">
-                      <button
-                        className="btn-list"
-                        onClick={() => markQuestion(question._id)}
-                      >
-                        {user &&
-                        user.solvedQuestions.some(
-                          (ques) => ques._id === question._id
-                        ) ? (
+                    <div className="d-flex justify-content-center align-items-center">
+                      <div className="mark-complete px-2">
+                        <button
+                          className="btn-list"
+                          onClick={() => markQuestion(question._id)}
+                        >
+                          {user &&
+                          user.solvedQuestions.some(
+                            (ques) => ques._id === question._id
+                          ) ? (
+                            <i
+                              className="fa-solid fa-circle-check fa-lg"
+                              style={{ color: "#63E6BE" }}
+                            ></i>
+                          ) : (
+                            <i className="fa-regular fa-circle-check fa-lg"></i>
+                          )}
+                        </button>
+                      </div>
+                      <div className="mark-later px-2">
+                        {/* {console.log(question)} */}
+                        <button
+                          className="btn-list"
+                          onClick={() => saveQuestion(question._id)}
+                        >
+                          {user &&
+                          user.bookmarkedQuestions.includes(question._id) ? (
+                            <i className="fa-solid fa-bookmark fa-lg"></i>
+                          ) : (
+                            <i className="fa-regular fa-bookmark fa-lg"></i>
+                          )}
+                        </button>
+                      </div>
+                      <div className="solution px-2">
+                        <a href="#" className="btn-list">
                           <i
-                            className="fa-solid fa-circle-check fa-lg"
-                            style={{ color: "#63E6BE" }}
+                            className="fa-brands fa-youtube fa-lg"
+                            style={{ color: "#ff0000" }}
                           ></i>
-                        ) : (
-                          <i className="fa-regular fa-circle-check fa-lg"></i>
-                        )}
-                      </button>
-                    </div>
-                    <div className="mark-later px-2">
-                      {/* {console.log(question)} */}
-                      <button
-                        className="btn-list"
-                        onClick={() => saveQuestion(question._id)}
-                      >
-                        {user &&
-                        user.bookmarkedQuestions.includes(question._id) ? (
-                          <i className="fa-solid fa-bookmark fa-lg"></i>
-                        ) : (
-                          <i className="fa-regular fa-bookmark fa-lg"></i>
-                        )}
-                      </button>
-                    </div>
-                    <div className="solution px-2">
-                      <a href="#" className="btn-list">
-                        <i
-                          className="fa-brands fa-youtube fa-lg"
-                          style={{ color: "#ff0000" }}
-                        ></i>
-                      </a>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
           <div className="prev">

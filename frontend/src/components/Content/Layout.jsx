@@ -107,7 +107,7 @@ const Layout = ({ user }) => {
             bottom: "40px",
             right: "40px",
             background:
-                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
+              "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
             color: "var(--mainTextColor)",
             textAlign: "center",
           }}

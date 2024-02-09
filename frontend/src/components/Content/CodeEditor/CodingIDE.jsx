@@ -10,17 +10,27 @@ import { languageData } from "../../../constants/languageData";
 import monacoThemes from "monaco-themes/themes/themelist";
 import Editor from "@monaco-editor/react";
 
-
-
-
 const CodingIDE = () => {
-  const rejectedThemes = ['cobalt2', 'dracula', 'githubdark', 'githublight', 'idle', 'slushandpoppies', 'nord', 'monokaibright', 'merbivoresoft', 'lazy', 'katzenmilch', 'kuroirtheme'];
+  const rejectedThemes = [
+    "cobalt2",
+    "dracula",
+    "githubdark",
+    "githublight",
+    "idle",
+    "slushandpoppies",
+    "nord",
+    "monokaibright",
+    "merbivoresoft",
+    "lazy",
+    "katzenmilch",
+    "kuroirtheme",
+  ];
   const [code, setCode] = useState("console.log('Welcome to Algocraft!');");
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
   const [theme, setTheme] = useState({});
-  const [language, setLanguage] = useState(languageData['javascript']);
+  const [language, setLanguage] = useState(languageData["javascript"]);
   const filteredThemes = Object.entries(monacoThemes)
     .filter(([value]) => !rejectedThemes.includes(value))
     .reduce((obj, [value, label]) => {
@@ -79,10 +89,7 @@ const CodingIDE = () => {
         if (status === 429) {
           console.log("too many requests", status);
 
-          showErrorToast(
-            `Quota of 100 requests exceeded for the Day!`,
-            10000
-          );
+          showErrorToast(`Quota of 100 requests exceeded for the Day!`, 10000);
         }
         setProcessing(false);
         console.log("catch block...", error);
@@ -133,12 +140,10 @@ const CodingIDE = () => {
         defineTheme(theme.value).then((_) => setTheme(theme));
       }
     } catch {
-      console.error('Error changing theme!')
+      console.error("Error changing theme!");
     }
   }
   useEffect(() => {
-
-
     defineTheme("oceanic-next").then((_) =>
       setTheme({ value: "oceanic-next", label: "Oceanic Next" })
     );
@@ -168,8 +173,8 @@ const CodingIDE = () => {
   };
 
   function handleLanguageChange(option) {
-    setLanguage(languageData[option.value])
-    setCode(option.boilerplate)
+    setLanguage(languageData[option.value]);
+    setCode(option.boilerplate);
   }
 
   return (
@@ -195,21 +200,25 @@ const CodingIDE = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <span className="mx-2" dangerouslySetInnerHTML={{ __html: language.icon }}></span>
+                <span
+                  className="mx-2"
+                  dangerouslySetInnerHTML={{ __html: language.icon }}
+                ></span>
                 <span>{language.name}</span>
               </button>
               <ul className="dropdown-menu">
                 {Object.values(languageData).map((option) => (
                   <li key={option.value}>
-
                     <a
                       className="dropdown-item"
                       href="#"
                       onClick={() => handleLanguageChange(option)}
                     >
-                      <span className="mx-2" dangerouslySetInnerHTML={{ __html: option.icon }}></span>
+                      <span
+                        className="mx-2"
+                        dangerouslySetInnerHTML={{ __html: option.icon }}
+                      ></span>
                       <span>{option.name}</span>
-
                     </a>
                   </li>
                 ))}
@@ -217,10 +226,23 @@ const CodingIDE = () => {
             </div>
           </div>
           <div className="bahar px-4 py-2">
-
             <div className="dropdown">
-              <button className="options dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{theme.label}</button>
-              <ul className="dropdown-menu" style={{ height: 'auto', maxHeight: '300px', overflowX: 'hidden' }}>
+              <button
+                className="options dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {theme.label}
+              </button>
+              <ul
+                className="dropdown-menu"
+                style={{
+                  height: "auto",
+                  maxHeight: "300px",
+                  overflowX: "hidden",
+                }}
+              >
                 {Object.entries(filteredThemes).map(([value, label]) => (
                   <li key={value}>
                     <a
@@ -237,19 +259,46 @@ const CodingIDE = () => {
           </div>
         </div>
         <div>
-          <button className="options"
-            onClick={handleCompile}
-            disabled={!code}>
-            <i className="m-1 fa-solid fa-gears"></i>
-            {processing ? "Processing..." : "Compile"}
-          </button>
+          {processing ? (
+            <button
+              className="options"
+              disabled
+              style={{ cursor: "not-allowed" }}
+            >
+              <i className="m-1 fa-solid fa-gears"></i>
+              Processing
+            </button>
+          ) : (
+            <button
+              className="options"
+              disabled={!code}
+              onClick={handleCompile}
+            >
+              <i className="m-1 fa-solid fa-gears"></i>
+              Compile
+            </button>
+          )}
         </div>
-
       </div>
       <div className="d-flex px-4 py-4 w-100">
         <div className="editor d-flex flex-column w-70 h-100 justify-content-start align-items-end">
-          <div className="overflow-hidden w-100 h-100" style={{ border: 'none', borderRadius: '8px', boxShadow: " 0px 2px 4px #00000014,0px 4px 8px #00000014,0px 6px 12px #00000014" }}>
-            <Editor height="82vh" width="100%" language={language.value || "javascript"} value={code} theme={theme.value} onChange={handleEditorChange} />
+          <div
+            className="overflow-hidden w-100 h-100"
+            style={{
+              border: "none",
+              borderRadius: "8px",
+              boxShadow:
+                " 0px 2px 4px #00000014,0px 4px 8px #00000014,0px 6px 12px #00000014",
+            }}
+          >
+            <Editor
+              height="82vh"
+              width="100%"
+              language={language.value || "javascript"}
+              value={code}
+              theme={theme.value}
+              onChange={handleEditorChange}
+            />
           </div>
         </div>
 
@@ -260,7 +309,6 @@ const CodingIDE = () => {
               customInput={customInput}
               setCustomInput={setCustomInput}
             />
-
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>

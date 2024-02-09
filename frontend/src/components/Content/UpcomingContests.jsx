@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import Loader from "./Loader.jsx";
 const UpcomingContests = () => {
   const [contestData, setContestData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,12 +12,13 @@ const UpcomingContests = () => {
         { withCredentials: true }
       );
       if (response.status === 200) {
-        
         setContestData(response.data.data.objects);
         setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching data from db");
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };
@@ -73,9 +74,11 @@ const UpcomingContests = () => {
         </div>
       </div>
 
-      <div className="daddy my-4 w-100 d-flex align-items-center">
+      <div className="daddy my-4 w-100 d-flex justify-content-center align-items-center">
         {loading ? (
-          <div className="loader">Loading...</div>
+          <div className="p-4 d-flex justify-content-center align-items-center">
+            <Loader />
+          </div>
         ) : (
           // Show contest data once loaded
           <div className="my-2 table-list w-100" style={{ border: "none" }}>
@@ -92,7 +95,7 @@ const UpcomingContests = () => {
                               /[.\/]/g,
                               "_"
                             )}.png`}
-                            />
+                          />
                         </div>
                         <a
                           className="text-start"

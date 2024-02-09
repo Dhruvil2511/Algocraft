@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Loader from "../Loader.jsx";
 
 const Discussion = () => {
   const location = useLocation();
@@ -17,13 +18,14 @@ const Discussion = () => {
   const [isDataAvail, setIsDataAvail] = useState(true);
   const [typedTag, setTag] = useState("");
   const [tagList, setTags] = useState(new Set());
+  const [isLoading, setIsLoading] = useState(true);
 
   const perPage = 10;
   const fetchThreadList = async () => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get("category");
     setPath(path + category);
-
+    setIsLoading(true);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list", {
         params: {
@@ -47,7 +49,8 @@ const Discussion = () => {
       })
       .catch((error) => {
         console.error(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -355,59 +358,63 @@ const Discussion = () => {
           </button>
         </div>
       </div>
-      <div className="daddy my-4 w-100 d-flex  align-items-center">
-        <div className="my-2 table-list w-100" style={{ border: "none" }}>
-          {!isDataAvail ? (
-            <div className="p-5 d-flex justify-content-center align-items-center flex-column">
-              <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
-              <span className="fs-4">That's it for now!</span>
-            </div>
-          ) : null}
-          {threadList.map((thread) => (
-            <div className="row p-2" key={thread._id}>
-              <div className="question d-flex align-items-center justify-content-between">
-                <div className="d-flex justify-content-center align-items-center">
-                  <div className="number pfp">
-                    {thread.uploader.avatar ? (
-                      <img src={thread.uploader.avatar} alt="Avatar" />
-                    ) : (
-                      <i className="fa-solid fa-user "></i>
-                    )}
-                  </div>
+      <div className="daddy my-4 w-100 d-flex justify-content-center  align-items-center">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="my-2 table-list w-100" style={{ border: "none" }}>
+            {!isDataAvail ? (
+              <div className="p-5 d-flex justify-content-center align-items-center flex-column">
+                <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
+                <span className="fs-4">That's it for now!</span>
+              </div>
+            ) : null}
+            {threadList.map((thread) => (
+              <div className="row p-2" key={thread._id}>
+                <div className="question d-flex align-items-center justify-content-between">
+                  <div className="d-flex justify-content-center align-items-center">
+                    <div className="number pfp">
+                      {thread.uploader.avatar ? (
+                        <img src={thread.uploader.avatar} alt="Avatar" />
+                      ) : (
+                        <i className="fa-solid fa-user "></i>
+                      )}
+                    </div>
 
-                  <div className="title d-flex flex-column justify-content-center align-items-start">
-                    <a
-                      href={`/discussion/${thread.category}/${thread._id}`}
-                      className="thread-title text-start"
-                    >
-                      {thread.title}
-                    </a>
-                    <div className="dis-taglist d-flex justify-content-center align-items-center">
-                      <a href="#" className="username">
-                        {thread.uploader.username}
+                    <div className="title d-flex flex-column justify-content-center align-items-start">
+                      <a
+                        href={`/discussion/${thread.category}/${thread._id}`}
+                        className="thread-title text-start"
+                      >
+                        {thread.title}
                       </a>
-                      {thread.tags.map((tag, index) => (
-                        <span key={index} className="tags px-2">
-                          {tag}
-                        </span>
-                      ))}
+                      <div className="dis-taglist d-flex justify-content-center align-items-center">
+                        <a href="#" className="username">
+                          {thread.uploader.username}
+                        </a>
+                        {thread.tags.map((tag, index) => (
+                          <span key={index} className="tags px-2">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <div className="mark-complete px-2">
+                      <i className="fa-regular fa-circle-up "></i>
+                      <small className="px-2">{thread.upvotes?.length}</small>
+                    </div>
+                    <div className="mark-later px-2">
+                      <i className="fa-regular fa-eye "></i>
+                      <small className="px-2">{thread.views?.length}</small>
                     </div>
                   </div>
                 </div>
-                <div className="d-flex justify-content-center align-items-center">
-                  <div className="mark-complete px-2">
-                    <i className="fa-regular fa-circle-up "></i>
-                    <small className="px-2">{thread.upvotes?.length}</small>
-                  </div>
-                  <div className="mark-later px-2">
-                    <i className="fa-regular fa-eye "></i>
-                    <small className="px-2">{thread.views?.length}</small>
-                  </div>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
         <div className="prev">

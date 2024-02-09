@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./Landing.css";
 import { updateTheme } from "../../utils/updateTheme";
 
@@ -83,10 +83,7 @@ const Navigation = ({ user }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a
-                  className="nav-link mx-2 text-links"
-                  href="#features"
-                >
+                <a className="nav-link mx-2 text-links" href="#features">
                   Features
                 </a>
               </li>
