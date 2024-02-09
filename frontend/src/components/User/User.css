@@ -185,3 +185,40 @@
     background-color: #FFFF00;
     height: 1px;
 }
+.rounded-square-pfp {
+    border-radius: 16px;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.rounded-square-pfp img {
+    max-width: 100%;
+    /* Ensures the image doesn't exceed the container width */
+    max-height: 100%;
+    /* Ensures the image doesn't exceed the container height */
+    border-radius: 16px;
+}
+
+.icon-container {
+    position: relative;
+  }
+  
+  .edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .btn-list:hover .edit-icon {
+    opacity: 1;
+  }
+  

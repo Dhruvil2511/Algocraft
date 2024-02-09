@@ -8,6 +8,7 @@ import CodingIDE from "../Content/CodeEditor/CodingIDE";
 import DiscussionThread from "../Content/Discussion/DiscussionThread";
 import MobileOffcanvasNavbar from "../Content/Navigation/MobileOffcanvasNavbar";
 import Profile from "../User/Profile";
+import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -52,7 +53,9 @@ const Layout = ({ user }) => {
       path.startsWith("/discussion/miscellaneous/")
     )
       return <DiscussionThread />;
-    else if (userid) return <Profile userId={userid} />;
+    else if (path.includes(`${userid}/edit-profile`)) {
+      return <EditProfile user={user} />;
+    } else if (userid) return <Profile userId={userid} />;
   }
 
   function CheckDevice() {

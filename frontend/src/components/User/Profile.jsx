@@ -132,7 +132,6 @@ const Profile = ({ userId }) => {
         console.error(err);
       });
   }
-
   const removeSavedQuestion = async (questionId) => {
     if (!questionId || questionId.trim() === "") return;
 
