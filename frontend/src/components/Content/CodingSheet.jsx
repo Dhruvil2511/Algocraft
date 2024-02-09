@@ -26,9 +26,9 @@ const CodingSheet = () => {
   const [hardProgress, setHardProgress] = useState(0);
   const [sheetId, setSheetId] = useState();
   const [totalQuestions, setTotalQuestions] = useState();
-  const [easyCount, setEasyCount] = useState(0);
-  const [mediumCount, setMediumCount] = useState(0);
-  const [hardCount, setHardCount] = useState(0);
+  const [easySolved, setEasySolved] = useState(0);
+  const [mediumSolved, setMediumSolved] = useState(0);
+  const [hardSolved, setHardSolved] = useState(0);
   const [totalEasy, setTotalEasy] = useState(0);
   const [totalMedium, setTotalMedium] = useState(0);
   const [totalHard, setTotalHard] = useState(0);
@@ -111,26 +111,22 @@ const CodingSheet = () => {
   useEffect(() => {
     if (user && sheetId) {
       let count = 0;
+      let easyCount = 0;
+      let mediumCount = 0;
+      let hardCount = 0;
 
       for (const q of user.solvedQuestions) {
-        // console.log(q)
         if (q.questionFrom === sheetId) {
           count++;
-          if (q.difficulty === "Easy") {
-            if(isUnsolved){
-              setEasyCount(easyCount - 1)
-              setIsUnsolved(false);
-            }else{
-              setEasyCount(easyCount + 1);
-            }              
-          } else if (q.difficulty === "Medium") setMediumCount(mediumCount + 1);
-          else if (q.difficulty === "Hard") setHardCount(hardCount + 1);
+          if (q.difficulty === "Easy") easyCount++;
+          else if (q.difficulty === "Medium") mediumCount++;
+          else if (q.difficulty === "Hard") hardCount++;
         }
       }
-
-      if (count > 0 && totalQuestions > 0) {
-        setProgress(countProgress(count, totalQuestions));
-      }
+      setEasySolved(easyCount);
+      setMediumSolved(mediumCount);
+      setHardSolved(hardCount);
+      setProgress(countProgress(count, totalQuestions));
       setEasyProgress(countProgress(easyCount, totalEasy));
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
@@ -220,10 +216,7 @@ const CodingSheet = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
-
-          if (res.data.message === "unsave") setIsUnsolved(true);
-          else setIsUnsolved(false);
+          // console.log(res.data.
           fetchUser();
         }
       })
@@ -345,7 +338,7 @@ const CodingSheet = () => {
             >
               <div className="bars w-100">
                 <span>
-                  Easy &nbsp;&nbsp;&nbsp; <strong>{easyCount}</strong>/
+                  Easy &nbsp;&nbsp;&nbsp; <strong>{easySolved}</strong>/
                   {totalEasy}
                 </span>
                 <div
@@ -364,7 +357,7 @@ const CodingSheet = () => {
                   </div>
                 </div>
                 <span>
-                  Medium&nbsp;&nbsp;&nbsp; <strong>{mediumCount}</strong>/
+                  Medium&nbsp;&nbsp;&nbsp; <strong>{mediumSolved}</strong>/
                   {totalMedium}
                 </span>
                 <div
@@ -383,7 +376,7 @@ const CodingSheet = () => {
                   </div>
                 </div>
                 <span>
-                  Hard&nbsp;&nbsp;&nbsp; <strong>{hardCount}</strong>/
+                  Hard&nbsp;&nbsp;&nbsp; <strong>{hardSolved}</strong>/
                   {totalHard}
                 </span>
                 <div
