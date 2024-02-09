@@ -65,6 +65,9 @@ const getSheet = asyncHandler(async (req, res) => {
                 sheet_author: { $first: "$sheet_author" },
                 sheet_data: { $push: "$sheet_data" },
                 totalQuestions: { $first: "$totalQuestions" },
+                totalEasy: { $first: "$totalEasy" },
+                totalMedium: { $first: "$totalMedium" },
+                totalHard: { $first: "$totalHard" },
             },
         },
         {
@@ -74,6 +77,9 @@ const getSheet = asyncHandler(async (req, res) => {
                     $slice: ["$sheet_data", skip, limit],
                 },
                 totalQuestions: 1,
+                totalEasy: 1,
+                totalMedium: 1,
+                totalHard: 1,
             },
         },
     ]);

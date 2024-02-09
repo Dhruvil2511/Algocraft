@@ -21,8 +21,17 @@ const CodingSheet = () => {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState();
   const [progress, setProgress] = useState(0);
+  const [easyProgress, setEasyProgress] = useState(0);
+  const [mediumProgress, setMediumProgress] = useState(0);
+  const [hardProgress, setHardProgress] = useState(0);
   const [sheetId, setSheetId] = useState();
   const [totalQuestions, setTotalQuestions] = useState();
+  const [easyCount, setEasyCount] = useState(0);
+  const [mediumCount, setMediumCount] = useState(0);
+  const [hardCount, setHardCount] = useState(0);
+  const [totalEasy, setTotalEasy] = useState(0);
+  const [totalMedium, setTotalMedium] = useState(0);
+  const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
   const perPage = 50;
 
@@ -42,11 +51,18 @@ const CodingSheet = () => {
       })
       .then((res) => {
         if (res.status === 200) {
+          console.log(res.data.data);
           setIsDataAvail(true);
           setSheet(res.data.data?.sheet_data);
           setSheetId(res.data.data?._id);
           setTotalQuestions(res.data.data?.totalQuestions);
-          setProgress("");
+          setTotalEasy(res.data.data?.totalEasy);
+          setTotalMedium(res.data.data?.totalMedium);
+          setTotalHard(res.data.data?.totalHard);
+          setProgress(0);
+          setEasyProgress(0);
+          setMediumProgress(0);
+          setHardProgress(0);
         }
       })
       .catch((err) => {
@@ -79,7 +95,7 @@ const CodingSheet = () => {
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status]);
 
-   const data = [
+  const data = [
     ["Tag", "Questions"],
     ["Work", 11],
     ["Eat", 2],
@@ -87,17 +103,29 @@ const CodingSheet = () => {
     ["Watch TV", 2],
     ["Sleep", 7],
   ];
+
+  function countProgress(count, total) {
+    return Math.floor((count / total) * 100);
+  }
   useEffect(() => {
     if (user && sheetId) {
       let count = 0;
+
       for (const q of user.solvedQuestions) {
-        if (q.questionFrom === sheetId) count++;
+        if (q.questionFrom === sheetId) {
+          count++;
+          if (q.difficulty === "Easy") setEasyCount(easyCount + 1);
+          else if (q.difficulty === "Medium") setMediumCount(mediumCount + 1);
+          else if (q.difficulty === "Hard") setHardCount(hardCount + 1);
+        }
       }
+
       if (count > 0 && totalQuestions > 0) {
-        console.log(count, totalQuestions);
-        const prg = Math.floor((count / totalQuestions) * 100);
-        setProgress(prg);
+        setProgress(countProgress(count, totalQuestions));
       }
+      setEasyProgress(countProgress(easyCount, totalEasy));
+      setMediumProgress(countProgress(mediumCount, totalMedium));
+      setHardProgress(countProgress(hardCount, totalHard));
     }
   }, [sheetId, user]);
 
@@ -184,6 +212,7 @@ const CodingSheet = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          console.log(res.data.data);
           fetchUser();
         }
       })
@@ -294,26 +323,20 @@ const CodingSheet = () => {
             style={{ margin: "0" }}
             onClick={() => setAnalysisToggle(!analysisToggle)}
           >
-            Analysis <i class="fa-solid fa-chart-pie"></i>
+            Analysis <i className="fa-solid fa-chart-pie"></i>
           </button>
         </div>
         {analysisToggle ? (
-          <div className="daddy d-flex justify-content-center align-items-center my-4 visualization py-2">
-            <div className="d-flex w-50 p-3 justify-content-center align-items-center">
-              <Chart
-                chartType="PieChart"
-                data={data}
-                options={{
-                  title: "My Daily Activities",
-                  is3D: true,
-                }}
-                width={"100%"}
-                height={"400px"}
-              ></Chart>
-            </div>
-            <div className="d-flex w-50 p-3 justify-content-center align-items-center">
+          <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2">
+            <div
+              className="daddy d-flex  p-3 justify-content-center align-items-center"
+              style={{ width: "40%", border: "1px solid var(--mainTextColor)" }}
+            >
               <div className="bars w-100">
-                <span>Easy</span>
+                <span>
+                  Easy &nbsp;&nbsp;&nbsp; <strong>{easyCount}</strong>/
+                  {totalEasy}
+                </span>
                 <div
                   className="progress m-2"
                   role="progressbar"
@@ -324,10 +347,15 @@ const CodingSheet = () => {
                 >
                   <div
                     className="progress-bar bg-success"
-                    style={{ width: "25%" }}
-                  ></div>
+                    style={{ width: `${easyProgress}%` }}
+                  >
+                    {easyProgress}%
+                  </div>
                 </div>
-                <span>Medium</span>
+                <span>
+                  Medium&nbsp;&nbsp;&nbsp; <strong>{mediumCount}</strong>/
+                  {totalMedium}
+                </span>
                 <div
                   className="progress m-2"
                   role="progressbar"
@@ -338,10 +366,15 @@ const CodingSheet = () => {
                 >
                   <div
                     className="progress-bar bg-warning"
-                    style={{ width: "75%" }}
-                  ></div>
+                    style={{ width: `${mediumProgress}%` }}
+                  >
+                    {mediumProgress}%
+                  </div>
                 </div>
-                <span>Hard</span>
+                <span>
+                  Hard&nbsp;&nbsp;&nbsp; <strong>{hardCount}</strong>/
+                  {totalHard}
+                </span>
                 <div
                   className="progress m-2"
                   role="progressbar"
@@ -352,10 +385,27 @@ const CodingSheet = () => {
                 >
                   <div
                     className="progress-bar bg-danger"
-                    style={{ width: "100%" }}
-                  ></div>
+                    style={{ width: `${hardProgress}%` }}
+                  >
+                    {hardProgress}%
+                  </div>
                 </div>
               </div>
+            </div>
+            <div
+              className="    d-flex  p-3 justify-content-center align-items-center"
+              style={{ width: "40%" }}
+            >
+              <Chart
+                chartType="PieChart"
+                data={data}
+                options={{
+                  title: "My Daily Activities",
+                  is3D: true,
+                }}
+                width={"100%"}
+                height={"400px"}
+              ></Chart>
             </div>
           </div>
         ) : null}
@@ -524,7 +574,7 @@ const CodingSheet = () => {
                 onClick={() => removeSelectTag(index)}
               >
                 {" "}
-                <i class="fa-solid fa-xmark"></i>{" "}
+                <i className="fa-solid fa-xmark"></i>{" "}
               </button>
             </div>
           ))}
