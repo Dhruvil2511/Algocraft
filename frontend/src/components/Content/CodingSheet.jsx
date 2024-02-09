@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { allTags } from "../../constants/allTags.js";
-import { Chart } from "react-google-charts";
+
+import { Chart } from "chart.js/auto";
+import {Pie} from "react-chartjs-2";
 
 const CodingSheet = () => {
   const { author } = useParams();
@@ -33,7 +35,6 @@ const CodingSheet = () => {
   const [totalMedium, setTotalMedium] = useState(0);
   const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
-  const [isUnsolved, setIsUnsolved] = useState(false);
   const perPage = 50;
 
   const fetchQuestions = async () => {
@@ -96,14 +97,20 @@ const CodingSheet = () => {
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status]);
 
-  const data = [
-    ["Tag", "Questions"],
-    ["Work", 11],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7],
-  ];
+  const labels = ["January", "February", "March", "April", "May", "June"];
+
+  // Defined an object.
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "My First dataset",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(0,0,255)",
+        data: [0, 10, 5, 2, 20, 30, 45],
+      },
+    ],
+  };
 
   function countProgress(count, total) {
     return Math.floor((count / total) * 100);
@@ -400,16 +407,7 @@ const CodingSheet = () => {
               className="    d-flex  p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
-              <Chart
-                chartType="PieChart"
-                data={data}
-                options={{
-                  title: "My Daily Activities",
-                  is3D: true,
-                }}
-                width={"100%"}
-                height={"400px"}
-              ></Chart>
+              <Pie data={data} />
             </div>
           </div>
         ) : null}

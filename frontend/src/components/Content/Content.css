@@ -80,6 +80,10 @@
     font-weight: bold;
     padding: 5px;
 }
+text{
+    fill: var(--mainTextColor) !important  ;
+}
+
 
 .title {
     margin-left: 10px;
