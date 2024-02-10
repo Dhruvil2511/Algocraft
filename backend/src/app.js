@@ -12,7 +12,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // to encode the url with its param
+app.use(express.urlencoded({ extended: true, limit: "10mb" })); // to encode the url with its param
 app.use(express.static("public")); // to serve static files
 app.use(cookieParser());
 

@@ -5,7 +5,6 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import joi from "joi";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 const cookieOptions = {
     // added this so that cookie can only be modified by server and not client
@@ -233,43 +232,42 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-    const { fullName, username, location, githubLink, linkedinLink } = req.body;
+    const update = {};
 
+    const { fullname, username, location, github, linkedin } = req.body;
+
+    if (fullname) update.fullname = fullname;
+    if (username) update.username = username;
+    if (location) update.location = location;
+    if (github) update.github = github;
+    if (linkedin) update.linkedin = linkedin;
+
+    console.log("update data", update);
     const usernameExists = await User.findOne({ username: username });
     if (usernameExists) {
         return res.status(400).json(new ApiError(400, "username is taken", "username is taken"));
     }
-    const user = await User.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $setOnInsert: {
-                fullName: fullName,
-                username: username,
-                email: email,
-                location: location,
-                githubLink: githubLink,
-                linkedinLink: linkedinLink,
-            },
-        },
-        { new: true }
-    ).select("-password");
 
+    const user = await User.findByIdAndUpdate(req.user?._id, update, { new: true }).select("-password");
+
+    // console.log(user);
     return res.status(200).json(new ApiResponse(200, user, "User details updated successfully!"));
 });
 const updateAvatar = asyncHandler(async (req, res) => {
+    // return res.json(req.body);
     const avatarLocalPath = req.file?.path;
-
+    console.log(req.file)
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar is missing", "Avatar is missing");
     }
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-
+    console.log(avatar)
     if (!avatar.url) throw new ApiError(404, "Error", "Error while uploading Avatar");
 
-    const user = await User.findByIdAndUpdate(req.user._id, { $set: { avatar: avatar.url } }, { new: true }).select(
+    const user = await User.findByIdAndUpdate(req.user?._id, { $set: { avatar: avatar.url } }, { new: true }).select(
         "-password"
     );
-
+    
     return res.status(200).json(new ApiResponse(200, user, "Avatar updated successfully"));
 });
 
@@ -376,6 +374,17 @@ const getUserSolvedQuestions = asyncHandler(async (req, res) => {
     }
 });
 
+
+const deleteAccount = asyncHandler(async(req,res)=>{
+
+    const userId = req.user?._id;
+
+    if(!userId) return res.status(401).json(new ApiError(401,"error","Error  userId not found"));
+
+    await User.findByIdAndDelete(userId);
+
+    return res.status(200).json(new ApiResponse(200,{},"Account deleted successfully"))
+});
 export {
     registerUser,
     loginUser,
@@ -390,4 +399,5 @@ export {
     getUserCreatedThreads,
     getUserSavedQuestions,
     getUserSolvedQuestions,
+    deleteAccount
 };

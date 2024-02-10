@@ -223,7 +223,7 @@ const Profile = ({ userId }) => {
                     </div>
                     <div className="detail d-flex justify-content-center align-items-center">
                       <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
-                        <span className="text-end w-100">{user?.fullName}</span>
+                        <span className="text-end w-100">{user?.fullname}</span>
                         <span className="text-end w-100 ">
                           @{user?.username}
                         </span>

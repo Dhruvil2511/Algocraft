@@ -41,7 +41,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home user={user} />} />
           <Route path="/:userid" element={<Layout user={user} />} />
-          <Route path="/:userid/edit-profile" element={<Layout user={user} />} />
+          <Route path="/edit-profile" element={<Layout user={user} />} />
 
           <Route path="/login" element={<Authentication />} />
           <Route path="/logout" element={<Logout />} />

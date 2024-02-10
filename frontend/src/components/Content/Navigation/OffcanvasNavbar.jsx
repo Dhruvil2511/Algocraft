@@ -180,7 +180,7 @@ const OffcanvasNavbar = ({user}) => {
             <li>
               <a
                 className="dropdown-item"
-                href={`${user?.username}/edit-profile`}
+                href={`/edit-profile`}
               >
                 Edit
               </a>

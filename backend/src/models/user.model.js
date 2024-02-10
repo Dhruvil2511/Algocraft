@@ -35,10 +35,10 @@ const userSchema = new Schema(
         location: {
             type: String,
         },
-        githubLink: {
+        github: {
             type: String,
         },
-        linkedinLink: {
+        linkedin: {
             type: String,
         },
         bookmarkedQuestions: [

@@ -53,7 +53,7 @@ const Layout = ({ user }) => {
       path.startsWith("/discussion/miscellaneous/")
     )
       return <DiscussionThread />;
-    else if (path.includes(`${userid}/edit-profile`)) {
+    else if (path.includes(`/edit-profile`)) {
       return <EditProfile user={user} />;
     } else if (userid) return <Profile userId={userid} />;
   }
@@ -96,6 +96,7 @@ const Layout = ({ user }) => {
     <>
       {isVisible && (
         <button
+        className="scroller"
           onClick={scrollToTop}
           style={{
             display: "flex",

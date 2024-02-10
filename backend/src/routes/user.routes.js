@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
     changePassword,
+    deleteAccount,
     getCurrentUser,
     getUserCreatedThreads,
     getUserProfile,
@@ -34,5 +35,5 @@ router.route("/get-saved-threads").get(verifyJWT, getUserSavedThread);
 router.route("/get-created-threads").get(verifyJWT, getUserCreatedThreads);
 router.route("/get-saved-questions").get(verifyJWT, getUserSavedQuestions);
 router.route("/get-solved-questions").get(verifyJWT, getUserSolvedQuestions);
-
+router.route("/delete-account").delete(verifyJWT,deleteAccount);
 export default router;
