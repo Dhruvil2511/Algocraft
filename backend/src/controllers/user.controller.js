@@ -264,7 +264,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
     console.log(avatar)
     if (!avatar.url) throw new ApiError(404, "Error", "Error while uploading Avatar");
 
-    const user = await User.findByIdAndUpdate(req.user?._id, { $set: { avatar: avatar.url } }, { new: true }).select(
+    const user = await User.findByIdAndUpdate(req.user?._id, { $set: { avatar: avatar.eager[0].url } }, { new: true }).select(
         "-password"
     );
     
@@ -309,7 +309,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
         },
         {
             $project: {
-                fullName: 1,
+                fullname: 1,
                 username: 1,
                 location: 1,
                 github: 1,

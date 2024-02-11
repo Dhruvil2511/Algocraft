@@ -223,6 +223,7 @@ const Profile = ({ userId }) => {
                     </div>
                     <div className="detail d-flex justify-content-center align-items-center">
                       <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
+                        {/* {console.log(user)} */}
                         <span className="text-end w-100">{user?.fullname}</span>
                         <span className="text-end w-100 ">
                           @{user?.username}
@@ -230,7 +231,11 @@ const Profile = ({ userId }) => {
                       </div>
                       <div className="rounded-square-pfp m-1">
                         {user?.avatar ? (
-                          <img src={user.avatar} alt="Avatar" />
+                          <img
+                            src={user.avatar}
+                            alt="Avatar"
+                            style={{ width: "80px", height: "80px" }}
+                          />
                         ) : (
                           <i className="fa-solid fa-user fa-xl"></i>
                         )}

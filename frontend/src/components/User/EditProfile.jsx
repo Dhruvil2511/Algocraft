@@ -174,7 +174,7 @@ const EditProfile = ({ user }) => {
                     height: "150px",
                     width: "150px",
                   }}
-                                  >
+                >
                   <input
                     accept="image/*"
                     style={{ display: "none" }}
@@ -194,6 +194,7 @@ const EditProfile = ({ user }) => {
                         <img
                           src={previewUrl ? previewUrl : user?.avatar}
                           alt="Avatar"
+                          style={{ width: "150px", height: "150px" }}
                         />
                       ) : (
                         <div className="gola">

@@ -12,14 +12,12 @@ async function uploadOnCloudinary(localPath) {
         if (!localPath) return null;
         //upload file
         const response = await cloudinary.uploader.upload(localPath, {
-            eager: [
-                { width: 150, height: 150, crop: "thumb", gravity: "auto:face", zoom: "0.7", fetch_format: "auto" },
-            ],
+            eager: [{ width: 460, height: 460, crop: "thumb", zoom: "1", fetch_format: "auto" }],
             resource_type: "image",
         });
 
         return response;
-    } catch (error) {
+    } catch (error) { 
         console.error("Error uploading file on cloud", error);
     } finally {
         fs.unlinkSync(localPath);

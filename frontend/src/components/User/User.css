@@ -186,9 +186,7 @@
     height: 1px;
 }
 .rounded-square-pfp {
-    border-radius: 16px;
-    /* width: 80px;
-    height: 80px; */
+    border-radius: 16px;    
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -198,8 +196,7 @@
 
 
 .rounded-square-pfp img {
-    width:80px;
-    height: auto;
+
     max-width: 100%;
     /* transform: translate(-50%, -50%);  */
     /* Ensures the image doesn't exceed the container width */
