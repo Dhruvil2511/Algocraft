@@ -62,7 +62,7 @@ const Discussion = () => {
           theme: "dark",
           transition: Bounce,
         });
-        console.error(error);
+        console.error(err);
       })
       .finally(() => setIsLoading(false));
   };
