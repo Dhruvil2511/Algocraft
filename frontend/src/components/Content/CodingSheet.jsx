@@ -101,7 +101,19 @@ const CodingSheet = () => {
         }
       })
       .catch((err) => {
-        console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       });
   };
   useEffect(() => {

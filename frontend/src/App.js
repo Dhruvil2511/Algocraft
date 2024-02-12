@@ -56,7 +56,7 @@ function App() {
             position: "fixed",
             top: 0,
             left: 0,
-            width: "100%",
+            width: "110%",
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent black
             zIndex: 9999, // higher z-index to ensure it's above other elements

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "./Loader.jsx";
+import {toast,Bounce} from "react-toastify"
 const UpcomingContests = () => {
   const [contestData, setContestData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,17 @@ const UpcomingContests = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error fetching data from db");
+      toast("Error fetching data from db", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
       setLoading(false);
     } finally {
       setLoading(false);

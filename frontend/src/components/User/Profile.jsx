@@ -4,7 +4,7 @@ import axios from "axios";
 import Loader from "../Content/Loader";
 import Lottie from "lottie-react";
 import notfound from "../../assets/animations/notfound.json";
-
+import {toast,Bounce} from "react-toastify"
 const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
@@ -32,6 +32,19 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         setUser({});
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setIsLoading(false));
   };
@@ -74,6 +87,19 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setIsListLoading(false));
   }
@@ -92,6 +118,19 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setIsListLoading(false));
   }
@@ -113,6 +152,19 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setIsListLoading(false));
   }
@@ -139,6 +191,19 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setIsListLoading(false));
   }
@@ -158,7 +223,21 @@ const Profile = ({ userId }) => {
           }
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
   };
   const removeSolvedQuestion = async (questionId) => {
     if (!questionId || questionId.trim() === "") return;
@@ -194,7 +273,21 @@ const Profile = ({ userId }) => {
           }
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
   };
   const removeCreatedThread = async (threadId) => {
     await axios
@@ -207,7 +300,21 @@ const Profile = ({ userId }) => {
           getCreatedThreads();
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
   };
 
   return (

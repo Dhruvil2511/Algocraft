@@ -11,6 +11,7 @@ import Profile from "../User/Profile";
 import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {toast,Bounce} from "react-toastify"
 
 const Layout = ({ user }) => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
@@ -32,6 +33,18 @@ const Layout = ({ user }) => {
           );
           setUser(response.data.data.user);
         } catch (error) {
+          
+          toast("Error fetching user data:", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
           console.error("Error fetching user data:", error);
         }
       };

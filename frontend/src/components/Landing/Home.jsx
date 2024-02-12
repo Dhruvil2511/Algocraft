@@ -7,6 +7,7 @@ import Typewriter from "typewriter-effect";
 import { Fade } from "react-reveal";
 import { Navigation } from "./Navigation";
 import axios from "axios";
+import {toast,Bounce} from "react-toastify"
 
 const Home = ({ user }) => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,19 @@ const Home = ({ user }) => {
         if (res.status === 200) alert("email subbed");
       })
       .catch((err) => {
-        if (err.response.status === 400) alert("email already subbed");
+        if (err.response.status === 400) {
+          toast("Email already subbed", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+        }
       });
     setEmail("");
   }

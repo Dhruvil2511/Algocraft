@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../Content/Loader.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import { toast, Bounce } from "react-toastify";
 const EditProfile = ({ user }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -73,9 +73,22 @@ const EditProfile = ({ user }) => {
           setEditedField("");
           setFocusedField("");
         })
-        .catch((error) => {
+        .catch((err) => {
           // Handle error
-          console.error("Error updating field:", error);
+          const { status, userMessage } = err.response.data;
+          // console.log(userMessage)
+          toast(userMessage, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+          console.error("Error updating field:", err);
         });
     } else {
       // No field was edited, so do nothing
@@ -111,6 +124,19 @@ const EditProfile = ({ user }) => {
         }
       })
       .then((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.error(
           "error deleting account try again later or contact adming"
         );
@@ -149,7 +175,19 @@ const EditProfile = ({ user }) => {
         }
       })
       .catch((err) => {
-        console.error(err);
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => {
         document.querySelector(".save_cancel").style.display = "none";

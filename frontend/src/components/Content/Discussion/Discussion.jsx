@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Loader from "../Loader.jsx";
+import {toast,Bounce} from "react-toastify"
 
 const Discussion = () => {
   const location = useLocation();
@@ -47,7 +48,20 @@ const Discussion = () => {
           }
         }
       })
-      .catch((error) => {
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.error(error);
       })
       .finally(() => setIsLoading(false));
@@ -111,7 +125,20 @@ const Discussion = () => {
           window.location.href = `/discussion/${threadDetail.category}/${threadDetail._id}`;
         }
       })
-      .catch((error) => {
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.error("Error posting data to server");
       });
   }
