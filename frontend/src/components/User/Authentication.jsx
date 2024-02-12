@@ -3,15 +3,14 @@ import './User.css';
 import Login from '../User/Login.jsx';
 import Register from '../User/Register.jsx';
 
-function CheckPath() {
-    if (window.location.pathname === '/register') {
-        return <Register />;
-    } else if (window.location.pathname === '/login') {
-        return <Login />;
+const Authentication = ({user}) => {
+    function CheckPath() {
+        if (window.location.pathname === '/register') {
+            return <Register user={user} />;
+        } else if (window.location.pathname === '/login') {
+            return <Login user={user}/>;
+        }
     }
-}
-
-const Authentication = () => {
     return (
 
         <div className="parent">

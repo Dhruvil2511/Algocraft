@@ -88,15 +88,31 @@ const Navigation = ({ user }) => {
                 </a>
               </li>
               <li className="nav-item">
+                <a className="nav-link mx-2 text-links" href="#">
+                  About project
+                </a>
+              </li>
+              <li className="nav-item">
                 {user ? (
                   <a href={`/${user.username}`}>
-                    <img
-                      src={`${user.avatar}`}
-                      alt="X"
-                      width="32"
-                      height="32"
-                      className="rounded-circle m-2"
-                    />
+                    {user?.avatar ? (
+                      <img
+                        src={`${user?.avatar}`}
+                        alt=""
+                        width="32"
+                        height="32"
+                        className="rounded-circle me-2"
+                      />
+                    ) : (
+                      <>
+                        {" "}
+                        <div className="d-flex flex-column align-items-center justify-content-center">
+                          <div className="gola">
+                            <i className="default-icon fa-solid fa-user fa-xl"></i>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </a>
                 ) : (
                   <a href="/login" className="nav-link mx-2 text-links">

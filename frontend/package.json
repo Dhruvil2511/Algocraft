@@ -30,7 +30,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "react-split": "^2.0.14",
-    "react-toastify": "^10.0.3",
+    "react-toastify": "^10.0.4",
     "typewriter-effect": "^2.21.0",
     "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"

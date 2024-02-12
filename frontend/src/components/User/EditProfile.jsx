@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../Content/Loader.jsx";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const EditProfile = ({ user }) => {
   const [formData, setFormData] = useState({
@@ -104,6 +105,8 @@ const EditProfile = ({ user }) => {
       })
       .catch((res) => {
         if (res.status === 200) {
+          Cookies.remove("accessToken");
+          Cookies.remove("refreshToken");
           window.location.href = "/";
         }
       })
@@ -190,6 +193,7 @@ const EditProfile = ({ user }) => {
                   >
                     <div className="icon-container">
                       <i className="edit-icon fa-solid fa-square-pen fa-2xl"></i>
+                      {console.log(user)}
                       {user?.avatar ? (
                         <img
                           src={previewUrl ? previewUrl : user?.avatar}
@@ -197,9 +201,15 @@ const EditProfile = ({ user }) => {
                           style={{ width: "150px", height: "150px" }}
                         />
                       ) : (
-                        <div className="gola">
-                          <i className="default-icon fa-solid fa-user fa-xl"></i>
-                          Click here to upload avatar
+                        <div className="d-flex flex-column align-items-center justify-content-center">
+                          {" "}
+                          <div className="gola">
+                            <i className="default-icon fa-solid fa-user fa-xl"></i>
+                          </div>
+                          <div className="fs-6">
+                            {" "}
+                            Click here to upload avatar{" "}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -530,8 +540,11 @@ const EditProfile = ({ user }) => {
               aria-labelledby="deleteModalLabel"
               aria-hidden="true"
             >
-              <div className="modal-dialog">
-                <div className="modal-content">
+              <div className="modal-dialog modal-dialog-centered">
+                <div
+                  className="modal-content"
+                  style={{ backgroundColor: "var(--secondaryColor)" }}
+                >
                   <div className="modal-header">
                     <h1
                       className="modal-title text-danger fs-5"
@@ -548,7 +561,10 @@ const EditProfile = ({ user }) => {
                       <i className="fa-solid fa-xmark"></i>
                     </button>
                   </div>
-                  <div className="modal-body">
+                  <div
+                    className="modal-body"
+                    style={{ color: "var(--mainTextColor)" }}
+                  >
                     Do you really want to delete your account? <br />
                     Don't you want help cracking interviews??
                   </div>
@@ -558,14 +574,14 @@ const EditProfile = ({ user }) => {
                       className="options bg-primary"
                       data-bs-dismiss="modal"
                     >
-                      NO!
+                      <i className="fa-solid fa-face-smile-beam"></i> NO!
                     </button>
                     <button
                       type="button"
                       onClick={handleDeleteAccount}
                       className="options bg-danger"
                     >
-                      Confirm
+                      <i className="fa-solid fa-face-frown"></i> Confirm
                     </button>
                   </div>
                 </div>

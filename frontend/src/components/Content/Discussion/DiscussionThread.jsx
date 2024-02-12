@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader.jsx";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 const DiscussionThread = () => {
   const { id } = useParams();
   const [thread, setThread] = useState({});
@@ -45,7 +46,18 @@ const DiscussionThread = () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching data from db");
+        toast("Error fetching data from db", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+        // console.error("Error fetching data from db");
       })
       .finally(() => setIsLoading(false));
   };
@@ -73,6 +85,17 @@ const DiscussionThread = () => {
         }
       })
       .catch((err) => {
+        toast("Error upvoting thread", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.log(err);
       });
   }
@@ -100,6 +123,17 @@ const DiscussionThread = () => {
         }
       })
       .catch((err) => {
+        toast("Error posting comment", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.error(err);
       });
   }
@@ -128,6 +162,17 @@ const DiscussionThread = () => {
         }
       })
       .catch((err) => {
+        toast("Error posting reply", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.error(err);
       });
   }
@@ -156,7 +201,17 @@ const DiscussionThread = () => {
         }
       })
       .catch((err) => {
-        console.error(err);
+        toast("Error while replying", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .finally(() => setRepliesLoading(false));
   }
@@ -177,6 +232,17 @@ const DiscussionThread = () => {
       })
       .catch((err) => {
         console.error(err);
+        toast("Error saving thread", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       });
   }
 
@@ -186,7 +252,17 @@ const DiscussionThread = () => {
     navigator.clipboard
       .writeText(currentUrl)
       .then(() => {
-        console.log("URL copied to clipboard successfully:", currentUrl);
+        toast("Link copied to clipboard", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       })
       .catch((error) => {
         console.error("Failed to copy URL to clipboard:", error);

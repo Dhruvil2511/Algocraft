@@ -48,13 +48,24 @@ const MobileOffcanvasNavbar = ({ user }) => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <img
-                src={`${user?.avatar}`}
-                alt=""
-                width="32"
-                height="32"
-                className="rounded-circle me-2"
-              />
+              {user?.avatar ? (
+                <img
+                  src={`${user?.avatar}`}
+                  alt=""
+                  width="32"
+                  height="32"
+                  className="rounded-circle me-2"
+                />
+              ) : (
+                <>
+                  {" "}
+                  <div className="d-flex flex-column align-items-center justify-content-center">
+                    <div className="gola">
+                      <i className="default-icon fa-solid fa-user fa-xl"></i>
+                    </div>
+                  </div>
+                </>
+              )}
             </a>
             <ul
               className="pfp-menu dropdown-menu dropdown-menu-dark text-small shadow"

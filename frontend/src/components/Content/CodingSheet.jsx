@@ -7,7 +7,7 @@ import { allTags } from "../../constants/allTags.js";
 import { Chart } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
 import Loader from "./Loader.jsx";
-
+import {toast,Bounce} from "react-toastify"
 const CodingSheet = () => {
   const { author } = useParams();
   const { pathname } = useLocation();
@@ -71,6 +71,17 @@ const CodingSheet = () => {
         }
       })
       .catch((err) => {
+        toast("Server error fetching questions", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         setIsDataAvail(false);
         setSheet([]);
         console.error(err);
@@ -242,7 +253,20 @@ const CodingSheet = () => {
           fetchUser();
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        toast("Error saving question", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+        console.error(err);
+      });
   };
   const markQuestion = async (questionId) => {
     if (!questionId || questionId.trim() === "") return;
@@ -255,11 +279,22 @@ const CodingSheet = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.
           fetchUser();
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        toast("Error marking question", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
   };
 
   function handlePickQuestion() {
@@ -620,8 +655,8 @@ const CodingSheet = () => {
         <div className="daddy my-4 w-100 d-flex justify-content-center  align-items-center">
           {isLoading ? (
             <div className="p-4 d-flex justify-content-center align-items-center">
-            <Loader />
-          </div>
+              <Loader />
+            </div>
           ) : (
             <div className="my-2 table-list w-100" style={{ border: "none" }}>
               {!isDataAvail ? (
@@ -717,8 +752,8 @@ const CodingSheet = () => {
         <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
           <div className="prev">
             <button
-              className="btn btn-outline"
-              style={{ backgroundColor: "#0D6EFD" }}
+              className="btn-list "
+              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
               onClick={() => getPrevPage()}
             >
               <i className="fa-solid fa-arrow-left"></i>Prev
@@ -730,8 +765,8 @@ const CodingSheet = () => {
           </div>
           <div className="next">
             <button
-              className="btn btn-outline"
-              style={{ backgroundColor: "#0D6EFD" }}
+              className="btn-list"
+              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
               onClick={() => getNextPage()}
             >
               Next<i className="fa-solid fa-arrow-right"></i>

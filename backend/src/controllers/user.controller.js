@@ -33,8 +33,19 @@ const registerUser = asyncHandler(async (req, res) => {
     // check for user creation
     // return response
 
-    const { email, password, username } = req.body;
-    console.log(email, password, username);
+    const { email, password, username, confirmpassword } = req.body;
+    console.log(email, password, username, confirmpassword);
+
+    if (password !== confirmpassword)
+        return res.status(401).json(
+            new ApiError({
+                statusCode: 401,
+                message: "password doesn't match",
+                userMessage: "password and confirm password doesn't match",
+                errors: error,
+                stack: process.env.NODE_ENV === "production" ? "🙊" : error.stack,
+            })
+        );
 
     const { error } = registrationSchema.validate({
         username,
@@ -43,9 +54,9 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (error) {
-        return res.status(400).json(
+        return res.status(401).json(
             new ApiError({
-                statusCode: 400,
+                statusCode: 401,
                 message: error.message,
                 userMessage: error.message,
                 errors: error,
@@ -60,9 +71,9 @@ const registerUser = asyncHandler(async (req, res) => {
         if (existingUser.email === email) errorMessage = "Email is already registered.";
         else if (existingUser.username === username) errorMessage = "Username is already taken.";
 
-        return res.status(400).json(
+        return res.status(401).json(
             new ApiError({
-                statusCode: 400,
+                statusCode: 401,
                 message: errorMessage,
                 userMessage: errorMessage,
                 errors: error,
@@ -91,7 +102,7 @@ const registerUser = asyncHandler(async (req, res) => {
         );
     }
 
-    return res.status(201).json(new ApiResponse(200, createdUser, "User registered succesfully."));
+    return res.status(201).json(new ApiResponse(201, createdUser, "User registered succesfully."));
 });
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -146,15 +157,15 @@ const loginUser = asyncHandler(async (req, res) => {
     const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {
-        return res.status(400).json(
-            new ApiError({
-                statusCode: 404,
+        return res.status(401).json({
+            error: new ApiError({
+                statusCode: 401,
                 message: "Password is incorrect!",
                 userMessage: "Invalid user credentials",
                 errors: error,
                 stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
-            })
-        );
+            }),
+        });
     }
     console.log(user._id);
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
@@ -256,18 +267,20 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateAvatar = asyncHandler(async (req, res) => {
     // return res.json(req.body);
     const avatarLocalPath = req.file?.path;
-    console.log(req.file)
+    console.log(req.file);
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar is missing", "Avatar is missing");
     }
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-    console.log(avatar)
+    console.log(avatar);
     if (!avatar.url) throw new ApiError(404, "Error", "Error while uploading Avatar");
 
-    const user = await User.findByIdAndUpdate(req.user?._id, { $set: { avatar: avatar.eager[0].url } }, { new: true }).select(
-        "-password"
-    );
-    
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        { $set: { avatar: avatar.eager[0].url } },
+        { new: true }
+    ).select("-password");
+
     return res.status(200).json(new ApiResponse(200, user, "Avatar updated successfully"));
 });
 
@@ -374,16 +387,14 @@ const getUserSolvedQuestions = asyncHandler(async (req, res) => {
     }
 });
 
-
-const deleteAccount = asyncHandler(async(req,res)=>{
-
+const deleteAccount = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
 
-    if(!userId) return res.status(401).json(new ApiError(401,"error","Error  userId not found"));
+    if (!userId) return res.status(401).json(new ApiError(401, "error", "Error  userId not found"));
 
     await User.findByIdAndDelete(userId);
 
-    return res.status(200).json(new ApiResponse(200,{},"Account deleted successfully"))
+    return res.status(200).json(new ApiResponse(200, {}, "Account deleted successfully"));
 });
 export {
     registerUser,
@@ -399,5 +410,5 @@ export {
     getUserCreatedThreads,
     getUserSavedQuestions,
     getUserSolvedQuestions,
-    deleteAccount
+    deleteAccount,
 };
