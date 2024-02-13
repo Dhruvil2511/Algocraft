@@ -471,29 +471,29 @@ const Discussion = () => {
         )}
       </div>
       <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
-          <div className="prev">
-            <button
-              className="btn-list "
-              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
-              onClick={() => getPrevPage()}
-            >
-              <i className="fa-solid fa-arrow-left"></i>Prev
-            </button>
-          </div>
-          <div className="text d-flex justify-content-center align-items-center">
-            {currentPage}
-            {/* <input type="text" style={{width:"20px"}} /> {190/perPage} */}
-          </div>
-          <div className="next">
-            <button
-              className="btn-list"
-              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
-              onClick={() => getNextPage()}
-            >
-              Next<i className="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
+        <div className="prev">
+          <button
+            className="btn-list "
+            style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
+            onClick={() => getPrevPage()}
+          >
+            <i className="fa-solid fa-arrow-left"></i>Prev
+          </button>
         </div>
+        <div className="text d-flex justify-content-center align-items-center">
+          {currentPage}
+          {/* <input type="text" style={{width:"20px"}} /> {190/perPage} */}
+        </div>
+        <div className="next">
+          <button
+            className="btn-list"
+            style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
+            onClick={() => getNextPage()}
+          >
+            Next<i className="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

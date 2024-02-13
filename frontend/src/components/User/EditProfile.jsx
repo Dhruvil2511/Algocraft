@@ -23,6 +23,7 @@ const EditProfile = ({ user }) => {
   const [editedField, setEditedField] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [userUpdating, setUserUpdating] = useState(false);
 
   useEffect(() => {
     setFormData({
@@ -44,12 +45,8 @@ const EditProfile = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Get the edited field name from the hidden field
-    // const editedField = document.getElementById("editedField").value;
-    // console.log(editedField, formData[editedField]);
-    // If a field was edited, create an object with only the edited field
     if (editedField.trim() !== "") {
+      setUserUpdating(true);
       const updatedData = {
         [editedField]: formData[editedField],
       };
@@ -89,6 +86,9 @@ const EditProfile = ({ user }) => {
             transition: Bounce,
           });
           console.error("Error updating field:", err);
+        })
+        .finally(() => {
+          setUserUpdating(false);
         });
     } else {
       // No field was edited, so do nothing
@@ -112,6 +112,7 @@ const EditProfile = ({ user }) => {
   };
 
   async function handleDeleteAccount() {
+    setUserUpdating(true);
     await axios
       .delete(process.env.REACT_APP_BASE_URL + "/api/v1/users/delete-account", {
         withCredentials: true,
@@ -140,6 +141,9 @@ const EditProfile = ({ user }) => {
         console.error(
           "error deleting account try again later or contact adming"
         );
+      })
+      .finally(() => {
+        setUserUpdating(false);
       });
   }
 
@@ -154,11 +158,12 @@ const EditProfile = ({ user }) => {
   };
   async function handleAvatarUpload(event) {
     event.preventDefault();
-    // console.log(avatar);
     if (!avatar) {
       alert("Please select a file.");
       return;
     }
+    document.querySelector(".save_cancel").style.display = "none";
+    setUserUpdating(true);
     const formData = new FormData();
     formData.append("avatar", avatar);
 
@@ -190,11 +195,32 @@ const EditProfile = ({ user }) => {
         });
       })
       .finally(() => {
+        setUserUpdating(false);
         document.querySelector(".save_cancel").style.display = "none";
       });
   }
   return (
     <>
+      {userUpdating && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent black
+            zIndex: 9999, // higher z-index to ensure it's above other elements
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="spinner-grow text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
       {isLoading ? (
         <div className="p-4 d-flex justify-content-center align-items-center">
           <Loader />
