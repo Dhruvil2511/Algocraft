@@ -7,9 +7,6 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <App />
-  // <UserProvider>
-  //   {/* Wrap your entire app with UserProvider */}
-  // </UserProvider>
 
   // <React.StrictMode>
   // </React.StrictMode>

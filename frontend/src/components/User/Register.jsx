@@ -64,8 +64,20 @@ const Register = ({ user }) => {
   }
   return (
     <>
-      {" "}
-      <form className="form mt-2" onSubmit={handleFormSubmit}>
+      <div className="parent">
+            <a href="/"><i className="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
+
+            <div className="leftpart-auth">
+                <div className='my-3 d-flex justify-content-center align-items-center flex-column'>
+                    <div className="icon">
+                        <i className="fa-solid fa-code fa-2xl" style={{ color: '#000000' }}></i>
+                    </div>
+                    <h1 className='text-center'>Algocraft</h1>
+                </div>
+            </div>
+            <div className="rightpart-auth flex-column">
+                <h3 className='text-decoration-underline'>Create an Account or login</h3>
+                  <form className="form mt-2" onSubmit={handleFormSubmit}>
         <div className="flex-column">
           <label>Email </label>
         </div>
@@ -218,6 +230,9 @@ C318.115,0,375.068,22.126,419.404,58.936z"
           </button>
         </div>
       </form>
+            </div>
+        </div>
+  
     </>
   );
 };

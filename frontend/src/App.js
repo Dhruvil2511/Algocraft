@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Landing/Home";
-import Authentication from "./components/User/Authentication";
 import Layout from "./components/Content/Layout";
 import { updateTheme } from "./utils/updateTheme";
 import Logout from "./components/User/Logout";
@@ -8,6 +7,8 @@ import NotFound from "./components/Landing/NotFound";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bounce, ToastContainer } from "react-toastify";
+import Login from "./components/User/Login";
+import Register from "./components/User/Register";
 
 function App() {
   const theme = localStorage.getItem("theme");
@@ -73,41 +74,41 @@ function App() {
 
       <Router>
         <Routes>
-          <Route exact path="/" element={<Home user={user} />} />
-          <Route path="/:userid" element={<Layout user={user} />} />
-          <Route path="/edit-profile" element={<Layout user={user} />} />
+            <Route exact path="/" element={<Home user={user} />} />
+            <Route path="/:userid" element={<Layout user={user} />} />
+            <Route path="/coding-resources" element={<Layout user={user} />} />
+            <Route path="/upcoming-contests" element={<Layout user={user} />} />
+            <Route path="/edit-profile" element={<Layout user={user} />} />
+            <Route
+              path="/coding-sheets/:author"
+              element={<Layout user={user} />}
+            />
+            <Route
+              path="/discussion?category=all"
+              element={<Layout user={user} />}
+            />
+            <Route
+              path="/discussion/interview-experience/:id"
+              element={<Layout user={user} />}
+            />
+            <Route
+              path="/discussion/algorithms/:id"
+              element={<Layout user={user} />}
+            />
+            <Route
+              path="/discussion/development/:id"
+              element={<Layout user={user} />}
+            />
+            <Route
+              path="/discussion/miscellaneous/:id"
+              element={<Layout user={user} />}
+            />
+            <Route path="/coding-ide" element={<Layout user={user} />} />
 
-          <Route path="/login" element={<Authentication user={user} />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<Authentication user={user} />} />
-          <Route
-            path="/coding-sheets/:author"
-            element={<Layout user={user} />}
-          />
-          <Route path="/upcoming-contests" element={<Layout user={user} />} />
-          <Route path="/coding-resources" element={<Layout user={user} />} />
-          <Route
-            path="/discussion?category=all"
-            element={<Layout user={user} />}
-          />
-          <Route
-            path="/discussion/interview-experience/:id"
-            element={<Layout user={user} />}
-          />
-          <Route
-            path="/discussion/algorithms/:id"
-            element={<Layout user={user} />}
-          />
-          <Route
-            path="/discussion/development/:id"
-            element={<Layout user={user} />}
-          />
-          <Route
-            path="/discussion/miscellaneous/:id"
-            element={<Layout user={user} />}
-          />
-          <Route path="/coding-ide" element={<Layout user={user} />} />
+            <Route path="/login" element={<Login user={user} />} />
+            <Route path="/register" element={<Register user={user} />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Router>
     </>
