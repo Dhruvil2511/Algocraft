@@ -1,11 +1,18 @@
 import mongoose from "mongoose";
-import { questions as questionsData } from "../../public/questions.js";
-import { Question } from "../models/question.model.js";
-import { Sheet } from "../models/sheets.model.js";
-import "dotenv/config.js"
-// MongoDB connection URI
-const mongoURI = process.env.MONGODB_URI;
+// import { questions as questionsData } from "../../public/questions.js";
 
+import "dotenv/config.js";
+import { Resource } from "../models/resources.model.js";
+// MongoDB connection URI
+const mongoURI = process.env.MONGODB_URI || "mongodb+srv://dhruvil:NuPEGuzelSQgPjlM@cluster0.x0x9di8.mongodb.net";
+console.log(mongoURI);
+
+const obj = {
+    title: "Mongo DB Notes",
+    link: "https://drive.google.com/file/d/1oe8WRXSr525MItEu7w7NtHAyQ4bRGr6w/view?usp=sharing",
+    img: "https://res.cloudinary.com/dvspdkrk5/image/upload/v1707849857/kuzt9r42or1fxvlq2-Meta_Generic_bvvoiu.png",
+    description:"A versatile and efficient database solution designed for modern applications, offering flexible document-based storage and powerful querying capabilities. Organize, store, and retrieve your notes seamlessly with MongoDB's scalable and high-performance platform, empowering collaboration and innovation."
+};
 // Connect to MongoDB
 mongoose
     .connect(mongoURI + "/algocraft", {
@@ -15,35 +22,18 @@ mongoose
     .then(() => {
         console.log("Connected to MongoDB successfully");
         // Call your saveData function here to ensure it's executed after the connection is established
-        // saveData();
-        
+        saveData();
     })
     .catch((error) => {
         console.error("Error connecting to MongoDB:", error);
     });
 
 async function saveData() {
-    const sheet = new Sheet({
-        sheet_author: "love_babbar",
-        sheet_data: [],
-    });
-    for (const questionData of questionsData) {
-        try {
-            const question = new Question({
-                title: questionData.title,
-                problemlink: questionData.problemlink,
-                difficulty: questionData.difficulty,
-                problemTags: questionData.problemTag,
-                questionFrom: sheet._id,
-            });
-
-            await question.save();
-            sheet.sheet_data.push(question._id);
-
-            console.log(`Question "${questionData.title}" saved successfully.`);
-        } catch (error) {
-            console.error(`Error saving question "${questionData.title}":`, error);
-        }
+    try {
+        const qs = new Resource(obj);
+        await qs.save();
+        console.log("Resource saved successfully.");
+    } catch (error) {
+        console.error("Error saving resource:", error);
     }
-    await sheet.save();
 }

@@ -39,7 +39,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        const status = err.response.status;
+        const status = err?.response?.status;
         let toastmessage = "";
         if (status === 401) toastmessage = "Invalid Password";
         else if (status === 404) toastmessage = "User not registered";
