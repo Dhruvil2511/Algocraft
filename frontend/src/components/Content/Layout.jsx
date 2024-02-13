@@ -11,7 +11,7 @@ import Profile from "../User/Profile";
 import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {toast,Bounce} from "react-toastify"
+import { toast, Bounce } from "react-toastify";
 
 const Layout = ({ user }) => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
@@ -20,37 +20,6 @@ const Layout = ({ user }) => {
     let { userid } = useParams();
     let path = window.location.pathname;
 
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-      const fetchUser = async () => {
-        try {
-          const response = await axios.get(
-            process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-            {
-              withCredentials: true,
-            }
-          );
-          setUser(response.data.data.user);
-        } catch (error) {
-          
-          toast("Error fetching user data:", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            transition: Bounce,
-          });
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchUser();
-    }, []);
 
     if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
     else if (path === "/upcoming-contests")
@@ -109,7 +78,7 @@ const Layout = ({ user }) => {
     <>
       {isVisible && (
         <button
-        className="scroller"
+          className="scroller"
           onClick={scrollToTop}
           style={{
             display: "flex",
@@ -149,4 +118,4 @@ const Layout = ({ user }) => {
   );
 };
 
-export default Layout;
+export default React.memo(Layout);
