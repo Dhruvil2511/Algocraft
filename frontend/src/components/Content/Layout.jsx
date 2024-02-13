@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import OffcanvasNavbar from "../Content/Navigation/OffcanvasNavbar";
+import MobileOffcanvasNavbar from "../Content/Navigation/MobileOffcanvasNavbar";
 import CodingSheet from "./CodingSheet";
 import UpcomingContests from "./UpcomingContests";
 import CodingResources from "./CodingResources";
 import Discussion from "../Content/Discussion/Discussion";
 import CodingIDE from "../Content/CodeEditor/CodingIDE";
 import DiscussionThread from "../Content/Discussion/DiscussionThread";
-import MobileOffcanvasNavbar from "../Content/Navigation/MobileOffcanvasNavbar";
 import Profile from "../User/Profile";
 import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
@@ -51,13 +51,13 @@ const Layout = () => {
     let { userid } = useParams();
     let path = window.location.pathname;
 
-    if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
+    if (path.includes("/coding-sheets/")) return <CodingSheet  />;
     else if (path === "/upcoming-contests")
-      return <UpcomingContests user={user} />;
+      return <UpcomingContests  />;
     else if (path === "/coding-resources")
-      return <CodingResources user={user} />;
-    else if (path === "/discussion") return <Discussion user={user} />;
-    else if (path === "/coding-ide") return <CodingIDE user={user} />;
+      return <CodingResources  />;
+    else if (path === "/discussion") return <Discussion />;
+    else if (path === "/coding-ide") return <CodingIDE  />;
     else if (
       path.startsWith("/discussion/interview-experience/") ||
       path.startsWith("/discussion/algorithms/") ||
@@ -68,13 +68,6 @@ const Layout = () => {
     else if (path.includes(`/edit-profile`)) {
       return <EditProfile user={user} />;
     } else if (userid) return <Profile userId={userid} />;
-  }
-
-  function CheckDevice() {
-    if (window.screen.width <= 1431) {
-      return <MobileOffcanvasNavbar user={user} />;
-    }
-    return <OffcanvasNavbar user={user} />;
   }
 
   useEffect(() => {
@@ -103,6 +96,16 @@ const Layout = () => {
       setMainContainerPadding("");
     }
   }, []);
+
+  function CheckDevice() {
+    const MemoizedOffcanvasNavbar = useMemo(() => React.memo(OffcanvasNavbar), [user]);
+    const MemoizedMobileOffcanvasNavbar = useMemo(() => React.memo(MobileOffcanvasNavbar), [user]);
+
+    if (window.screen.width <= 1431) {
+      return <MemoizedMobileOffcanvasNavbar user={user} />;
+    }
+    return <MemoizedOffcanvasNavbar user={user} />;
+  }
 
   return (
     <>
@@ -148,4 +151,4 @@ const Layout = () => {
   );
 };
 
-export default React.memo(Layout);
+export default Layout;

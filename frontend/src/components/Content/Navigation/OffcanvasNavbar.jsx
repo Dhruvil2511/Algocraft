@@ -216,4 +216,4 @@ const OffcanvasNavbar = ({user}) => {
   );
 };
 
-export default OffcanvasNavbar;
+export default React.memo(OffcanvasNavbar);
