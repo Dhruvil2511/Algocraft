@@ -346,9 +346,9 @@ const Profile = ({ userId }) => {
                       <div className="detail d-flex justify-content-center align-items-center">
                         <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
                           {/* {console.log(user)} */}
-                          <span className="text-end w-100">
+                          <h6 className="text-end w-100">
                             {user?.fullname}
-                          </span>
+                          </h6>
                           <span className="text-end w-100 ">
                             @{user?.username}
                           </span>

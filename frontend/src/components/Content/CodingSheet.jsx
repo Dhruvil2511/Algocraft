@@ -7,7 +7,7 @@ import { allTags } from "../../constants/allTags.js";
 import { Chart } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
 import Loader from "./Loader.jsx";
-import {toast,Bounce} from "react-toastify"
+import { toast, Bounce } from "react-toastify";
 const CodingSheet = () => {
   const { author } = useParams();
   const { pathname } = useLocation();
@@ -193,7 +193,7 @@ const CodingSheet = () => {
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
     }
-  }, [sheetId, user]);
+  }, [sheetId, user,sheet]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
