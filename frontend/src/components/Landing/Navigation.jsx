@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Landing.css";
 import { updateTheme } from "../../utils/updateTheme";
+import { Link } from "react-router-dom";
 
 const Navigation = ({ user }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
@@ -18,7 +19,7 @@ const Navigation = ({ user }) => {
         <div className="container-fluid">
           <div className="d-flex justify-content-start align-items-center">
             <div
-              className="gola ms-2"
+              className="gola ms-2 "
               style={{
                 background:
                   "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
@@ -74,34 +75,34 @@ const Navigation = ({ user }) => {
           <div className="collapse navbar-collapse w-20" id="navbarNavDropdown">
             <ul className="navbar-nav ms-auto ">
               <li className="nav-item">
-                <a
+                <Link
                   className="nav-link mx-2 active text-links"
                   aria-current="page"
-                  href="/"
+                  to="/"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link mx-2 text-links" href="#features">
+                <Link className="nav-link mx-2 text-links" to="#features">
                   Features
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link mx-2 text-links" href="#">
+                <Link className="nav-link mx-2 text-links" to="#">
                   About project
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 {user ? (
-                  <a href={`/${user.username}`}>
+                  <Link to={`/${user.username}`}>
                     {user?.avatar ? (
                       <img
                         src={`${user?.avatar}`}
                         alt=""
                         width="32"
                         height="32"
-                        className="rounded-circle me-2"
+                        className="rounded-circle me-2 mt-1"
                       />
                     ) : (
                       <>
@@ -113,11 +114,11 @@ const Navigation = ({ user }) => {
                         </div>
                       </>
                     )}
-                  </a>
+                  </Link>
                 ) : (
-                  <a href="/login" className="nav-link mx-2 text-links">
+                  <Link to="/login" className="nav-link mx-2 text-links">
                     Sign In
-                  </a>
+                  </Link>
                 )}
               </li>
             </ul>

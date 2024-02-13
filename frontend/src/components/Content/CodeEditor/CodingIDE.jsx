@@ -9,6 +9,7 @@ import OutputDetails from "./OutputDetails";
 import { languageData } from "../../../constants/languageData";
 import monacoThemes from "monaco-themes/themes/themelist";
 import Editor from "@monaco-editor/react";
+import { Link } from "react-router-dom";
 
 const CodingIDE = () => {
   const rejectedThemes = [
@@ -209,7 +210,7 @@ const CodingIDE = () => {
               <ul className="dropdown-menu">
                 {Object.values(languageData).map((option) => (
                   <li key={option.value}>
-                    <a
+                    <Link
                       className="dropdown-item"
                       href="#"
                       onClick={() => handleLanguageChange(option)}
@@ -219,7 +220,7 @@ const CodingIDE = () => {
                         dangerouslySetInnerHTML={{ __html: option.icon }}
                       ></span>
                       <span>{option.name}</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -245,13 +246,13 @@ const CodingIDE = () => {
               >
                 {Object.entries(filteredThemes).map(([value, label]) => (
                   <li key={value}>
-                    <a
+                    <Link
                       className="dropdown-item"
                       href="#"
                       onClick={() => handleThemeChange({ value, label })}
                     >
                       {label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

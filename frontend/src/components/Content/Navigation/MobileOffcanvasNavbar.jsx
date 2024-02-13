@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
+import { Link } from "react-router-dom";
 
 const MobileOffcanvasNavbar = ({ user }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
@@ -41,8 +42,8 @@ const MobileOffcanvasNavbar = ({ user }) => {
             <i className="fa-solid fa-code fa-l"></i>
           </div>
           <div className="dropstart ">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="d-flex align-items-center dropdown-toggle text-decoration-none"
               id="dropdownUser1"
               data-bs-toggle="dropdown"
@@ -66,31 +67,28 @@ const MobileOffcanvasNavbar = ({ user }) => {
                   </div>
                 </>
               )}
-            </a>
+            </Link>
             <ul
               className="pfp-menu dropdown-menu dropdown-menu-dark text-small shadow"
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a
-                  className="dropdown-item"
-                  href={`${user?.username}/edit-profile`}
-                >
+                <Link className="dropdown-item" to={`/edit-profile`}>
                   Edit
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="dropdown-item" href={`${user?.username}`}>
+                <Link className="dropdown-item" to={`${user?.username}`}>
                   Profile
-                </a>
+                </Link>
               </li>
               <li>
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="/logout">
+                <Link className="dropdown-item" to="/logout">
                   Sign out
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -116,19 +114,19 @@ const MobileOffcanvasNavbar = ({ user }) => {
         </div>
         <div className="offcanvas-body d-flex justify-content-start align-items-center flex-column">
           <div className="py-3">
-            <a
-              href="/coding-sheets/striver"
+            <Link
+              to="/coding-sheets/striver"
               className={
                 path.includes("/coding-sheets") ? "nav-link active" : "nav-link"
               }
               aria-current="page"
             >
               <i className="fa-solid fa-network-wired fa-lg px-2"></i>
-            </a>
+            </Link>
           </div>
           <div className="py-3">
-            <a
-              href="/upcoming-contests"
+            <Link
+              to="/upcoming-contests"
               className={
                 path.includes("/upcoming-contests")
                   ? "nav-link active"
@@ -136,11 +134,11 @@ const MobileOffcanvasNavbar = ({ user }) => {
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
-            </a>
+            </Link>
           </div>
           <div className="py-3">
-            <a
-              href="/coding-resources"
+            <Link
+              to="/coding-resources"
               className={
                 path.includes("/coding-resources")
                   ? "nav-link active"
@@ -148,27 +146,27 @@ const MobileOffcanvasNavbar = ({ user }) => {
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>
-            </a>
+            </Link>
           </div>
           <div className="py-3">
-            <a
-              href="/discussion?category=all"
+            <Link
+              to="/discussion?category=all"
               className={
                 path.includes("discussion") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>
-            </a>
+            </Link>
           </div>
           <div className="py-3">
-            <a
-              href="/coding-ide"
+            <Link
+              to="/coding-ide"
               className={
                 path === "/coding-ide" ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-terminal fa-lg px-2"></i>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="offcanvas-footer d-flex justify-content-center align-items-center p-5">

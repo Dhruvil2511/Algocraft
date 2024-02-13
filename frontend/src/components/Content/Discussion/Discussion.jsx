@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../Loader.jsx";
-import {toast,Bounce} from "react-toastify"
+import { toast, Bounce } from "react-toastify";
 
 const Discussion = () => {
   const location = useLocation();
@@ -25,7 +25,7 @@ const Discussion = () => {
   const fetchThreadList = async () => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get("category");
-    setPath(path + category);
+    setPath(location.pathname + category);
     setIsLoading(true);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list", {
@@ -85,6 +85,17 @@ const Discussion = () => {
   function getNextPage() {
     if (!isDataAvail) return;
     setCurrentPage(currentPage + 1);
+  }
+
+  function handleFormCancel() {
+    setFormData({
+      title: "",
+      category: "interview-experience",
+      content: "",
+      tags: [],
+    });
+    setTag([]);
+    setTags(new Set());
   }
 
   function handleAddTag(event) {
@@ -224,6 +235,7 @@ const Discussion = () => {
                       type="button"
                       className="btn-close text-reset d-flex justify-content-center align-items-center"
                       data-bs-dismiss="offcanvas"
+                      onClick={() => handleFormCancel}
                     >
                       <span className="text-danger"> Cancel</span>
                     </button>
@@ -281,6 +293,7 @@ const Discussion = () => {
                         borderRadius: "4px",
                         border: "1px dotted black",
                         width: "fit-content",
+                        color: "var(--mainTextColor)",
                       }}
                     >
                       {tagText}
@@ -316,60 +329,70 @@ const Discussion = () => {
       </p>
       <div className="daddy discussion-fliter d-flex align-items-center justify-content-between ">
         <div className="d-flex flex-wrap justify-content-center align-items-center">
-          <a
+          <Link
             className={
-              path.includes("all")
+              new URLSearchParams(window.location.search)
+                .get("category")
+                .includes("all")
                 ? "text-links ms-2 fs-3 active"
                 : "text-links ms-2 fs-3"
             }
-            href="/discussion?category=all"
+            to="/discussion?category=all"
           >
             All topics
-          </a>
+          </Link>
 
-          <a
+          <Link
             className={
-              path.includes("interview-experience")
+              new URLSearchParams(window.location.search)
+                .get("category")
+                .includes("interview-experience")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
-            href="/discussion?category=interview-experience"
+            to="/discussion?category=interview-experience"
           >
             Interview Experience
-          </a>
+          </Link>
 
-          <a
+          <Link
             className={
-              path.includes("algorithms")
+              new URLSearchParams(window.location.search)
+                .get("category")
+                .includes("algorithms")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
-            href="/discussion?category=algorithms"
+            to="/discussion?category=algorithms"
           >
             Algorithms
-          </a>
+          </Link>
 
-          <a
+          <Link
             className={
-              path.includes("development")
+              new URLSearchParams(window.location.search)
+                .get("category")
+                .includes("development")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
-            href="/discussion?category=development"
+            to="/discussion?category=development"
           >
             Development
-          </a>
+          </Link>
 
-          <a
+          <Link
             className={
-              path.includes("miscellaneous")
+              new URLSearchParams(window.location.search)
+                .get("category")
+                .includes("miscellaneous")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
-            href="/discussion?category=miscellaneous"
+            to="/discussion?category=miscellaneous"
           >
             Miscellaneous
-          </a>
+          </Link>
         </div>
         <div className="searchBox me-3">
           <input
@@ -409,18 +432,22 @@ const Discussion = () => {
                     </div>
 
                     <div className="title d-flex flex-column justify-content-center align-items-start">
-                      <a
-                        href={`/discussion/${thread.category}/${thread._id}`}
+                      <Link
+                        to={`/discussion/${thread.category}/${thread._id}`}
                         className="thread-title text-start"
                       >
                         {thread.title}
-                      </a>
+                      </Link>
                       <div className="dis-taglist d-flex justify-content-center align-items-center">
-                        <a href="#" className="username">
+                        <Link to="#" className="username">
                           {thread.uploader.username}
-                        </a>
+                        </Link>
                         {thread.tags.map((tag, index) => (
-                          <span key={index} className="tags px-2">
+                          <span
+                            key={index}
+                            className="tags px-2"
+                            style={{ color: "var(--mainTextColor)" }}
+                          >
                             {tag}
                           </span>
                         ))}
@@ -444,28 +471,29 @@ const Discussion = () => {
         )}
       </div>
       <div className="pagination d-flex justify-content-evenly h-10 align-items-center">
-        <div className="prev">
-          <button
-            className="btn btn-outline"
-            style={{ backgroundColor: "#0D6EFD" }}
-            onClick={() => getPrevPage()}
-          >
-            <i className="fa-solid fa-arrow-left"></i>Prev
-          </button>
+          <div className="prev">
+            <button
+              className="btn-list "
+              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
+              onClick={() => getPrevPage()}
+            >
+              <i className="fa-solid fa-arrow-left"></i>Prev
+            </button>
+          </div>
+          <div className="text d-flex justify-content-center align-items-center">
+            {currentPage}
+            {/* <input type="text" style={{width:"20px"}} /> {190/perPage} */}
+          </div>
+          <div className="next">
+            <button
+              className="btn-list"
+              style={{ backgroundColor: "#0D6EFD", borderRadius: "16px" }}
+              onClick={() => getNextPage()}
+            >
+              Next<i className="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
-        <div className="text d-flex justify-content-center align-items-center">
-          {currentPage}
-        </div>
-        <div className="next">
-          <button
-            className="btn btn-outline"
-            style={{ backgroundColor: "#0D6EFD" }}
-            onClick={() => getNextPage()}
-          >
-            Next<i className="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

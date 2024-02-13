@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "./Loader.jsx";
 import {toast,Bounce} from "react-toastify"
+import { Link } from "react-router-dom";
+
 const UpcomingContests = () => {
   const [contestData, setContestData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,19 +69,19 @@ const UpcomingContests = () => {
               <input type="text" className="me-2" />
             </div>
             <li>
-              <a className="dropdown-item" href="#">
+              <Link className="dropdown-item" to="#">
                 Leetcode
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item" href="#">
+              <Link className="dropdown-item" to="#">
                 Codeforces
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item" href="#">
+              <Link className="dropdown-item" to="#">
                 Codechef
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -96,21 +98,24 @@ const UpcomingContests = () => {
             {contestData.map((contest, index) => {
               return (
                 <div className="row p-1" key={contest.id}>
-                  <div className="question d-flex align-items-center justify-content-between ">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <div className="number fs-5">{index + 1}</div>
-                      <div className="title d-flex justify-content-center align-items-center">
-                        <div className="pfp">
-                          <img
+                  <div className="w-100 question d-flex align-items-center justify-content-between ">
+                    <div style={{width:"50%"}} className="d-flex justify-content-start align-items-center">
+                      <div className="number fs-5" style={{width:"10%"}}>{index + 1}</div>
+                      <div className="pfp" style={{width:"10%"}}>
+                          <img 
+                          className="p-1"
+                          style={{width:"40px",height:"40px"}}
                             src={`https://clist.by/media/sizes/32x32/img/resources/${contest.host.replace(
                               /[.\/]/g,
                               "_"
                             )}.png`}
                           />
                         </div>
-                        <a
+                      <div style={{width:"70%"}} className="title d-flex justify-content-start align-items-center">
+                      
+                        <Link
                           className="text-start"
-                          href={contest.href}
+                          to={contest.href}
                           style={{
                             textDecoration: "none",
                             whiteSpace: "nowrap",
@@ -121,11 +126,11 @@ const UpcomingContests = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {contest.event}
-                        </a>
+                          {contest.event} ({contest.host})
+                        </Link>
                       </div>
                     </div>
-                    <div className="d-flex justify-content-center align-items-center">
+                    <div style={{width:"30%"}} className="d-flex justify-content-end align-items-center">
                       <div className="mark-complete px-2">
                         <span>{new Date(contest.start).toLocaleString()}</span>{" "}
                         <button className="btn-list">

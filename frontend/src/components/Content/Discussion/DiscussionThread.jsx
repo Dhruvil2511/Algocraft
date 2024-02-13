@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "../Loader.jsx";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+
 const DiscussionThread = () => {
   const { id } = useParams();
   const [thread, setThread] = useState({});
@@ -289,22 +290,22 @@ const DiscussionThread = () => {
           <div className="thread d-flex flex-column justify-content-start align-items-center">
             <div className="thread-header w-100 p-2 d-flex justify-content-between align-items-center">
               <div className="d-flex justify-content-start align-items-center">
-                <a
-                  href={`/discussion?category=${thread.category}`}
+                <Link
+                  to={`/discussion?category=${thread.category}`}
                   className="p-2"
                   style={{ borderRight: "2px solid gray" }}
                 >
                   <i className="fa-solid fa-left-long fa-xl"></i>
-                </a>
+                </Link>
                 <strong className="px-2">{thread.title}</strong>
               </div>
               <div className="d-flex justify-content-end align-items-center">
                 <button className="btn-list px-2" onClick={handleShare}>
                   <i className="fa-solid fa-share-from-square fa-lg"></i>
                 </button>
-                <a href="#" className="px-2">
+                <Link href="#" className="px-2">
                   <i className="fa-solid fa-flag fa-lg"></i>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="thread-content p-5 w-100">

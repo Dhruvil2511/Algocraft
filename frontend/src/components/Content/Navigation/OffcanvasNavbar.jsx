@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
+import { Link, useLocation } from "react-router-dom";
 
-const OffcanvasNavbar = ({user}) => {
+const OffcanvasNavbar = ({ username,avatar }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
-  const [path, setPath] = useState(window.location.pathname);
-  
+  const location = useLocation();
+
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") setDarkTheme(true);
     else if (theme === "light") setDarkTheme(false);
+
   }, []);
 
   function handleTheme() {
@@ -29,8 +31,10 @@ const OffcanvasNavbar = ({user}) => {
           >
             <div
               className="gola ms-2"
-              style={{ background:
-                "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)", }}
+              style={{
+                background:
+                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)",
+              }}
             >
               <i className="fa-solid fa-code fa-lg"></i>
             </div>
@@ -63,10 +67,10 @@ const OffcanvasNavbar = ({user}) => {
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item py-2">
-            <a
-              href="/coding-sheets/striver"
+            <Link
+              to="/coding-sheets/striver"
               className={
-                path.includes("/coding-sheets/")
+                location.pathname.includes("/coding-sheets/")
                   ? "nav-link active"
                   : "nav-link"
               }
@@ -74,55 +78,55 @@ const OffcanvasNavbar = ({user}) => {
             >
               <i className="fa-solid fa-network-wired fa-lg px-2"></i>
               Coding Sheets
-            </a>
+            </Link>
           </li>
           <li className="nav-item py-2">
-            <a
-              href="/upcoming-contests"
+            <Link
+              to="/upcoming-contests"
               className={
-                path.includes("/upcoming-contests")
+                location.pathname.includes("/upcoming-contests")
                   ? "nav-link active"
                   : "nav-link"
               }
             >
               <i className="fa-solid fa-trophy fa-lg px-2"></i>
               Upcoming contests
-            </a>
+            </Link>
           </li>
           <li className="nav-item py-2">
-            <a
-              href="/coding-resources"
+            <Link
+              to="/coding-resources"
               className={
-                path.includes("/coding-resources")
+                location.pathname.includes("/coding-resources")
                   ? "nav-link active"
                   : "nav-link"
               }
             >
               <i className="fa-solid fa-vault fa-lg px-2"></i>
               Coding Resources
-            </a>
+            </Link>
           </li>
           <li className="nav-item py-2">
-            <a
-              href="/discussion?category=all"
+            <Link
+              to="/discussion?category=all"
               className={
-                path.includes("discussion") ? "nav-link active" : "nav-link"
+                location.pathname.includes("discussion") ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>
               Discussion Page
-            </a>
+            </Link>
           </li>
           <li className="nav-item py-2">
-            <a
-              href="/coding-ide"
+            <Link
+              to="/coding-ide"
               className={
-                path === "/coding-ide" ? "nav-link active" : "nav-link"
+                location.pathname === "/coding-ide" ? "nav-link active" : "nav-link"
               }
             >
               <i className="fa-solid fa-terminal fa-lg px-2"></i>
               Coding IDE
-            </a>
+            </Link>
           </li>
         </ul>
         <div className="dropup-center dropup px-2">
@@ -164,50 +168,47 @@ const OffcanvasNavbar = ({user}) => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {user?.avatar ? (
-                <img
-                  src={`${user?.avatar}`}
-                  alt=""
-                  width="32"
-                  height="32"
-                  className="rounded-circle me-2"
-                />
-              ) : (
-                <>
-                  {" "}
-                  <div className="d-flex flex-column align-items-center justify-content-center">
-                    <div className="gola">
-                      <i className="default-icon fa-solid fa-user fa-xl"></i>
-                    </div>
+            {avatar ? (
+              <img
+                src={`${avatar}`}
+                alt=""
+                width="32"
+                height="32"
+                className="rounded-circle me-2"
+              />
+            ) : (
+              <>
+                {" "}
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                  <div className="gola">
+                    <i className="default-icon fa-solid fa-user fa-xl"></i>
                   </div>
-                </>
-              )}
-            <strong>{user?.username}</strong>
+                </div>
+              </>
+            )}
+            <strong>{username}</strong>
           </a>
           <ul
             className="dropdown-menu dropdown-menu-dark text-small shadow"
             aria-labelledby="dropdownUser1"
           >
             <li>
-              <a
-                className="dropdown-item"
-                href={`/edit-profile`}
-              >
+              <Link className="dropdown-item" to={`/edit-profile`}>
                 Edit
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item" href={`/${user?.username}`}>
+              <Link className="dropdown-item" to={`/${username}`}>
                 Profile
-              </a>
+              </Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="/logout">
+              <Link className="dropdown-item" to="/logout">
                 Sign out
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

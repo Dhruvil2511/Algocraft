@@ -4,7 +4,9 @@ import axios from "axios";
 import Loader from "../Content/Loader";
 import Lottie from "lottie-react";
 import notfound from "../../assets/animations/notfound.json";
-import {toast,Bounce} from "react-toastify"
+
+import { toast, Bounce } from "react-toastify";
+import { Link } from "react-router-dom";
 const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
@@ -27,7 +29,7 @@ const Profile = ({ userId }) => {
           if (res.data.data.owner) {
             setOwner(true);
             getSavedQuestions();
-          }
+          } else getSolvedQuestions();
         }
       })
       .catch((err) => {
@@ -346,9 +348,7 @@ const Profile = ({ userId }) => {
                       <div className="detail d-flex justify-content-center align-items-center">
                         <div className="naming flex-column d-flex justify-content-center align-items-center m-1">
                           {/* {console.log(user)} */}
-                          <h6 className="text-end w-100">
-                            {user?.fullname}
-                          </h6>
+                          <h6 className="text-end w-100">{user?.fullname}</h6>
                           <span className="text-end w-100 ">
                             @{user?.username}
                           </span>
@@ -537,18 +537,21 @@ const Profile = ({ userId }) => {
                                 </div>
 
                                 <div className="title d-flex flex-column justify-content-center align-items-start">
-                                  <a
-                                    href={`/discussion/${thread.category}/${thread._id}`}
+                                  <Link
+                                    to={`/discussion/${thread.category}/${thread._id}`}
                                     className="thread-title text-start"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                   >
                                     {thread.title}
-                                  </a>
+                                  </Link>
                                   <div className="dis-taglist d-flex justify-content-center align-items-center">
-                                    <a href="#" className="username">
+                                    <Link
+                                      to={`${thread.uploader.username}`}
+                                      className="username"
+                                    >
                                       {thread.uploader.username}
-                                    </a>
+                                    </Link>
                                     {thread.tags?.map((tag, index) => (
                                       <span key={index} className="tags px-2">
                                         {tag}
@@ -611,14 +614,14 @@ const Profile = ({ userId }) => {
                                 {/* <div className="status"></div> */}
                                 <div className="title d-flex flex-column justify-content-center align-items-start">
                                   <div className="text-start d-flex justify-content-center align-items-center">
-                                    <a
+                                    <Link
                                       style={{ textDecoration: "none" }}
-                                      href={question.problemlink}
+                                      to={question.problemlink}
                                       target="_blank"
                                       rel="noreffrer"
                                     >
                                       {question.title}
-                                    </a>
+                                    </Link>
                                     <span
                                       className="ms-3 fs-6"
                                       style={{
@@ -667,12 +670,12 @@ const Profile = ({ userId }) => {
                                   )}
                                 </div>
                                 <div className="solution px-2">
-                                  <a href="#" className="btn-list">
+                                  <Link href="#" className="btn-list">
                                     <i
                                       className="fa-brands fa-youtube fa-lg"
                                       style={{ color: "#ff0000" }}
                                     ></i>
-                                  </a>
+                                  </Link>
                                 </div>
                               </div>
                             </div>

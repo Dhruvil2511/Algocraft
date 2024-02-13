@@ -8,6 +8,7 @@ import { Fade } from "react-reveal";
 import { Navigation } from "./Navigation";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -508,22 +509,22 @@ const Home = () => {
                   <h5 className=" mb-3">Algocraft</h5>
                   <ul className="list-unstyled text-muted">
                     <li>
-                      <a className="text-links" href="/">
+                      <Link className="text-links" to="/">
                         Home
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="text-links" href="/about-us">
+                      <Link className="text-links" to="/about-us">
                         About us
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
+                      <Link
                         className="text-links"
-                        href="mailto:dhruvilprajapati2003@gmail.com"
+                        to="mailto:dhruvilprajapati2003@gmail.com"
                       >
                         Contact
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a className="text-links" href="/upcoming-updates">

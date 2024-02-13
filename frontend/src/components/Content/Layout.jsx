@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useMemo } from "react";
-import OffcanvasNavbar from "../Content/Navigation/OffcanvasNavbar";
-import MobileOffcanvasNavbar from "../Content/Navigation/MobileOffcanvasNavbar";
 import CodingSheet from "./CodingSheet";
 import UpcomingContests from "./UpcomingContests";
 import CodingResources from "./CodingResources";
@@ -17,7 +15,7 @@ const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -51,13 +49,11 @@ const Layout = () => {
     let { userid } = useParams();
     let path = window.location.pathname;
 
-    if (path.includes("/coding-sheets/")) return <CodingSheet  />;
-    else if (path === "/upcoming-contests")
-      return <UpcomingContests  />;
-    else if (path === "/coding-resources")
-      return <CodingResources  />;
-    else if (path === "/discussion") return <Discussion />;
-    else if (path === "/coding-ide") return <CodingIDE  />;
+    if (path.includes("/coding-sheets/")) return <CodingSheet />;
+    else if (path === "/upcoming-contests") return <UpcomingContests />;
+    else if (path === "/coding-resources") return <CodingResources />;
+    else if (path === "/discussion" || path ==="/discussion?category=all") return <Discussion />;
+    else if (path === "/coding-ide") return <CodingIDE />;
     else if (
       path.startsWith("/discussion/interview-experience/") ||
       path.startsWith("/discussion/algorithms/") ||
@@ -97,16 +93,6 @@ const Layout = () => {
     }
   }, []);
 
-  function CheckDevice() {
-    const MemoizedOffcanvasNavbar = useMemo(() => React.memo(OffcanvasNavbar), [user]);
-    const MemoizedMobileOffcanvasNavbar = useMemo(() => React.memo(MobileOffcanvasNavbar), [user]);
-
-    if (window.screen.width <= 1431) {
-      return <MemoizedMobileOffcanvasNavbar user={user} />;
-    }
-    return <MemoizedOffcanvasNavbar user={user} />;
-  }
-
   return (
     <>
       {isVisible && (
@@ -134,16 +120,14 @@ const Layout = () => {
           <i className="fa-solid fa-chevron-up fa-xl"></i>
         </button>
       )}
-      <div className="content ">
-        <CheckDevice />
-        <div className="main-content">
-          <div className="container-fluid d-flex justify-content-center align-items-center">
-            <div
-              className="container main-container"
-              style={{ padding: mainContainerPadding }}
-            >
-              {CheckContentPath()}
-            </div>
+
+      <div className="main-content">
+        <div className="container-fluid d-flex justify-content-center align-items-center">
+          <div
+            className="container main-container"
+            style={{ padding: mainContainerPadding }}
+          >
+            {CheckContentPath()}
           </div>
         </div>
       </div>

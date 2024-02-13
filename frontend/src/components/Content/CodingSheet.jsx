@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { allTags } from "../../constants/allTags.js";
 
@@ -122,7 +122,7 @@ const CodingSheet = () => {
   useEffect(() => {
     fetchQuestions();
     return () => {};
-  }, [currentPage, selectedDifficulty, selectedTags, status]);
+  }, [author, currentPage, selectedDifficulty, selectedTags, status]);
 
   // Defined an object.
   const data = {
@@ -193,7 +193,7 @@ const CodingSheet = () => {
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
     }
-  }, [sheetId, user,sheet]);
+  }, [sheetId, user, sheet]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -338,58 +338,58 @@ const CodingSheet = () => {
 
         <div className="main-sheet py-2">
           <div className="sheets d-flex flex-wrap">
-            <a
+            <Link
               className={`sheet ${isActive("/coding-sheets/striver")}`}
-              href="/coding-sheets/striver"
+              to="/coding-sheets/striver"
             >
               Striver
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/love_babbar")}`}
-              href="/coding-sheets/love_babbar"
+              to="/coding-sheets/love_babbar"
             >
               Love Babbar
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/leetcode_top")}`}
-              href="/coding-sheets/leetcode_top"
+              to="/coding-sheets/leetcode_top"
             >
               Leetcode Top
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/blind75")}`}
-              href="/coding-sheets/blind75"
+              to="/coding-sheets/blind75"
             >
               Blind 75
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/apna_college")}`}
-              href="/coding-sheets/apna_college"
+              to="/coding-sheets/apna_college"
             >
               Apna College
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/neetcode150")}`}
-              href="/coding-sheets/neetcode150"
+              to="/coding-sheets/neetcode150"
             >
               Neetcode 150
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/fraz")}`}
-              href="/coding-sheets/fraz"
+              to="/coding-sheets/fraz"
             >
               Fraz
-            </a>
-            <a
+            </Link>
+            <Link
               className={`sheet ${isActive("/coding-sheets/neetcode300")}`}
-              href="/coding-sheets/neetcode300"
+              to="/coding-sheets/neetcode300"
             >
               Neetcode 300
-            </a>
+            </Link>
           </div>
         </div>
         <div className="author alert bg-success">
-          All credits goes href {author}
+          All credits goes to {author}
         </div>
         <div className="progress-section py-2">
           <span> Progress :</span>

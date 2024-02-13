@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import Cookies from "js-cookie";
 import "./User.css";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,11 +13,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let x= Cookies.get("accessToken")
-    console.log(x)
+    let x = Cookies.get("accessToken");
+    console.log(x);
     if (Cookies.get("accessToken")) navigate("/coding-sheets/striver");
   }, []);
-
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -64,7 +64,7 @@ const Login = () => {
   return (
     <>
       <div className="parent">
-        <a href="/">
+        <Link to="/">
           <i
             className="fa-solid fa-left-long fa-xl"
             style={{
@@ -74,7 +74,7 @@ const Login = () => {
               color: "#ffffff",
             }}
           ></i>
-        </a>
+        </Link>
 
         <div className="leftpart-auth">
           <div className="my-3 d-flex justify-content-center align-items-center flex-column">
@@ -173,9 +173,9 @@ const Login = () => {
             </button>
             <p className="p">
               Don't have an account?{" "}
-              <a href="register" className="span">
+              <Link to="/register" className="span">
                 Sign Up
-              </a>
+              </Link>
             </p>
             <p className="p line">Or With</p>
 

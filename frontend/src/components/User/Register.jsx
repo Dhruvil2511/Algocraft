@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 
@@ -65,7 +65,7 @@ const Register = ({ user }) => {
   return (
     <>
       <div className="parent">
-            <a href="/"><i className="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></a>
+            <Link to="/"><i className="fa-solid fa-left-long fa-xl" style={{ position: 'absolute', top: '5%', left: '2%', color: '#ffffff' }}></i></Link>
 
             <div className="leftpart-auth">
                 <div className='my-3 d-flex justify-content-center align-items-center flex-column'>
@@ -184,9 +184,9 @@ const Register = ({ user }) => {
         </button>
         <p className="p">
           Have an account?{" "}
-          <a href="login" className="span">
+          <Link to="/login" className="span">
             Sign In
-          </a>
+          </Link>
         </p>
         <p className="p line">Or With</p>
 
