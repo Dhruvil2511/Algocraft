@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import Cookies from "js-cookie";
 import "./User.css";
-const Login = ({ user }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -13,13 +13,11 @@ const Login = ({ user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/coding-sheets/striver");
-  }, [isLoggedIn]);
+    let x= Cookies.get("accessToken")
+    console.log(x)
+    if (Cookies.get("accessToken")) navigate("/coding-sheets/striver");
+  }, []);
 
-  useEffect(() => {
-    console.log(user);
-    if (user) navigate("/coding-sheets/striver");
-  }, [user]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -38,7 +36,7 @@ const Login = ({ user }) => {
           const { accessToken, refreshToken } = res.data.data;
           Cookies.set("accessToken", accessToken);
           Cookies.set("refreshToken", refreshToken);
-          setIsLoggedIn(true);
+          navigate("/coding-sheets/striver");
         }
       })
       .catch((err) => {

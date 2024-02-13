@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Lottie from "lottie-react";
 import codingAnimation from "../../assets/animations/home.json";
 import ballAnimation from "../../assets/animations/ball-animation.json";
@@ -7,10 +7,28 @@ import Typewriter from "typewriter-effect";
 import { Fade } from "react-reveal";
 import { Navigation } from "./Navigation";
 import axios from "axios";
-import {toast,Bounce} from "react-toastify"
+import { toast, Bounce } from "react-toastify";
 
-const Home = ({ user }) => {
+const Home = () => {
   const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const res = await axios.get(
+          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
+        if (res.status === 200) setUser(res.data.data.user);
+      } catch (err) {
+        console.error("User not logged in");
+      }
+    };
+    fetchCurrentUser();
+  }, []);
 
   async function handleNewsletterSubmit(event) {
     if (email.trim() === "") return;
@@ -47,11 +65,10 @@ const Home = ({ user }) => {
       <div className="page1 h-100">
         <div className="container-fluid d-flex justify-content-center align-items-center ">
           <div className="mc container my-4 d-flex justify-content-between align-items-center ">
-          <div className="right  mx-3 d-flex justify-content-center align-items-center ">
+            <div className="right  mx-3 d-flex justify-content-center align-items-center ">
               <div className=" d-flex justify-content-center align-items-center flex-column">
                 <h1 className="mt-2 drop-in" style={{ overflow: "hidden" }}>
-                  Empowering Engineers, Mastering Interviews, Crafting
-                  Futures.{" "}
+                  Empowering Engineers, Mastering Interviews, Crafting Futures.{" "}
                 </h1>
 
                 <h3 className="mt-4 drop-in-2" style={{ overflow: "hidden" }}>
@@ -112,8 +129,6 @@ const Home = ({ user }) => {
                 style={{ width: "100%" }}
               ></Lottie>
             </div>
-
-            
           </div>
         </div>
       </div>

@@ -13,13 +13,43 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 
-const Layout = ({ user }) => {
+const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
+          {
+            withCredentials: true,
+          }
+        );
+        setUser(response.data.data.user);
+      } catch (error) {
+        toast("Error fetching user data:", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   function CheckContentPath() {
     let { userid } = useParams();
     let path = window.location.pathname;
-
 
     if (path.includes("/coding-sheets/")) return <CodingSheet user={user} />;
     else if (path === "/upcoming-contests")
