@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-
+import "dotenv/config";
 const sendEmail = async (email, subject, verificationLink) => {
     try {
         // console.log("===================================")
@@ -9,12 +9,12 @@ const sendEmail = async (email, subject, verificationLink) => {
             port: 465,
             secure: true,
             auth: {
-                user: "manesh312003@gmail.com",
-                pass: "xfubyamjqlfhyydt",
+                user: "dhruvilprajapati2003@gmail.com",
+                pass: process.env.GACCOUNT_APP_PASSWORD,
             },
         });
         var mailoption = {
-            from: "manesh312003@gmail.com",
+            from: "dhruvilprajapati2003@gmail.com",
             to: email,
             subject: subject,
             html: `<!DOCTYPE html>
@@ -78,7 +78,7 @@ const sendEmail = async (email, subject, verificationLink) => {
             `,
         };
 
-         trans.sendMail(mailoption, (err, info) => {
+        trans.sendMail(mailoption, (err, info) => {
             if (err) {
                 console.log(err);
             } else {

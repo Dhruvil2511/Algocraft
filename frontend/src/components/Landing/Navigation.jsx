@@ -84,10 +84,10 @@ const Navigation = ({ user }) => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link mx-2 text-links" to="#features">
+                <a className="nav-link mx-2 text-links" href="#features">
                   Features
-                </Link>
-              </li>
+                </a>
+              </li> 
               <li className="nav-item">
                 <Link className="nav-link mx-2 text-links" to="#">
                   About project

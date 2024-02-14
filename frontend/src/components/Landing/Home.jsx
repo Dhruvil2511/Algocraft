@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
-
+  
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -474,7 +474,7 @@ const Home = () => {
               <span className="ps-3">Email</span>
             </div>
             <div className="discord">
-              <a href="#" target="_blank" rel="noreferrer noopener">
+              <a href="/" target="_blank" rel="noreferrer noopener">
                 <i className="fa-brands fa-discord fa-2xl"></i>
               </a>
               <span className="ps-3">Discord</span>
