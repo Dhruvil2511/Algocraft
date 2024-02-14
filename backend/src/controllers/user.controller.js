@@ -5,7 +5,8 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import joi from "joi";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-
+import { sendEmail } from "../utils/sendEmail.js";
+import crypto from "crypto";
 // const cookieOptions = {
 //     // added this so that cookie can only be modified by server and not client
 //     httpOnly: true,
@@ -69,7 +70,9 @@ const registerUser = asyncHandler(async (req, res) => {
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
         let errorMessage = "";
-        if (existingUser.email === email) errorMessage = "Email is already registered.";
+        if (existingUser.email === email && !existingUser.isActive)
+            errorMessage = "Please verify your account. Check your email";
+        else if (existingUser.email === email) errorMessage = "Email is already registered.";
         else if (existingUser.username === username) errorMessage = "Username is already taken.";
 
         return res.status(401).json(
@@ -77,8 +80,6 @@ const registerUser = asyncHandler(async (req, res) => {
                 statusCode: 401,
                 message: errorMessage,
                 userMessage: errorMessage,
-                errors: error,
-                stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
             })
         );
     }
@@ -89,21 +90,16 @@ const registerUser = asyncHandler(async (req, res) => {
         username: username.toLowerCase(),
     });
 
-    const createdUser = await User.findById(user._id).select("-password -refreshToken");
+    const upddatedUser = await User.findByIdAndUpdate(
+        { _id: user._id },
+        { verificationToken: crypto.randomBytes(32).toString("hex") },
+        { new: true }
+    ).select("-password -refreshToken");
 
-    if (!createdUser) {
-        return res.status(500).json(
-            new ApiError({
-                statusCode: 500,
-                message: "Error creating user.",
-                userMessage: "Error creating user.",
-                errors: error,
-                stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
-            })
-        );
-    }
+    const url = `${process.env.CORS_ORIGIN}/user/${upddatedUser.id}/verify/${upddatedUser.verificationToken}`;
+    await sendEmail(user.email, "Verify Email", url);
 
-    return res.status(201).json(new ApiResponse(201, createdUser, "User registered succesfully."));
+    return res.status(201).json(new ApiResponse(201, user, "An Email sent to your account please verify"));
 });
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -137,8 +133,6 @@ const loginUser = asyncHandler(async (req, res) => {
                 statusCode: 400,
                 message: "Email or username is required!",
                 userMessage: "Email or username is required!",
-                errors: error,
-                stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
             })
         );
     }
@@ -150,7 +144,6 @@ const loginUser = asyncHandler(async (req, res) => {
                 statusCode: 404,
                 message: "User is not registered!",
                 userMessage: "User is not registered!",
-                stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
             })
         );
     }
@@ -163,12 +156,20 @@ const loginUser = asyncHandler(async (req, res) => {
                 statusCode: 401,
                 message: "Password is incorrect!",
                 userMessage: "Invalid user credentials",
-                errors: error,
-                stack: process.env.NODE_ENV === "production" ? "🙊" : error?.stack,
             }),
         });
     }
-    console.log(user._id);
+    console.log(user.isActive);
+
+    if (!user.isActive) {
+        return res.status(401).json(
+            new ApiError({
+                statusCode: 401,
+                message: "Your account is not active please verify your email.",
+                userMessage: "Your account is not active please verify your email.",
+            })
+        );
+    }
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
@@ -395,7 +396,45 @@ const deleteAccount = asyncHandler(async (req, res) => {
 
     await User.findByIdAndDelete(userId);
 
-    return res.status(200).json(new ApiResponse(200, {}, "Account deleted successfully"));
+    return res
+        .status(200)
+        .clearCookie("accessToken", { secure: true, sameSite: "None" })
+        .clearCookie("refreshToken", { secure: true, sameSite: "None" })
+        .json(new ApiResponse(200, {}, "Account deleted successfully"));
+});
+
+const verifyEmail = asyncHandler(async (req, res) => {
+    const user = await User.findOne({ _id: req.query.id });
+    if (!user) return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+
+    const token = await User.findOne({
+        verificationToken: req.query.token,
+    });
+    if (!token) return res.status(400).json(new ApiResponse(400, {}, "Failed to generate token"));
+
+    console.log(user, token);
+    await User.updateOne({ _id: user._id }, { isActive: true, verificationToken: null });
+
+    return res.status(200).json(new ApiResponse(200, {}, "Email Verified successfully"));
+});
+const resendVerification = asyncHandler(async (req, res) => {
+    const email = req.query.email;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(404).json(new ApiResponse(404, {}, "User not found"));
+    }
+
+    if (!user.isActive) {
+        const updatedUser = await User.findByIdAndUpdate(
+            { _id: user._id },
+            { verificationToken: crypto.randomBytes(32).toString("hex") },
+            { new: true }
+        );
+        const url = `${process.env.CORS_ORIGIN}/user/${updatedUser.id}/verify/${updatedUser.verificationToken}`;
+        await sendEmail(user.email, "Verify Email", url);
+    } else return res.status(401).json(new ApiError(401, "Already active", "User already verified"));
+    return res.status(201).json(new ApiResponse(201, {}, "An Email sent to your account please verify"));
 });
 export {
     registerUser,
@@ -412,4 +451,6 @@ export {
     getUserSavedQuestions,
     getUserSolvedQuestions,
     deleteAccount,
+    resendVerification,
+    verifyEmail,
 };

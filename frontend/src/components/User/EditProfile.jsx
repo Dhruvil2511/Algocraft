@@ -144,6 +144,8 @@ const EditProfile = ({ user }) => {
       })
       .finally(() => {
         setUserUpdating(false);
+        window.location.href = "/";
+
       });
   }
 
@@ -257,7 +259,6 @@ const EditProfile = ({ user }) => {
                   >
                     <div className="icon-container">
                       <i className="edit-icon fa-solid fa-square-pen fa-2xl"></i>
-                      {console.log(user)}
                       {user?.avatar ? (
                         <img
                           src={previewUrl ? previewUrl : user?.avatar}

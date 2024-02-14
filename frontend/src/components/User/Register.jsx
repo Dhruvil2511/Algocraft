@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, Bounce } from "react-toastify";
+import { toast, Bounce, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
+
 const Register = () => {
+  const [showToast, setShowToast] = useState(false); // State to control the display of toast
+  const [showResendButton, setShowResendButton] = useState(false); // State to control the display of the resend button
+  const [timer, setTimer] = useState(null);
+  const [countdown, setCountdown] = useState(30);
+  const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,11 +23,31 @@ const Register = () => {
     console.log(accessToken);
     if (accessToken) {
       navigate("/coding-sheets/striver");
+
+      const timerr = setTimeout(() => {
+        setShowResendButton(true);
+      }, 30000);
+      setTimer(timerr);
+      return () => clearTimeout(timer);
     }
   }, []);
+  useEffect(() => {
+    if (!showResendButton && countdown > 0) {
+      // Start the countdown timer when the resend button is hidden
+      const countdownTimer = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+
+      return () => clearInterval(countdownTimer);
+    } else if (countdown === 0) {
+      setShowResendButton(true); // When countdown reaches 0, show the resend button
+    }
+  }, [showResendButton, countdown]);
 
   function handleFormChange(event) {
+    
     const { name, value } = event.target;
+    if (name === "email") setEmail(event.target.value);
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
 
@@ -42,13 +68,22 @@ const Register = () => {
       });
       return;
     }
-
-    // console.log(formData)
     await axios
       .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/register", formData)
       .then((res) => {
         if (res.status === 201) {
-          navigate("/login");
+          toast("✅ Verification Email sent!", {
+            position: "bottom-left",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+          setShowToast(true);
         }
       })
       .catch((err) => {
@@ -67,8 +102,65 @@ const Register = () => {
         });
       });
   }
+
+  async function handleResendClick() {
+    await axios
+      .get(
+        process.env.REACT_APP_BASE_URL + "/api/v1/users/resend-verification",
+        {
+          params: {
+            email: email,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 201) {
+          toast("✅ Verification Email sent!", {
+            position: "bottom-left",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+          setShowToast(true);
+        }
+      })
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
+
+    setShowResendButton(false);
+    setCountdown(30);
+  }
   return (
     <>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="parent">
         <Link to="/">
           <i
@@ -84,7 +176,13 @@ const Register = () => {
 
         <div className="leftpart-auth">
           <div className="my-3 d-flex justify-content-center align-items-center flex-column">
-            <div className="icon">
+            <div
+              className="icon"
+              style={{
+                background:
+                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%))",
+              }}
+            >
               <i
                 className="fa-solid fa-code fa-2xl"
                 style={{ color: "#000000" }}
@@ -213,7 +311,7 @@ const Register = () => {
             <div className="d-flex justify-content-center align-items-center">
               <button className="options google" type="button">
                 <svg
-                className="me-1"
+                  className="me-1"
                   version="1.1"
                   width="20"
                   id="Layer_1"
@@ -251,6 +349,43 @@ C318.115,0,375.068,22.126,419.404,58.936z"
               </button>
             </div>
           </form>
+        </div>
+        <div
+          className={`toast ${showToast ? "show" : ""}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          style={{
+            backgroundColor: "var(--secondaryColor)",
+            position: "absolute",
+            top: "50%",
+            right: "40%",
+          }}
+        >
+          <div class="toast-body">
+            Email not recieved?
+            <div class="mt-2 pt-2 border-top">
+              {showResendButton ? (
+                <button
+                  type="button"
+                  className="btn-list"
+                  onClick={handleResendClick}
+                >
+                  Resend
+                </button>
+              ) : (
+                <>{countdown}</>
+              )}
+              <button
+                type="button"
+                class="btn-list"
+                data-bs-dismiss="toast"
+                onClick={() => setShowToast(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>

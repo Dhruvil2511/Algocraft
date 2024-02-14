@@ -9,13 +9,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     // console.log(Cookies.get())
     const accessToken = Cookies.get("refreshToken");
-    console.log(accessToken);
     if (accessToken) {
       navigate("/coding-sheets/striver");
     }
@@ -42,11 +41,18 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        const status = err?.response?.status;
         let toastmessage = "";
-        if (status === 401) toastmessage = "Invalid Password";
-        else if (status === 404) toastmessage = "User not registered";
-        else toastmessage = "Server Error";
+        console.log(err.response);
+        const { statusCode, userMessage } = err?.response?.data;
+        console.log(statusCode, userMessage);
+        if (
+          statusCode === 401 &&
+          userMessage === "Your account is not active please verify your email."
+        ) {
+          setShowToast(true);
+        }
+
+        toastmessage = userMessage;
 
         toast(toastmessage, {
           position: "top-center",
@@ -64,8 +70,87 @@ const Login = () => {
         setIsLoading(false);
       });
   }
+  async function handleResendClick() {
+    await axios
+      .get(
+        process.env.REACT_APP_BASE_URL + "/api/v1/users/resend-verification",
+        {
+          params: {
+            email: email,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 201) {
+          toast("✅ Verification Email sent!", {
+            position: "bottom-left",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+          setShowToast(false);
+
+        }
+      })
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        }).finally(() => {
+          setShowToast(false);
+        });
+      });
+  }
   return (
     <>
+      <div
+        className={`toast ${showToast ? "show" : ""}`}
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        style={{
+          backgroundColor: "var(--secondaryColor)",
+          position: "absolute",
+          top: "50%",
+          right: "40%",
+        }}
+      >
+        <div className="toast-body">
+          Send Verification Email?
+          <div className="mt-2 pt-2 border-top">
+            <button
+              type="button"
+              className="btn-list"
+              onClick={handleResendClick}
+            >
+              Send
+            </button>
+
+            <button
+              type="button"
+              className="btn-list"
+              data-bs-dismiss="toast"
+              onClick={() => setShowToast(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="parent">
         <Link to="/">
           <i
@@ -81,10 +166,16 @@ const Login = () => {
 
         <div className="leftpart-auth">
           <div className="my-3 d-flex justify-content-center align-items-center flex-column">
-            <div className="icon">
+            <div
+              className="icon"
+              style={{
+                background:
+                  "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%))",
+              }}
+            >
               <i
                 className="fa-solid fa-code fa-2xl"
-                style={{ color: "#000000" }}
+                style={{ color: "var(--mainTextColor)" }}
               ></i>
             </div>
             <h1 className="text-center">Algocraft</h1>
@@ -94,6 +185,7 @@ const Login = () => {
           <h3 className="text-decoration-underline">
             Create an Account or login
           </h3>
+
           {isLoading && (
             <div
               style={{
@@ -114,7 +206,11 @@ const Login = () => {
               </div>
             </div>
           )}
-          <form className="form mt-2" style={{backgroundColor:"transparent"}} onSubmit={handleSubmit}>
+          <form
+            className="form mt-2"
+            style={{ backgroundColor: "transparent" }}
+            onSubmit={handleSubmit}
+          >
             <div className="flex-column">
               <label>Email </label>
             </div>
@@ -185,7 +281,7 @@ const Login = () => {
             <div className="d-flex  justify-content-center align-items-center">
               <button className="options google">
                 <svg
-                className="me-2"
+                  className="me-2"
                   version="1.1"
                   width="20"
                   id="Layer_1"

@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import "dotenv/config.js";
 import { Resource } from "../models/resources.model.js";
 // MongoDB connection URI
-const mongoURI = process.env.MONGODB_URI || "mongodb+srv://dhruvil:NuPEGuzelSQgPjlM@cluster0.x0x9di8.mongodb.net";
+const mongoURI = process.env.MONGODB_URI ;
 console.log(mongoURI);
 
 const obj = {

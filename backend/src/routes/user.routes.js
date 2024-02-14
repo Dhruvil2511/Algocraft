@@ -12,8 +12,10 @@ import {
     logoutUser,
     refreshAccessToken,
     registerUser,
+    verifyEmail,
     updateAccountDetails,
     updateAvatar,
+    resendVerification
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -22,6 +24,8 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
+router.route("/verify-email").get(verifyEmail)
+router.route("/resend-verification").get(resendVerification)
 
 // secured routes
 router.route("/logout").post(verifyJWT, logoutUser);

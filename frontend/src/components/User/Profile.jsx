@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 const Profile = ({ userId }) => {
   const [user, setUser] = useState({});
   const [threadList, setThreadList] = useState([]);
-  const [questionList, setQuestionList] = useState([]);
+  const [questionList, setQuestionList] = useState([
+    { title: "No Questions Yet" },
+  ]);
   const [current, setCurrent] = useState("");
   const [owner, setOwner] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +84,9 @@ const Profile = ({ userId }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          setThreadList(res.data.data.threadsCreated);
+          if (res.data.data.threadsCreated.length === 0)
+            setThreadList([{ title: "No Threads Yet" }]);
+          else setThreadList(res.data.data.threadsCreated);
           setQuestionList([]);
           setCurrent("Threads created");
         }
@@ -113,7 +117,9 @@ const Profile = ({ userId }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          setThreadList(res.data.data.threadsSaved);
+          if (res.data.data.threadsSaved.length === 0)
+            setThreadList([{ title: "No Threads Yet" }]);
+          else setThreadList(res.data.data.threadsSaved);
           setQuestionList([]);
           setCurrent("Threads saved");
         }
@@ -147,7 +153,9 @@ const Profile = ({ userId }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          setQuestionList(res.data.data);
+          if (res.data.data.length === 0)
+            setQuestionList([{ title: "No Questions Yet" }]);
+          else setQuestionList(res.data.data);
           setCurrent("Bookmarked Questions");
           setThreadList([]);
         }
@@ -184,10 +192,10 @@ const Profile = ({ userId }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
+          if (res.data.data.length === 0)
+            setQuestionList([{ title: "No Questions Yet" }]);
+          else setQuestionList(res.data.data);
           setCurrent("Solved Questions");
-
-          setQuestionList(res.data.data);
           setThreadList([]);
         }
       })
@@ -525,11 +533,11 @@ const Profile = ({ userId }) => {
                     <>
                       {threadList &&
                         threadList?.map((thread) => (
-                          <div className="row p-2" key={thread._id}>
+                          <div className="row p-2" key={thread?._id}>
                             <div className="question d-flex align-items-center justify-content-between">
                               <div className="d-flex justify-content-center align-items-center">
                                 <div className="number pfp">
-                                  {thread.avatar ? (
+                                  {thread?.avatar ? (
                                     <img src={thread.avatar} alt="Avatar" />
                                   ) : (
                                     <i className="fa-solid fa-user "></i>
@@ -538,21 +546,21 @@ const Profile = ({ userId }) => {
 
                                 <div className="title d-flex flex-column justify-content-center align-items-start">
                                   <Link
-                                    to={`/discussion/${thread.category}/${thread._id}`}
+                                    to={`/discussion/${thread?.category}/${thread?._id}`}
                                     className="thread-title text-start"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                   >
-                                    {thread.title}
+                                    {thread?.title}
                                   </Link>
                                   <div className="dis-taglist d-flex justify-content-center align-items-center">
                                     <Link
-                                      to={`${thread.uploader.username}`}
+                                      to={`${thread?.uploader?.username}`}
                                       className="username"
                                     >
-                                      {thread.uploader.username}
+                                      {thread?.uploader?.username}
                                     </Link>
-                                    {thread.tags?.map((tag, index) => (
+                                    {thread?.tags?.map((tag, index) => (
                                       <span key={index} className="tags px-2">
                                         {tag}
                                       </span>
@@ -560,48 +568,50 @@ const Profile = ({ userId }) => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="d-flex justify-content-center align-items-center">
-                                <div className="mark-complete px-2">
-                                  <i className="fa-regular fa-circle-up "></i>
-                                  <small className="px-2">
-                                    {thread.upvotes?.length}
-                                  </small>
+                              {thread?.uploader && (
+                                <div className="d-flex justify-content-center align-items-center">
+                                  <div className="mark-complete px-2">
+                                    <i className="fa-regular fa-circle-up "></i>
+                                    <small className="px-2">
+                                      {thread?.upvotes?.length}
+                                    </small>
+                                  </div>
+                                  <div className="mark-later px-2">
+                                    <i className="fa-regular fa-eye "></i>
+                                    <small className="px-2">
+                                      {thread?.views?.length}
+                                    </small>
+                                  </div>
+                                  <div className="mark-later px-2">
+                                    {owner && (
+                                      <>
+                                        {current === "Threads saved" ? (
+                                          <button
+                                            className="btn-list"
+                                            onClick={() =>
+                                              removeSavedThread(thread?._id)
+                                            }
+                                          >
+                                            <i className="fa-solid fa-xmark"></i>{" "}
+                                          </button>
+                                        ) : (
+                                          <button
+                                            className="btn-list"
+                                            onClick={() =>
+                                              removeCreatedThread(thread?._id)
+                                            }
+                                          >
+                                            <i
+                                              className="fa-solid fa-trash-can"
+                                              style={{ color: "red" }}
+                                            ></i>
+                                          </button>
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="mark-later px-2">
-                                  <i className="fa-regular fa-eye "></i>
-                                  <small className="px-2">
-                                    {thread.views?.length}
-                                  </small>
-                                </div>
-                                <div className="mark-later px-2">
-                                  {owner && (
-                                    <>
-                                      {current === "Threads saved" ? (
-                                        <button
-                                          className="btn-list"
-                                          onClick={() =>
-                                            removeSavedThread(thread._id)
-                                          }
-                                        >
-                                          <i className="fa-solid fa-xmark"></i>{" "}
-                                        </button>
-                                      ) : (
-                                        <button
-                                          className="btn-list"
-                                          onClick={() =>
-                                            removeCreatedThread(thread._id)
-                                          }
-                                        >
-                                          <i
-                                            className="fa-solid fa-trash-can"
-                                            style={{ color: "red" }}
-                                          ></i>
-                                        </button>
-                                      )}
-                                    </>
-                                  )}
-                                </div>
-                              </div>
+                              )}
                             </div>
                           </div>
                         ))}
@@ -616,30 +626,34 @@ const Profile = ({ userId }) => {
                                   <div className="text-start d-flex justify-content-center align-items-center">
                                     <Link
                                       style={{ textDecoration: "none" }}
-                                      to={question.problemlink}
+                                      to={question?.problemlink}
                                       target="_blank"
                                       rel="noreffrer"
                                     >
                                       {question.title}
                                     </Link>
-                                    <span
-                                      className="ms-3 fs-6"
-                                      style={{
-                                        color: getColor(question.difficulty),
-                                      }}
-                                    >
-                                      ({question.difficulty})
-                                    </span>
+                                    {question?.difficulty && (
+                                      <span
+                                        className="ms-3 fs-6"
+                                        style={{
+                                          color: getColor(question?.difficulty),
+                                        }}
+                                      >
+                                        ({question?.difficulty})
+                                      </span>
+                                    )}
                                   </div>
                                   <div className="taglist d-flex jutify-content-center align-items-center">
-                                    {question.problemTags?.map((tag, index) => (
-                                      <span
-                                        key={index + 1}
-                                        className="tags px-2"
-                                      >
-                                        {tag}
-                                      </span>
-                                    ))}
+                                    {question?.problemTags?.map(
+                                      (tag, index) => (
+                                        <span
+                                          key={index + 1}
+                                          className="tags px-2"
+                                        >
+                                          {tag}
+                                        </span>
+                                      )
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -651,7 +665,7 @@ const Profile = ({ userId }) => {
                                         <button
                                           className="btn-list"
                                           onClick={() =>
-                                            removeSolvedQuestion(question._id)
+                                            removeSolvedQuestion(question?._id)
                                           }
                                         >
                                           <i className="fa-solid fa-xmark"></i>
@@ -660,7 +674,7 @@ const Profile = ({ userId }) => {
                                         <button
                                           className="btn-list"
                                           onClick={() =>
-                                            removeSavedQuestion(question._id)
+                                            removeSavedQuestion(question?._id)
                                           }
                                         >
                                           <i className="fa-solid fa-xmark"></i>
@@ -669,14 +683,16 @@ const Profile = ({ userId }) => {
                                     </>
                                   )}
                                 </div>
-                                <div className="solution px-2">
-                                  <Link href="#" className="btn-list">
-                                    <i
-                                      className="fa-brands fa-youtube fa-lg"
-                                      style={{ color: "#ff0000" }}
-                                    ></i>
-                                  </Link>
-                                </div>
+                                {question?.username && (
+                                  <div className="solution px-2">
+                                    <Link href="#" className="btn-list">
+                                      <i
+                                        className="fa-brands fa-youtube fa-lg"
+                                        style={{ color: "#ff0000" }}
+                                      ></i>
+                                    </Link>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
