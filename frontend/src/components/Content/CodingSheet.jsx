@@ -134,14 +134,58 @@ const CodingSheet = () => {
       {
         data: Object.values(solvedData),
         hoverOffset: 10,
-        backgroundColor:[
-          "#90EEB9", "#99DDFF", "#FFCC99", "#CC99FF", "#FFFF99", "#99FFCC", "#FF9999", "#99FFFF", "#FFCCFF", "#CCFF99",
-          "#FF99FF", "#CCFFCC", "#FFCCCC", "#CCCCFF", "#FFCCCC", "#CCFFFF", "#FFCCFF", "#CCFFCC", "#FF99FF", "#CCFF99",
-          "#FF99CC", "#99CCFF", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99",
-          "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF",
-          "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99"
-        ]
-        ,
+        backgroundColor: [
+          "#90EEB9",
+          "#99DDFF",
+          "#FFCC99",
+          "#CC99FF",
+          "#FFFF99",
+          "#99FFCC",
+          "#FF9999",
+          "#99FFFF",
+          "#FFCCFF",
+          "#CCFF99",
+          "#FF99FF",
+          "#CCFFCC",
+          "#FFCCCC",
+          "#CCCCFF",
+          "#FFCCCC",
+          "#CCFFFF",
+          "#FFCCFF",
+          "#CCFFCC",
+          "#FF99FF",
+          "#CCFF99",
+          "#FF99CC",
+          "#99CCFF",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+          "#FFCCFF",
+          "#CCFFFF",
+          "#FF99FF",
+          "#CCFF99",
+        ],
       },
     ],
   };
@@ -150,7 +194,7 @@ const CodingSheet = () => {
     plugins: {
       legend: {
         display: false,
-      }, 
+      },
     },
   };
 
@@ -398,8 +442,17 @@ const CodingSheet = () => {
             </Link>
           </div>
         </div>
-        <div className="author alert bg-success">
-          All credits goes to {author}
+        <div className="author alert bg-success ">
+          <span className="text-warning fs-3">
+            All credits goes to {author}.{" "}
+          </span>
+          <br />
+          <p className="text-white">
+            Your contribution enables us to create a vibrant community platform.
+            <br />
+            This project is purely for project purposes and not monetized or no
+            intention to earn from it.
+          </p>
         </div>
         <div className="progress-section py-2">
           <span> Progress :</span>
@@ -432,7 +485,7 @@ const CodingSheet = () => {
         </div>
         {/* {console.log(analysisToggle)} */}
         {analysisToggle && (
-          <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2 " >
+          <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2 ">
             <div
               className="daddy d-flex  p-3 justify-content-center align-items-center"
               style={{
@@ -622,7 +675,7 @@ const CodingSheet = () => {
             </div>
           </div>
 
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex justify-content-center align-items-center flex-wrap">
             <div className="hidetag">
               <button onClick={toggleTags} className="options" ref={tagbutton}>
                 Hide tags
@@ -717,10 +770,10 @@ const CodingSheet = () => {
                             ({question.difficulty})
                           </span>
                         </div>
-                        <div className="taglist d-flex jutify-content-center align-items-center">
+                        <div className="taglist d-flex jutify-content-center align-items-center flex-wrap">
                           {isTagsVisible &&
                             question.problemTags?.map((tag, index) => (
-                              <span key={index + 1} className="tags px-2">
+                              <span key={index + 1} className="tags px-2 ">
                                 {tag}
                               </span>
                             ))}
@@ -787,7 +840,6 @@ const CodingSheet = () => {
           </div>
           <div className="text d-flex justify-content-center align-items-center">
             {currentPage}
-            {/* <input type="text" style={{width:"20px"}} /> {190/perPage} */}
           </div>
           <div className="next">
             <button

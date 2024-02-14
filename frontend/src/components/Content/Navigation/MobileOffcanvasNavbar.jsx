@@ -3,7 +3,7 @@ import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
 import { Link } from "react-router-dom";
 
-const MobileOffcanvasNavbar = ({ user }) => {
+const MobileOffcanvasNavbar = ({ username,avatar }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const [path, setPath] = useState(window.location.pathname);
 
@@ -49,9 +49,9 @@ const MobileOffcanvasNavbar = ({ user }) => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {user?.avatar ? (
+              {avatar ? (
                 <img
-                  src={`${user?.avatar}`}
+                  src={`${avatar}`}
                   alt=""
                   width="32"
                   height="32"
@@ -78,7 +78,7 @@ const MobileOffcanvasNavbar = ({ user }) => {
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to={`${user?.username}`}>
+                <Link className="dropdown-item" to={`${username}`}>
                   Profile
                 </Link>
               </li>

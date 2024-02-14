@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../Loader.jsx";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 const DiscussionThread = () => {
   const { id } = useParams();
@@ -321,9 +321,13 @@ const DiscussionThread = () => {
                       <i className="fa-solid fa-user "></i>
                     )}
                   </div>
-                  <div className="px-2">
-                    <strong>@{thread.uploader?.username}</strong>
+                  <div className="d-flex justify-content-center align-items-center flex-column">
+                    <h6 className="px-2 d-flex justify-content-start align-items-center">{thread.uploader?.fullname}</h6>
+                    <div className="w-100 px-2 d-flex justify-content-start  align-items-center">
+                      <strong className="w-100">@{thread.uploader?.username}</strong>
+                    </div>
                   </div>
+
                   <div className="time">
                     <sub>{new Date(thread.createdAt).toLocaleString()}</sub>
                   </div>

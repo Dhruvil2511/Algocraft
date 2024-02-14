@@ -161,6 +161,7 @@ const getThread = asyncHandler(async (req, res) => {
                     _id: 1,
                     username: 1,
                     avatar: 1,
+                    fullname:1
                 },
                 upvotes: {
                     _id: 1,

@@ -3,7 +3,7 @@ import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
 import { Link, useLocation } from "react-router-dom";
 
-const OffcanvasNavbar = ({ username,avatar }) => {
+const OffcanvasNavbar = ({ username, avatar }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const location = useLocation();
 
@@ -11,7 +11,6 @@ const OffcanvasNavbar = ({ username,avatar }) => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") setDarkTheme(true);
     else if (theme === "light") setDarkTheme(false);
-
   }, []);
 
   function handleTheme() {
@@ -110,7 +109,9 @@ const OffcanvasNavbar = ({ username,avatar }) => {
             <Link
               to="/discussion?category=all"
               className={
-                location.pathname.includes("discussion") ? "nav-link active" : "nav-link"
+                location.pathname.includes("discussion")
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-comments fa-lg px-2"></i>
@@ -121,7 +122,9 @@ const OffcanvasNavbar = ({ username,avatar }) => {
             <Link
               to="/coding-ide"
               className={
-                location.pathname === "/coding-ide" ? "nav-link active" : "nav-link"
+                location.pathname === "/coding-ide"
+                  ? "nav-link active"
+                  : "nav-link"
               }
             >
               <i className="fa-solid fa-terminal fa-lg px-2"></i>
@@ -155,6 +158,11 @@ const OffcanvasNavbar = ({ username,avatar }) => {
             <li>
               <a className="dropdown-item" href="#">
                 About project
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="/dmca_policy">
+                DMCA Policy
               </a>
             </li>
           </ul>

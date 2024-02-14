@@ -13,6 +13,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
 import Sidebar from "./components/Sidebar";
+import DMCA from "./components/Landing/DMCA";
 
 const SmallLayout = () => (
   <div className="content">
@@ -49,6 +50,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/dmca_policy" element={<DMCA />} />
           <Route element={<SmallLayout />}>
             <Route path="/:userid" element={<Layout />} />
             <Route path="/coding-resources" element={<Layout />} />
