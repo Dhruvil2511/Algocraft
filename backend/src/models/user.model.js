@@ -68,6 +68,10 @@ const userSchema = new Schema(
                 ref: "Thread",
             },
         ],
+        isActive: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );

@@ -10,9 +10,9 @@ const Logout = () => {
           {},
           { withCredentials: true }
         );
-        window.location.href = "/";
       } catch (err) {
-        console.error("Error logging out", err);
+      } finally {
+        window.location.href = "/";
       }
     };
 

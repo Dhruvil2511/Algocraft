@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import codingAnimation from "../../assets/animations/home.json";
 import ballAnimation from "../../assets/animations/ball-animation.json";
@@ -545,16 +545,16 @@ const Home = () => {
                           </a>
                         </li>
                         <li>
-                          <a className="text-links" href="/">
+                          <a className="text-links" href="/register">
                             Create Account
                           </a>
                         </li>
                       </React.Fragment>
                     ) : null}
-
+  
                     <li>
                       <a className="text-links" href="/">
-                        Privacy policy
+                        DMCA
                       </a>
                     </li>
                     <li>

@@ -23,6 +23,8 @@
   --mainBgColor: var(--primary-dark-color);
   --itemColor: var(--item-dark-color);
   --secondaryColor: var(--secondary-dark-color);
+
+  --toastify-color-progress-dark: var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%)) !important;
 }
 
 

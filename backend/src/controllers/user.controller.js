@@ -6,11 +6,12 @@ import joi from "joi";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 
-const cookieOptions = {
-    // added this so that cookie can only be modified by server and not client
-    httpOnly: true,
-    secure: true,
-};
+// const cookieOptions = {
+//     // added this so that cookie can only be modified by server and not client
+//     httpOnly: true,
+//     secure: true,
+//     sameSite:'None',
+// };
 
 const registrationSchema = joi.object({
     username: joi.string().required(),
@@ -174,8 +175,8 @@ const loginUser = asyncHandler(async (req, res) => {
     console.log(loggedInUser);
     return res
         .status(200)
-        .cookie("accessToken", accessToken, cookieOptions)
-        .cookie("refreshToken", refreshToken, cookieOptions)
+        .cookie("accessToken", accessToken, { secure: true, sameSite: "None" })
+        .cookie("refreshToken", refreshToken, { secure: true, sameSite: "None" })
         .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User Logged in Successfully."));
 });
 
@@ -190,8 +191,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .clearCookie("accessToken", cookieOptions)
-        .clearCookie("refreshToken", cookieOptions)
+        .clearCookie("accessToken", { secure: true, sameSite: "None" })
+        .clearCookie("refreshToken", { secure: true, sameSite: "None" })
         .json(new ApiResponse(200, {}, "User logged out!"));
 });
 

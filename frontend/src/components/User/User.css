@@ -62,9 +62,9 @@
 .form {
     display: flex;
     flex-direction: column;
-
+    color: var(--mainTextColor);
     gap: 10px;
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 30px;
     width: 450px;
     border-radius: 20px;
@@ -85,9 +85,12 @@
 }
 
 .inputForm {
+    color: var(--mainTextColor);
+
     border: 1.5px solid #ecedec;
     border-radius: 10px;
     height: 50px;
+    background-color: transparent;
     display: flex;
     align-items: center;
     padding-left: 10px;
@@ -95,6 +98,9 @@
 }
 
 .input {
+    color: var(--mainTextColor);
+
+    background-color: transparent;
     margin-left: 10px;
     border-radius: 10px;
     border: none;
@@ -120,8 +126,12 @@
 
 .flex-row>div>label {
     font-size: 14px;
-    color: black;
+    color: var(--mainTextColor);
     font-weight: 400;
+}
+label{
+    color: var(--mainTextColor) !important;
+
 }
 
 .span {
@@ -151,7 +161,7 @@
 
 .p {
     text-align: center;
-    color: black !important;
+    color: var(--mainTextColor);
     font-size: 14px;
     margin: 5px 0;
 }
@@ -171,7 +181,13 @@
     cursor: pointer;
     transition: 0.2s ease-in-out;
 }
-
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: var(--mainTextColor) !important;
+}
 .btn:hover {
     border: 1px solid #2d79f3;
 

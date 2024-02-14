@@ -13,9 +13,12 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let x = Cookies.get("accessToken");
-    console.log(x);
-    if (Cookies.get("accessToken")) navigate("/coding-sheets/striver");
+    // console.log(Cookies.get())
+    const accessToken = Cookies.get("refreshToken");
+    console.log(accessToken);
+    if (accessToken) {
+      navigate("/coding-sheets/striver");
+    }
   }, []);
 
   async function handleSubmit(event) {
@@ -111,7 +114,7 @@ const Login = () => {
               </div>
             </div>
           )}
-          <form className="form mt-2" onSubmit={handleSubmit}>
+          <form className="form mt-2" style={{backgroundColor:"transparent"}} onSubmit={handleSubmit}>
             <div className="flex-column">
               <label>Email </label>
             </div>
@@ -179,9 +182,10 @@ const Login = () => {
             </p>
             <p className="p line">Or With</p>
 
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="d-flex  justify-content-center align-items-center">
               <button className="options google">
                 <svg
+                className="me-2"
                   version="1.1"
                   width="20"
                   id="Layer_1"
