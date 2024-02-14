@@ -121,24 +121,11 @@ const CodingSheet = () => {
       .finally(() => setIsLoading(false));
   };
 
-  // useEffect(() => {
-    
-  //   return () => {};
-  // }, [totalSolvedQuestions !== null]);
-
-
   useEffect(() => {
     fetchUser();
     fetchQuestions();
     return () => {};
-  }, [
-    currentPage,
-    selectedDifficulty,
-    selectedTags,
-    status,
-    solvedData,
-    author,
-  ]);
+  }, [currentPage, selectedDifficulty, selectedTags, status, author]);
 
   // console.log(solvedData);
   const data = {
@@ -289,6 +276,7 @@ const CodingSheet = () => {
       .then((res) => {
         if (res.status === 200) {
           fetchUser();
+          calculatePie();
         }
       })
       .catch((err) => {
@@ -316,15 +304,13 @@ const CodingSheet = () => {
     anchors[randomIndex].click();
   }
 
-  function handleAnalysisToggle(){
-    setAnalysisToggle(!analysisToggle);
-
-    if (totalSolvedQuestions ) {
+  function calculatePie() {
+    if (totalSolvedQuestions) {
       const counts = {};
 
       for (const question of totalSolvedQuestions) {
         if (question.questionFrom === sheetId) {
-          console.log(question.questionFrom,sheetId)
+          console.log(question.questionFrom, sheetId);
           for (const tag of question?.problemTags) {
             if (allTags.includes(tag)) {
               counts[tag] = (counts[tag] || 0) + 1;
@@ -332,10 +318,12 @@ const CodingSheet = () => {
           }
         }
       }
-      // console.log(counts);
       setSolvedData(counts);
     }
-
+  }
+  function handleAnalysisToggle() {
+    setAnalysisToggle(!analysisToggle);
+    calculatePie();
   }
   return (
     <>
