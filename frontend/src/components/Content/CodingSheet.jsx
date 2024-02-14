@@ -39,7 +39,7 @@ const CodingSheet = () => {
   const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [totalSolvedQuestions, settotalSolvedQuestions] = useState(null);
+  const [totalSolvedQuestions, setTotalSolvedQuestions] = useState(null);
   const perPage = 50;
 
   const fetchUser = async () => {
@@ -51,8 +51,8 @@ const CodingSheet = () => {
         if (res.status === 200) {
           const data = res.data.data;
           setUser(data.user);
-          // console.log(data.user.solvedQuestions[0].problemTags)
-          settotalSolvedQuestions(data.user.solvedQuestions);
+          console.log(data.user.solvedQuestions);
+          setTotalSolvedQuestions(data.user.solvedQuestions);
         }
       })
       .catch((err) => {
@@ -121,38 +121,26 @@ const CodingSheet = () => {
       .finally(() => setIsLoading(false));
   };
 
+  // useEffect(() => {
+    
+  //   return () => {};
+  // }, [totalSolvedQuestions !== null]);
+
+
   useEffect(() => {
     fetchUser();
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    if (totalSolvedQuestions) {
-      const counts = {};
-      // console.log(sheetId, "================>>>");
-      totalSolvedQuestions.forEach((question) => {
-        // console.log(question);
-        if (question.questionFrom === sheetId) {
-          question.problemTags.forEach((tag) => {
-            // console.log("===================", tag);
-            if (allTags.includes(tag)) {
-              counts[tag] = (counts[tag] || 0) + 1;
-            }
-          });
-        }
-      });
-      console.log(counts);
-      setSolvedData(counts);
-    }
-    return () => {};
-  }, [totalSolvedQuestions !== null]);
-
-  useEffect(() => {
     fetchQuestions();
-    // return () => {};
-  }, [currentPage, selectedDifficulty, selectedTags, status, solvedData,author]);
+    return () => {};
+  }, [
+    currentPage,
+    selectedDifficulty,
+    selectedTags,
+    status,
+    solvedData,
+    author,
+  ]);
 
-  console.log(solvedData);
+  // console.log(solvedData);
   const data = {
     labels: Object.keys(solvedData),
     datasets: [
@@ -202,7 +190,7 @@ const CodingSheet = () => {
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
     }
-  }, [sheetId, user, sheet]);
+  }, [sheetId, user, sheet, author]);
 
   const calculateDisplayedNumber = (index) => {
     return (currentPage - 1) * perPage + index + 1;
@@ -327,6 +315,28 @@ const CodingSheet = () => {
     const randomIndex = Math.floor(Math.random() * anchors.length);
     anchors[randomIndex].click();
   }
+
+  function handleAnalysisToggle(){
+    setAnalysisToggle(!analysisToggle);
+
+    if (totalSolvedQuestions ) {
+      const counts = {};
+
+      for (const question of totalSolvedQuestions) {
+        if (question.questionFrom === sheetId) {
+          console.log(question.questionFrom,sheetId)
+          for (const tag of question?.problemTags) {
+            if (allTags.includes(tag)) {
+              counts[tag] = (counts[tag] || 0) + 1;
+            }
+          }
+        }
+      }
+      // console.log(counts);
+      setSolvedData(counts);
+    }
+
+  }
   return (
     <>
       <div className="content-header">
@@ -424,12 +434,12 @@ const CodingSheet = () => {
           <button
             className="options"
             style={{ margin: "0" }}
-            onClick={() => setAnalysisToggle(!analysisToggle)}
+            onClick={handleAnalysisToggle}
           >
             Analysis <i className="fa-solid fa-chart-pie"></i>
           </button>
         </div>
-        {console.log(analysisToggle)}
+        {/* {console.log(analysisToggle)} */}
         {analysisToggle && (
           <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2">
             <div
