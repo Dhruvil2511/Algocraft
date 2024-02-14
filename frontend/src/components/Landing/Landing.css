@@ -28,7 +28,7 @@ nav {
 }
 
 .text-links:hover::after, /* Hover effect for all links */
-.text-links.active::after { /* Additional effect for the active link */
+.text-links.active::after { /* Additional effect for the ac tive link */
     visibility: visible;
     transform: scaleX(1);
 }

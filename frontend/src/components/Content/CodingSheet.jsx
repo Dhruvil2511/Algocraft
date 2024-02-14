@@ -5,10 +5,11 @@ import Loader from "./Loader.jsx";
 import { toast, Bounce } from "react-toastify";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import { v4 as uuidv4 } from "uuid";
-import { Chart, ArcElement } from "chart.js";
+import { Chart, ArcElement, Colors } from "chart.js/auto";
 Chart.register(ArcElement);
+Chart.register(Colors);
 const CodingSheet = () => {
   const { author } = useParams();
   const { pathname } = useLocation();
@@ -127,27 +128,29 @@ const CodingSheet = () => {
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status, author]);
 
-  // console.log(solvedData);
   const data = {
     labels: Object.keys(solvedData),
     datasets: [
       {
-        label: "My First dataset",
-        backgroundColor: "rgb(93,105,169)",
-        borderColor: "rgb(0,0,255)",
         data: Object.values(solvedData),
-        hoverOffset: 4,
+        hoverOffset: 10,
+        backgroundColor:[
+          "#90EEB9", "#99DDFF", "#FFCC99", "#CC99FF", "#FFFF99", "#99FFCC", "#FF9999", "#99FFFF", "#FFCCFF", "#CCFF99",
+          "#FF99FF", "#CCFFCC", "#FFCCCC", "#CCCCFF", "#FFCCCC", "#CCFFFF", "#FFCCFF", "#CCFFCC", "#FF99FF", "#CCFF99",
+          "#FF99CC", "#99CCFF", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99",
+          "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF",
+          "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99", "#FFCCFF", "#CCFFFF", "#FF99FF", "#CCFF99"
+        ]
+        ,
       },
     ],
   };
 
-  // Configure doughnut options
   const options = {
     plugins: {
       legend: {
         display: false,
-        position: "top",
-      },
+      }, 
     },
   };
 
@@ -429,7 +432,7 @@ const CodingSheet = () => {
         </div>
         {/* {console.log(analysisToggle)} */}
         {analysisToggle && (
-          <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2">
+          <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2 " >
             <div
               className="daddy d-flex  p-3 justify-content-center align-items-center"
               style={{
@@ -501,7 +504,7 @@ const CodingSheet = () => {
               className="d-flex p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
-              <Pie data={data} options={options} />
+              <Doughnut data={data} options={options} />
             </div>
           </div>
         )}
