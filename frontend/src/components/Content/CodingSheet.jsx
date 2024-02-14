@@ -1,19 +1,21 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { useLocation, useParams } from "react-router-dom";
 import { allTags } from "../../constants/allTags.js";
-
-import { Chart } from "chart.js/auto";
-import { Pie } from "react-chartjs-2";
 import Loader from "./Loader.jsx";
 import { toast, Bounce } from "react-toastify";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { Pie } from "react-chartjs-2";
+import { v4 as uuidv4 } from "uuid";
+import { Chart, ArcElement } from "chart.js";
+Chart.register(ArcElement);
 const CodingSheet = () => {
   const { author } = useParams();
   const { pathname } = useLocation();
   const [sheet, setSheet] = useState([]);
   const tagbutton = useRef();
   const anchorRefs = useRef([]);
+  const [solvedData, setSolvedData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [isDataAvail, setIsDataAvail] = useState(true);
   const [isTagsVisible, setIsTagsVisible] = useState(true);
@@ -37,8 +39,38 @@ const CodingSheet = () => {
   const [totalHard, setTotalHard] = useState(0);
   const [analysisToggle, setAnalysisToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [totalSolvedQuestions, settotalSolvedQuestions] = useState(null);
   const perPage = 50;
 
+  const fetchUser = async () => {
+    await axios
+      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          const data = res.data.data;
+          setUser(data.user);
+          // console.log(data.user.solvedQuestions[0].problemTags)
+          settotalSolvedQuestions(data.user.solvedQuestions);
+        }
+      })
+      .catch((err) => {
+        const { status, userMessage } = err.response.data;
+        // console.log(userMessage)
+        toast(userMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
+  };
   const fetchQuestions = async () => {
     // console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
     setIsLoading(true);
@@ -89,80 +121,57 @@ const CodingSheet = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const fetchUser = async () => {
-    await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          const data = res.data.data;
-          setUser(data.user);
-        }
-      })
-      .catch((err) => {
-        const { status, userMessage } = err.response.data;
-        // console.log(userMessage)
-        toast(userMessage, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-      });
-  };
   useEffect(() => {
     fetchUser();
+    return () => {};
   }, []);
+
+  useEffect(() => {
+    if (totalSolvedQuestions) {
+      const counts = {};
+      // console.log(sheetId, "================>>>");
+      totalSolvedQuestions.forEach((question) => {
+        // console.log(question);
+        if (question.questionFrom === sheetId) {
+          question.problemTags.forEach((tag) => {
+            // console.log("===================", tag);
+            if (allTags.includes(tag)) {
+              counts[tag] = (counts[tag] || 0) + 1;
+            }
+          });
+        }
+      });
+      console.log(counts);
+      setSolvedData(counts);
+    }
+    return () => {};
+  }, [totalSolvedQuestions !== null]);
+
   useEffect(() => {
     fetchQuestions();
-    return () => {};
-  }, [author, currentPage, selectedDifficulty, selectedTags, status]);
+    // return () => {};
+  }, [currentPage, selectedDifficulty, selectedTags, status, solvedData,author]);
 
-  // Defined an object.
+  console.log(solvedData);
   const data = {
-    labels: allTags,
+    labels: Object.keys(solvedData),
     datasets: [
       {
         label: "My First dataset",
-        backgroundColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgb(93,105,169)",
         borderColor: "rgb(0,0,255)",
-        data: [
-          0,
-          10,
-          5,
-          2,
-          20,
-          30,
-          45,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          ,
-          1,
-          1,
-          1,
-          1,
-        ],
+        data: Object.values(solvedData),
         hoverOffset: 4,
       },
     ],
   };
+
+  // Configure doughnut options
   const options = {
     plugins: {
       legend: {
         display: false,
+        position: "top",
       },
     },
   };
@@ -420,11 +429,15 @@ const CodingSheet = () => {
             Analysis <i className="fa-solid fa-chart-pie"></i>
           </button>
         </div>
-        {analysisToggle ? (
+        {console.log(analysisToggle)}
+        {analysisToggle && (
           <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2">
             <div
               className="daddy d-flex  p-3 justify-content-center align-items-center"
-              style={{ width: "40%", border: "1px solid var(--mainTextColor)" }}
+              style={{
+                width: "40%",
+                border: "1px solid var(--mainTextColor)",
+              }}
             >
               <div className="bars w-100">
                 <span>
@@ -487,13 +500,13 @@ const CodingSheet = () => {
               </div>
             </div>
             <div
-              className="    d-flex  p-3 justify-content-center align-items-center"
+              className="d-flex p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
               <Pie data={data} options={options} />
             </div>
           </div>
-        ) : null}
+        )}
 
         <div className="d-flex flex-wrap justify-content-between align-items-center w-100 daddy my-4">
           <div className="d-flex justify-content-center align-items-center flex-wrap">
