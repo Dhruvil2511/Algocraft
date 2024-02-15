@@ -22,7 +22,6 @@ const Register = () => {
     const accessToken = Cookies.get("refreshToken");
     if (accessToken) {
       navigate("/coding-sheets/striver");
-
       const timerr = setTimeout(() => {
         setShowResendButton(true);
       }, 30000);
@@ -86,7 +85,7 @@ const Register = () => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -129,7 +128,7 @@ const Register = () => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",

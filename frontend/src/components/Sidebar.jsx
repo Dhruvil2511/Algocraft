@@ -31,7 +31,7 @@ const Sidebar = () => {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          transition: Bounce,
+          transition: Bounce, 
         });
         console.error("Error fetching user data:", error);
       } finally {

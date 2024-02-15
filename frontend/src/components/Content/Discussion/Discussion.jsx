@@ -49,7 +49,7 @@ const Discussion = () => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -137,7 +137,7 @@ const Discussion = () => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",

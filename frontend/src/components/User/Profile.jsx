@@ -36,7 +36,7 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         setUser({});
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -93,7 +93,7 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -126,7 +126,7 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -162,7 +162,7 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -201,7 +201,7 @@ const Profile = ({ userId }) => {
       })
       .catch((err) => {
         console.error(err);
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -234,7 +234,7 @@ const Profile = ({ userId }) => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -284,7 +284,7 @@ const Profile = ({ userId }) => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -311,7 +311,7 @@ const Profile = ({ userId }) => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",

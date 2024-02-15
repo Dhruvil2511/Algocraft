@@ -57,7 +57,7 @@ const CodingSheet = () => {
         }
       })
       .catch((err) => {
-        const { status, userMessage } = err.response.data;
+        const {  userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -291,7 +291,7 @@ const CodingSheet = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          const data = res.data.data;
+          // const data = res.data.data;
           // console.log(data);
           fetchUser();
         }
@@ -759,7 +759,7 @@ const CodingSheet = () => {
                             style={{ textDecoration: "none" }}
                             href={question.problemlink}
                             target="_blank"
-                            rel="noreffrer"
+                            rel="noreferrer"
                           >
                             {question.title}
                           </a>
