@@ -37,7 +37,7 @@ const MobileOffcanvasNavbar = ({ username,avatar }) => {
           </div>
           <div
             className="gola ms-2"
-            style={{ backgroundColor: "rgba(0, 208, 219, 1)" }}
+            style={{ background:"var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%))" }}
           >
             <i className="fa-solid fa-code fa-l"></i>
           </div>

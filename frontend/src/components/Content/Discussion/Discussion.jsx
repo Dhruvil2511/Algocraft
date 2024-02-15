@@ -227,7 +227,7 @@ const Discussion = () => {
                   </select>
                 </div>
                 <div
-                  className="d-flex justify-content-around align-items-center"
+                  className="d-flex cancel-post justify-content-around align-items-center"
                   style={{ width: "15%" }}
                 >
                   <div className="cancel">
@@ -284,11 +284,11 @@ const Discussion = () => {
                   Add
                 </button>
                 {[...tagList].map((tagText) => {
-                  console.log(tagText);
+                  // console.log(tagText);
                   return (
                     <span
                       key={tagText} // Make sure to add a unique key prop when rendering lists
-                      className="mx-2 p-1"
+                      className="mx-2 p-1 flex-wrap"
                       style={{
                         borderRadius: "4px",
                         border: "1px dotted black",
@@ -302,7 +302,7 @@ const Discussion = () => {
                 })}
               </div>
 
-              <div className="mt-3 thread-content">
+              <div className="mt-3  tc">
                 <textarea
                   required
                   id="content"
@@ -435,6 +435,13 @@ const Discussion = () => {
                       <Link
                         to={`/discussion/${thread.category}/${thread._id}`}
                         className="thread-title text-start"
+                        style={{
+                          textDecoration: "none",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "500px",
+                        }}
                       >
                         {thread.title}
                       </Link>

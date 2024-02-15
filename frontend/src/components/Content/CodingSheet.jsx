@@ -52,7 +52,7 @@ const CodingSheet = () => {
         if (res.status === 200) {
           const data = res.data.data;
           setUser(data.user);
-          console.log(data.user.solvedQuestions);
+          // console.log(data.user.solvedQuestions);
           setTotalSolvedQuestions(data.user.solvedQuestions);
         }
       })
@@ -357,7 +357,7 @@ const CodingSheet = () => {
 
       for (const question of totalSolvedQuestions) {
         if (question.questionFrom === sheetId) {
-          console.log(question.questionFrom, sheetId);
+          // console.log(question.questionFrom, sheetId);
           for (const tag of question?.problemTags) {
             if (allTags.includes(tag)) {
               counts[tag] = (counts[tag] || 0) + 1;
@@ -487,7 +487,7 @@ const CodingSheet = () => {
         {analysisToggle && (
           <div className="daddy d-flex justify-content-around align-items-center my-4  visualization py-2 ">
             <div
-              className="daddy d-flex  p-3 justify-content-center align-items-center"
+              className="daddy pehla-beta d-flex  p-3 justify-content-center align-items-center"
               style={{
                 width: "40%",
                 border: "1px solid var(--mainTextColor)",
@@ -554,7 +554,7 @@ const CodingSheet = () => {
               </div>
             </div>
             <div
-              className="d-flex p-3 justify-content-center align-items-center"
+              className="d-flex dusra-beta p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
               <Doughnut data={data} options={options} />
@@ -753,7 +753,7 @@ const CodingSheet = () => {
                       </div>
                       {/* <div className="status"></div> */}
                       <div className="title d-flex flex-column justify-content-center align-items-start">
-                        <div className="text-start d-flex justify-content-center align-items-center">
+                        <div className="text-start bahar-nahi d-flex justify-content-center align-items-center">
                           <a
                             ref={(el) => (anchorRefs.current[index] = el)}
                             style={{ textDecoration: "none" }}

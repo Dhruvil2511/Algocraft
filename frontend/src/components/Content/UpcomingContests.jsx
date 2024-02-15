@@ -44,7 +44,7 @@ const UpcomingContests = () => {
 
   function handleSearchSubmit(event) {
     event.preventDefault();
-    console.log(query);
+    // console.log(query);
     if (query.trim() === "") {
       setContestData(originalData);
       return;
@@ -74,37 +74,6 @@ const UpcomingContests = () => {
 
       {/* <div className="visualization py-2">visualization content here</div> */}
       <div className="d-flex flex-nowrap justify-content-start align-items-center">
-        {/* <div className="dropdown">
-          <button
-            className="options dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Filter
-          </button>
-          <ul className="dropdown-menu">
-            <div className="search-filter d-flex align-items-center">
-              <i className="fa-solid fa-magnifying-glass px-2"></i>
-              <input type="text" className="me-2" />
-            </div>
-            <li>
-              <Link className="dropdown-item" to="#">
-                Leetcode
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="#">
-                Codeforces
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="#">
-                Codechef
-              </Link>
-            </li>
-          </ul>
-        </div> */}
         <form onSubmit={handleSearchSubmit} className="w-100">
           <div className="searchBox me-3 w-100">
             <input
@@ -142,37 +111,39 @@ const UpcomingContests = () => {
                       <div className="number fs-5" style={{ width: "10%" }}>
                         {index + 1}
                       </div>
-                      <div className="pfp" style={{ width: "10%" }}>
-                        <img
-                          className="p-1"
-                          style={{ width: "40px", height: "40px" }}
-                          src={`https://clist.by/media/sizes/32x32/img/resources/${contest.host.replace(
-                            /[.\/]/g,
-                            "_"
-                          )}.png`}
-                          alt="X"
-                        />
-                      </div>
-                      <div
-                        style={{ width: "70%" }}
-                        className="title d-flex justify-content-start align-items-center"
-                      >
-                        <Link
-                          className="text-start"
-                          to={contest.href}
-                          style={{
-                            textDecoration: "none",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            maxWidth: "500px",
-                          }}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                      <div style={{width:"90%"}} className="d-flex icon-name justify-content-start align-items-center">
+                        <div className="pfp contest-pfp" style={{ width: "10%" }}>
+                          <img
+                            className="p-1"
+                            style={{ width: "40px", height: "40px" }}
+                            src={`https://clist.by/media/sizes/32x32/img/resources/${contest.host.replace(
+                              /[.\/]/g,
+                              "_"
+                            )}.png`}
+                            alt="X"
+                          />
+                        </div>
+                        <div
+                          style={{ width: "70%" }}
+                          className="title d-flex justify-content-start align-items-center"
                         >
-                          {contest.host.split(".")[0].toUpperCase()} -{" "}
-                          {contest.event}
-                        </Link>
+                          <Link
+                            className="text-start"
+                            to={contest.href}
+                            style={{
+                              textDecoration: "none",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              maxWidth: "500px",
+                            }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {contest.host.split(".")[0].toUpperCase()} -{" "}
+                            {contest.event}
+                          </Link>
+                        </div>
                       </div>
                     </div>
                     <div
@@ -181,7 +152,13 @@ const UpcomingContests = () => {
                     >
                       <div className="mark-complete px-2">
                         <span>{new Date(contest.start).toLocaleString()}</span>{" "}
-                        <Link className="btn-list" to={`calender.google.com/calender/u/0/r/eventedit?text=${contest.host.split(".")[0].toUpperCase() +contest.event}&details=url:+${contest.href}`}>
+                        <Link
+                          className="btn-list"
+                          to={`calender.google.com/calender/u/0/r/eventedit?text=${
+                            contest.host.split(".")[0].toUpperCase() +
+                            contest.event
+                          }&details=url:+${contest.href}`}
+                        >
                           <i className="fa-solid fa-calendar-days fa-lg"></i>
                         </Link>
                       </div>

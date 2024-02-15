@@ -643,7 +643,7 @@ const Profile = ({ userId }) => {
                                       </span>
                                     )}
                                   </div>
-                                  <div className="taglist d-flex jutify-content-center align-items-center">
+                                  <div className="taglist d-flex jutify-content-center align-items-center flex-wrap">
                                     {question?.problemTags?.map(
                                       (tag, index) => (
                                         <span

@@ -119,7 +119,7 @@ const DiscussionThread = () => {
       .then((res) => {
         if (res.status === 200) {
           setUserComment("");
-          console.log(res.data.data);
+          // console.log(res.data.data);
           fetchThread();
         }
       })
@@ -297,7 +297,13 @@ const DiscussionThread = () => {
                 >
                   <i className="fa-solid fa-left-long fa-xl"></i>
                 </Link>
-                <strong className="px-2">{thread.title}</strong>
+                <strong className="px-2" style={{
+                          textDecoration: "none",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "250px",
+                        }}>{thread.title}</strong>
               </div>
               <div className="d-flex justify-content-end align-items-center">
                 <button className="btn-list px-2" onClick={handleShare}>

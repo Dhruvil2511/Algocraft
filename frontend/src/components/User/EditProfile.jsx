@@ -50,7 +50,7 @@ const EditProfile = ({ user }) => {
       const updatedData = {
         [editedField]: formData[editedField],
       };
-      console.log(updatedData);
+      // console.log(updatedData);
       await axios
         .patch(
           process.env.REACT_APP_BASE_URL + "/api/v1/users/update-account",
@@ -145,7 +145,6 @@ const EditProfile = ({ user }) => {
       .finally(() => {
         setUserUpdating(false);
         window.location.href = "/";
-
       });
   }
 
@@ -176,9 +175,9 @@ const EditProfile = ({ user }) => {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
+          window.location.reload();
         }
       })
       .catch((err) => {
@@ -310,7 +309,7 @@ const EditProfile = ({ user }) => {
             </div>
           </div>
 
-          <div className="w-75 d-flex justify-content-center align-items-center flex-column p-2">
+          <div className="w-75 editkr d-flex justify-content-center align-items-center flex-column p-2">
             <form className="w-75" onSubmit={handleSubmit}>
               <input
                 type="hidden"

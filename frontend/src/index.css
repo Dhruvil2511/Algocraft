@@ -153,6 +153,87 @@ button:active {
     left: 0;
     
   }
+  .discord,.github,.linkedin,.mail{
+    display: flex;
+    flex-direction: column;
+  }
+  .discord span,
+.github span,
+.linkedin span,
+.mail span {
+    padding: 0% !important;
+}
+.rightpart-auth{
+  height: 100% !important;
+}
+.visualization{
+  flex-direction: column !important;
+}
+.pehla-beta,.dusra-beta{
+  width: 100% !important;
+}
+.bahar-nahi{
+  flex-direction: column !important;
+}
+.icon-name{
+  flex-direction: column !important;
+
+  align-items: start !important;
+}
+.contest-pfp{
+  width: 65% !important;
+}
+.bahar-nahi span{
+  width: 100% !important;
+}
+.create-thread{
+  left: 0% !important;
+}
+.thread-title{
+  max-width: 150px !important;
+}
+.thread-content{
+  padding: 2rem !important;
+}
+.title-post,.title-inp{
+  width: 100% !important;
+  flex-direction: column-reverse !important;
+}
+.title-inp input{
+  margin-left: 5% !important;
+  width: 90% !important;
+}
+.title-inp select{
+  width: 90% !important;
+
+  margin:  5% !important;
+}
+.cancel-post{
+  width: 50% !important;
+}
+.thred-tag{
+  margin:  5% !important;
+  width: 80% !important;
+  flex-direction: column !important;
+  justify-content: space-around !important;
+}
+.thred-tag input{
+  margin:  5% !important;
+  width: 90% !important;
+}
+.thred-tag button{
+  margin:  5% !important;
+  width: 90% !important;
+}
+.tc{
+  margin: 5% !important;
+}
+.tc textarea{
+width:20em !important;
+}
+.editkr{
+  width: 100% !important;
+}
 }
 
 @media only screen and (max-width: 1145px) {

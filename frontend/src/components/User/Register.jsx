@@ -20,7 +20,6 @@ const Register = () => {
   useEffect(() => {
     // console.log(Cookies.get())
     const accessToken = Cookies.get("refreshToken");
-    console.log(accessToken);
     if (accessToken) {
       navigate("/coding-sheets/striver");
 
@@ -362,9 +361,9 @@ C318.115,0,375.068,22.126,419.404,58.936z"
             right: "40%",
           }}
         >
-          <div class="toast-body">
+          <div className="toast-body">
             Email not recieved?
-            <div class="mt-2 pt-2 border-top">
+            <div className="mt-2 pt-2 border-top">
               {showResendButton ? (
                 <button
                   type="button"
@@ -378,7 +377,7 @@ C318.115,0,375.068,22.126,419.404,58.936z"
               )}
               <button
                 type="button"
-                class="btn-list"
+                className="btn-list"
                 data-bs-dismiss="toast"
                 onClick={() => setShowToast(false)}
               >
