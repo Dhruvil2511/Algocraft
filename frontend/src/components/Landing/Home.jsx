@@ -8,12 +8,13 @@ import { Fade } from "react-reveal";
 import { Navigation } from "./Navigation";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -90,29 +91,27 @@ const Home = () => {
                   engineering interview.
                 </span>
                 {user ? (
-                  <form action="/coding-sheets/striver">
-                    <button
-                      className="grad-btn mt-2 drop-in-4"
-                      style={{ overflow: "hidden" }}
-                    >
-                      Lets Crack it
-                      <div className="hoverEffect">
-                        <div></div>
-                      </div>
-                    </button>
-                  </form>
+                  <button
+                    onClick={() => navigate("/coding-sheets/striver")}
+                    className="grad-btn mt-2 drop-in-4"
+                    style={{ overflow: "hidden" }}
+                  >
+                    Lets Crack it
+                    <div className="hoverEffect">
+                      <div></div>
+                    </div>
+                  </button>
                 ) : (
-                  <form action="/login">
-                    <button
-                      className="grad-btn mt-2 drop-in-4"
-                      style={{ overflow: "hidden" }}
-                    >
-                      Lets Crack it
-                      <div className="hoverEffect">
-                        <div></div>
-                      </div>
-                    </button>
-                  </form>
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="grad-btn mt-2 drop-in-4"
+                    style={{ overflow: "hidden" }}
+                  >
+                    Lets Crack it
+                    <div className="hoverEffect">
+                      <div></div>
+                    </div>
+                  </button>
                 )}
               </div>
             </div>
@@ -346,7 +345,7 @@ const Home = () => {
       <hr className="hr1"></hr>
       <div className="page3 my-5">
         <div className="container faq">
-          <h3 className="py-2">FAQ's..</h3>
+          <h3 className="py-2">Frequently Asked Questions</h3>
           <div
             className="accordion accordion-flush custom-accordion"
             id="accordionFlushExample"
@@ -361,7 +360,7 @@ const Home = () => {
                   aria-expanded="false"
                   aria-controls="flush-collapseOne"
                 >
-                  Accordion Item #1
+                  How can I sign up for Algocraft?
                 </button>
               </h2>
               <div
@@ -370,9 +369,9 @@ const Home = () => {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  Placeholder content for this accordion, which is intended to
-                  demonstrate the <code>.accordion-flush</code> className. This
-                  is the first item's accordion body.
+                  Signing up for Algocraft is easy! Simply click on the "Create
+                  Account" button in the top right corner of the page, fill in
+                  your details, and you're all set to explore the platform.
                 </div>
               </div>
             </div>
@@ -386,7 +385,7 @@ const Home = () => {
                   aria-expanded="false"
                   aria-controls="flush-collapseTwo"
                 >
-                  Accordion Item #2
+                  How do I access coding resources on Algocraft?
                 </button>
               </h2>
               <div
@@ -395,10 +394,10 @@ const Home = () => {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  Placeholder content for this accordion, which is intended to
-                  demonstrate the <code>.accordion-flush</code> className. This
-                  is the second item's accordion body. Let's imagine this being
-                  filled with some actual content.
+                  To access coding resources on Algocraft, simply navigate to
+                  the "Coding Resources" section on the home page. Here, you'll
+                  find a wide range of tutorials, guides, frameworks, and
+                  libraries to empower your coding journey.
                 </div>
               </div>
             </div>
@@ -412,7 +411,7 @@ const Home = () => {
                   aria-expanded="false"
                   aria-controls="flush-collapseThree"
                 >
-                  Accordion Item #3
+                  Is Algocraft suitable for beginners?
                 </button>
               </h2>
               <div
@@ -421,19 +420,99 @@ const Home = () => {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  Placeholder content for this accordion, which is intended to
-                  demonstrate the <code>.accordion-flush</code> className. This
-                  is the third item's accordion body. Nothing more exciting
-                  happening here in terms of content, but just filling up the
-                  space to make it look, at least at first glance, a bit more
-                  representative of how this would look in a real-world
-                  application.
+                  Yes, Algocraft is designed to cater to coders of all levels,
+                  including beginners. Whether you're just starting your coding
+                  journey or looking to enhance your skills, you'll find
+                  valuable resources, discussions, and contests to support your
+                  learning experience.
+                </div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseFour"
+                  aria-expanded="false"
+                  aria-controls="flush-collapseFour"
+                >
+                  How can I participate in coding contests on Algocraft?
+                </button>
+              </h2>
+              <div
+                id="flush-collapseFour"
+                className="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div className="accordion-body">
+                  Participating in coding contests on Algocraft is simple! Keep
+                  an eye on the "Upcoming Contests" section on the home page to
+                  stay informed about upcoming contests. Once a contest is live,
+                  click on the contest link, register if required, and start
+                  coding!
+                </div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseFive"
+                  aria-expanded="false"
+                  aria-controls="flush-collapseFive"
+                >
+                  How do I contribute to the Algocraft community?
+                </button>
+              </h2>
+              <div
+                id="flush-collapseFive"
+                className="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div className="accordion-body">
+                  Contributing to the Algocraft community is highly encouraged!
+                  You can contribute by sharing your coding knowledge and
+                  experiences in the discussion forums, submitting coding
+                  resources, participating in contests, and helping fellow
+                  coders with their queries.
+                </div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseSix"
+                  aria-expanded="false"
+                  aria-controls="flush-collapseSix"
+                >
+                  How can I report a bug or suggest a feature for Algocraft?
+                </button>
+              </h2>
+              <div
+                id="flush-collapseSix"
+                className="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div className="accordion-body">
+                  If you encounter a bug or have a feature suggestion for
+                  Algocraft, please feel free to reach out to us through our
+                  contact page or email us directly at
+                  dhruvilprajapati2003@gmail.com Your feedback is invaluable in
+                  helping us improve the platform for the entire community.
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <hr className="hr2"></hr>
       <div className="page4 my-5">
         <div className="container ">
@@ -540,22 +619,22 @@ const Home = () => {
                     {!user ? (
                       <React.Fragment>
                         <li>
-                          <a className="text-links" href="/login">
+                          <Link className="text-links" to="/login">
                             Login
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a className="text-links" href="/register">
+                          <Link className="text-links" to="/register">
                             Create Account
-                          </a>
+                          </Link>
                         </li>
                       </React.Fragment>
                     ) : null}
-  
+
                     <li>
-                      <a className="text-links" href="/">
+                      <Link className="text-links" to="/dmca_policy">
                         DMCA
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a className="text-links" href="/">
