@@ -234,6 +234,7 @@ width:20em !important;
 .editkr{
   width: 100% !important;
 }
+
 }
 
 @media only screen and (max-width: 1145px) {
@@ -324,6 +325,12 @@ width:20em !important;
     margin-top: 30px;
     justify-content: flex-start !important;
     width: 100vw !important;
+  }
+  .toast{
+    width: 80% !important;
+    top: 10% !important;
+    right: 10% !important;
+    left: 10% !important;
   }
 
   .form {
