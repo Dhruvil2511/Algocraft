@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const Logout = () => {
   useEffect(() => {
     const logout = async () => {
@@ -10,6 +10,8 @@ const Logout = () => {
           {},
           { withCredentials: true }
         );
+        Cookies.remove("accessToken");
+        Cookies.remove("refreshToken");
       } catch (err) {
       } finally {
         window.location.href = "/";
