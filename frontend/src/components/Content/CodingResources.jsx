@@ -63,7 +63,7 @@ const CodingResources = () => {
   }
   useEffect(() => {
     handleResourceSearch();
-  }, [currentPage,handleResourceSearch]);
+  }, [currentPage]);
   return (
     <div className="content-header">
       {isLoading ? (
