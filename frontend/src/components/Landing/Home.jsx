@@ -9,27 +9,16 @@ import { Navigation } from "./Navigation";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const res = await axios.get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-          {
-            withCredentials: true,
-          }
-        );
-        if (res.status === 200) setUser(res.data.data.user);
-      } catch (err) {
-        console.error("User not logged in");
-      }
-    };
-    fetchCurrentUser();
+    if (Cookies.get("accessToken")) setIsAuthenticated(true);
+    else setIsAuthenticated(false);
   }, []);
 
   async function handleNewsletterSubmit(event) {
@@ -63,7 +52,8 @@ const Home = () => {
   }
   return (
     <>
-      <Navigation user={user} />
+
+      <Navigation isAuth={isAuthenticated} />
       <div className="page1 h-100">
         <div className="container-fluid d-flex justify-content-center align-items-center ">
           <div className="mc container my-4 d-flex justify-content-between align-items-center ">
@@ -90,7 +80,7 @@ const Home = () => {
                   An ultimate platform to help you crack your Software
                   engineering interview.
                 </span>
-                {user ? (
+                {isAuthenticated ? (
                   <button
                     onClick={() => navigate("/coding-sheets/striver")}
                     className="grad-btn mt-2 drop-in-4"
@@ -616,7 +606,7 @@ const Home = () => {
                   <h5 className=" mb-3">User</h5>
 
                   <ul className="list-unstyled text-muted">
-                    {!user ? (
+                    {!isAuthenticated ? (
                       <React.Fragment>
                         <li>
                           <Link className="text-links" to="/login">

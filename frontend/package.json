@@ -38,6 +38,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:dev": "env-cmd -f .env npm run build && firebase deploy -P dev",
+    "build:prod": "env-cmd -f .env.prod npm run build && firebase deploy -P prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -58,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

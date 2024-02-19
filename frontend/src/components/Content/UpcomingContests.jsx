@@ -152,15 +152,15 @@ const UpcomingContests = () => {
                     >
                       <div className="mark-complete px-2">
                         <span>{new Date(contest.start).toLocaleString()}</span>{" "}
-                        <Link
+                        {/* <Link
                           className="btn-list"
                           to={`calender.google.com/calender/u/0/r/eventedit?text=${
                             contest.host.split(".")[0].toUpperCase() +
                             contest.event
                           }&details=url:+${contest.href}`}
-                        >
+                        > */}
                           <i className="fa-solid fa-calendar-days fa-lg"></i>
-                        </Link>
+                        {/* </Link> */}
                       </div>
                     </div>
                   </div>

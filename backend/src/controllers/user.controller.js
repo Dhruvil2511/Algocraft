@@ -7,6 +7,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail.js";
 import crypto from "crypto";
+import { Thread } from "../models/thread.model.js";
+import { Comment } from "../models/comment.model.js";
+
 // const cookieOptions = {
 //     // added this so that cookie can only be modified by server and not client
 //     httpOnly: true,
@@ -348,7 +351,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 const getUserCreatedThreads = asyncHandler(async (req, res) => {
     const username = req.query.username;
-
     const user = await User.findOne({ username: username }).populate("threadsCreated").exec();
 
     if (!user) throw new ApiError(404, "Not found", "User hasn't created any thread yet");
@@ -359,7 +361,7 @@ const getUserSavedThread = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
     const user = await User.findById(userId).populate("threadsSaved").exec();
-    console.log(user);
+    // console.log(user);
 
     if (!user) throw new ApiError(404, "Not found", "User hasn't saved any thread yet");
 
@@ -394,7 +396,11 @@ const deleteAccount = asyncHandler(async (req, res) => {
 
     if (!userId) return res.status(401).json(new ApiError(401, "error", "Error  userId not found"));
 
-    await User.findByIdAndDelete(userId);
+    await Promise.all([
+        Thread.deleteMany({ uploader: userId }),
+        Comment.deleteMany({ commentBy: userId }),
+        User.findByIdAndDelete(userId),
+    ]);
 
     return res
         .status(200)

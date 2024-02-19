@@ -49,7 +49,7 @@ const Discussion = () => {
         }
       })
       .catch((err) => {
-        const {userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -137,7 +137,7 @@ const Discussion = () => {
         }
       })
       .catch((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -424,8 +424,8 @@ const Discussion = () => {
                 <div className="question d-flex align-items-center justify-content-between">
                   <div className="d-flex justify-content-center align-items-center">
                     <div className="number pfp">
-                      {thread.uploader.avatar ? (
-                        <img src={thread.uploader.avatar} alt="Avatar" />
+                      {thread.uploader?.avatar ? (
+                        <img src={thread.uploader?.avatar} alt="Avatar" />
                       ) : (
                         <i className="fa-solid fa-user "></i>
                       )}
@@ -446,8 +446,8 @@ const Discussion = () => {
                         {thread.title}
                       </Link>
                       <div className="dis-taglist d-flex justify-content-center align-items-center">
-                        <Link to="#" className="username">
-                          {thread.uploader.username}
+                        <Link to={`/${thread.uploader?.username}`} className="username">
+                          {thread.uploader?.username}
                         </Link>
                         {thread.tags.map((tag, index) => (
                           <span

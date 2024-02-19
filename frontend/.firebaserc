@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "algo-craft"
-  }
+    "default": "algo-craft",
+    "prod": "algo-craft"
+  },
+  "targets": {},
+  "etags": {}
 }

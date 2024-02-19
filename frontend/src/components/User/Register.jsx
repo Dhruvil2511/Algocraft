@@ -193,7 +193,7 @@ const Register = () => {
           <h3 className="text-decoration-underline">
             Create an Account or login
           </h3>
-          <form className="form mt-2" onSubmit={handleFormSubmit}>
+          <form   autoComplete="false" className="form mt-2" onSubmit={handleFormSubmit}>
             <div className="flex-column">
               <label>Email </label>
             </div>
@@ -212,6 +212,7 @@ const Register = () => {
                 type="email"
                 className="input"
                 placeholder="Enter your Email"
+              
                 value={formData.email}
                 name="email"
                 required

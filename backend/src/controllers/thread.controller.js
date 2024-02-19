@@ -171,8 +171,8 @@ const getThread = asyncHandler(async (req, res) => {
     ]);
 
     let message = "";
-    const userViewedOrNot = threads[0].views?.findIndex((viewer) => viewer.equals(userId));
-    const likedOrNot = threads[0].upvotes?.findIndex((upvote) => upvote._id.equals(userId));
+    const userViewedOrNot = threads[0]?.views?.findIndex((viewer) => viewer.equals(userId));
+    const likedOrNot = threads[0]?.upvotes?.findIndex((upvote) => upvote._id.equals(userId));
 
     const user = await User.findById(userId);
     const savedOrNot = user.threadsSaved.findIndex((saved) => saved._id.equals(threadId));

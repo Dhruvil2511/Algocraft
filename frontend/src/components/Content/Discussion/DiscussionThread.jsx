@@ -10,7 +10,6 @@ const DiscussionThread = () => {
   const [upvotes, setUpvotes] = useState(0);
   const [views, setViews] = useState(0);
   const [isLiked, setLiked] = useState(false);
-
   const [isRepliedClicked, setRepliedClicked] = useState(false);
   const [isViewRepliedClicked, setViewRepliedClicked] = useState(false);
   const [viewReplyCommentId, setViewReplyCommentId] = useState("");
@@ -69,22 +68,19 @@ const DiscussionThread = () => {
   }, []);
 
   async function handleUpvote(event) {
+    if (isLiked === false) {
+      setLiked(true);
+      setUpvotes(upvotes + 1);
+    } else {
+      setLiked(false);
+      setUpvotes(upvotes - 1);
+    }
     await axios
       .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/upvote-thread`, {
         params: { threadId: id },
         withCredentials: true,
       })
-      .then((res) => {
-        if (res.status === 200) {
-          if (res.data.message === "disliked") {
-            setLiked(false);
-            setUpvotes(upvotes - 1);
-          } else if (res.data.message === "liked") {
-            setLiked(true);
-            setUpvotes(upvotes + 1);
-          }
-        }
-      })
+      .then((res) => {})
       .catch((err) => {
         toast("Error upvoting thread", {
           position: "top-center",
@@ -218,19 +214,14 @@ const DiscussionThread = () => {
   }
 
   async function handleBookmarkThread(threadId) {
+    setIsThreadSaved(!isThreadSaved);
     await axios
       .patch(
         process.env.REACT_APP_BASE_URL + "/api/v1/threads/save-thread",
         { threadId: threadId },
         { withCredentials: true }
       )
-      .then((res) => {
-        if (res.status === 200) {
-          if (res.data.message === "unsave") setLiked(false);
-          else if (res.data.message === "save") setLiked(true);
-          fetchThread();
-        }
-      })
+      .then((res) => {})
       .catch((err) => {
         console.error(err);
         toast("Error saving thread", {
@@ -291,19 +282,24 @@ const DiscussionThread = () => {
             <div className="thread-header w-100 p-2 d-flex justify-content-between align-items-center">
               <div className="d-flex justify-content-start align-items-center">
                 <Link
-                  to={`/discussion?category=${thread.category}`}
+                  to={`/discussion?category=${thread?.category}`}
                   className="p-2"
                   style={{ borderRight: "2px solid gray" }}
                 >
                   <i className="fa-solid fa-left-long fa-xl"></i>
                 </Link>
-                <strong className="px-2" style={{
-                          textDecoration: "none",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "250px",
-                        }}>{thread.title}</strong>
+                <strong
+                  className="px-2"
+                  style={{
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "250px",
+                  }}
+                >
+                  {thread?.title}
+                </strong>
               </div>
               <div className="d-flex justify-content-end align-items-center">
                 <button className="btn-list px-2" onClick={handleShare}>
@@ -321,16 +317,27 @@ const DiscussionThread = () => {
                     className="number pfp"
                     style={{ width: "60px", height: "60px" }}
                   >
-                    {thread.uploader?.avatar ? (
-                      <img src={thread.uploader?.avatar} alt="Avatar" />
-                    ) : (
-                      <i className="fa-solid fa-user "></i>
-                    )}
+                    <Link to={`/${thread?.uploader?.username}`}>
+                      {thread?.uploader?.avatar ? (
+                        <img src={thread?.uploader?.avatar} alt="Avatar" />
+                      ) : (
+                        <i className="fa-solid fa-user "></i>
+                      )}
+                    </Link>
                   </div>
                   <div className="d-flex justify-content-center align-items-center flex-column">
-                    <h6 className="px-2 d-flex justify-content-start align-items-center">{thread.uploader?.fullname}</h6>
+                    <h6 className="px-2 d-flex justify-content-start align-items-center">
+                      {thread?.uploader?.fullname}
+                    </h6>
                     <div className="w-100 px-2 d-flex justify-content-start  align-items-center">
-                      <strong className="w-100">@{thread.uploader?.username}</strong>
+                      <Link
+                        to={`/${thread?.uploader?.username}`}
+                        className="text-decoration-none"
+                      >
+                        <strong className="w-100">
+                          @{thread?.uploader?.username}
+                        </strong>
+                      </Link>
                     </div>
                   </div>
 
@@ -417,14 +424,28 @@ const DiscussionThread = () => {
                           className="number pfp"
                           style={{ width: "40px", height: "40px" }}
                         >
-                          {comment.commentBy.avatar ? (
-                            <img src={comment.commentBy.avatar} alt="Avatar" />
-                          ) : (
-                            <i className="fa-solid fa-user "></i>
-                          )}
+                          <Link to={`/${comment?.commentBy?.username}`}>
+                            {comment.commentBy?.avatar ? (
+                              <img
+                                src={comment.commentBy.avatar}
+                                alt="Avatar"
+                              />
+                            ) : (
+                              <i className="fa-solid fa-user "></i>
+                            )}
+                          </Link>
                         </div>
                         <div className="px-2">
-                          <small>{comment.commentBy?.username}</small>
+                          {comment.commentBy?.username ? (
+                            <Link
+                              to={`/${comment?.commentBy?.username}`}
+                              className="text-decoration-none"
+                            >
+                              <small>@{comment.commentBy?.username}</small>
+                            </Link>
+                          ) : (
+                            <small>@deleted_user</small>
+                          )}
                         </div>
                         <div className="time">
                           <sub>
@@ -481,17 +502,30 @@ const DiscussionThread = () => {
                                     className="number pfp"
                                     style={{ width: "40px", height: "40px" }}
                                   >
-                                    {reply?.repliedBy?.avatar ? (
-                                      <img
-                                        src={reply.repliedBy.avatar}
-                                        alt="Avatar"
-                                      />
-                                    ) : (
-                                      <i className="fa-solid fa-user "></i>
-                                    )}
+                                    <Link to={`/${reply?.repliedBy?.username}`}>
+                                      {reply?.repliedBy?.avatar ? (
+                                        <img
+                                          src={reply.repliedBy.avatar}
+                                          alt="Avatar"
+                                        />
+                                      ) : (
+                                        <i className="fa-solid fa-user "></i>
+                                      )}
+                                    </Link>
                                   </div>
                                   <div className="px-2">
-                                    <small>{reply.repliedBy?.username}</small>
+                                    {reply.repliedBy?.username ? (
+                                      <Link
+                                        to={`/${reply.repliedBy?.username}`}
+                                        className="text-decoration-none"
+                                      >
+                                        <small>
+                                          @{reply.repliedBy?.username}
+                                        </small>
+                                      </Link>
+                                    ) : (
+                                      <small>@deleted_user</small>
+                                    )}
                                   </div>
                                   <div className="time">
                                     <sub>

@@ -3,82 +3,82 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            index: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-        },
-        password: {
-            type: String,
-            required: [true, "Password is required"],
-        },
-        fullname: {
-            type: String,
-            // required: true,
-            trim: true,
-        },
-        avatar: {
-            type: String,
-            // required: true,
-        },
-        location: {
-            type: String,
-        },
-        github: {
-            type: String,
-        },
-        linkedin: {
-            type: String,
-        },
-        bookmarkedQuestions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Question",
+        {
+            username: {
+                type: String,
+                required: true,
+                unique: true,
+                lowercase: true,
+                trim: true,
+                index: true,
             },
-        ],
-        solvedQuestions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Question",
+            email: {
+                type: String,
+                required: true,
+                unique: true,
+                lowercase: true,
+                trim: true,
             },
-        ],
-        refreshToken: {
-            type: String,
+            password: {
+                type: String,
+                required: [true, "Password is required"],
+            },
+            fullname: {
+                type: String,
+                // required: true,
+                trim: true,
+            },
+            avatar: {
+                type: String,
+                // required: true,
+            },
+            location: {
+                type: String,
+            },
+            github: {
+                type: String,
+            },
+            linkedin: {
+                type: String,
+            },
+            bookmarkedQuestions: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "Question",
+                },
+            ],
+            solvedQuestions: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "Question",
+                },
+            ],
+            refreshToken: {
+                type: String,
+            },
+            threadsCreated: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "Thread",
+                },
+            ],
+            threadsSaved: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: "Thread",
+                },
+            ],
+            isActive: {
+                type: Boolean,
+                default: false,
+            },  
+            verificationToken: {
+                type: String,
+                default: null,
+            },
         },
-        threadsCreated: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Thread",
-            },
-        ],
-        threadsSaved: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Thread",
-            },
-        ],
-        isActive: {
-            type: Boolean,
-            default: false,
-        },  
-        verificationToken: {
-            type: String,
-            default: null,
-        },
-    },
-    { timestamps: true }
-);
+        { timestamps: true }
+    );
 
 // mongoose middleware to process data just before saving
 userSchema.pre("save", async function (next) {

@@ -3,8 +3,6 @@ import MobileOffcanvasNavbar from "./Content/Navigation/MobileOffcanvasNavbar";
 import OffcanvasNavbar from "./Content/Navigation/OffcanvasNavbar";
 import { toast, Bounce } from "react-toastify";
 import axios from "axios";
-import Lottie from "lottie-react";
-import bigLoader from "../assets/animations/bigLoader.json";
 const Sidebar = () => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -31,7 +29,7 @@ const Sidebar = () => {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          transition: Bounce, 
+          transition: Bounce,
         });
         console.error("Error fetching user data:", error);
       } finally {
@@ -53,12 +51,23 @@ const Sidebar = () => {
   return (
     <>
       {isLoading ? (
-        <div className="d-flex justify-content-center align-items-center">
-          <Lottie
-            animationData={bigLoader}
-            loop={true}
-            style={{ width: "80%" }}
-          ></Lottie>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent black
+            zIndex: 9999, // higher z-index to ensure it's above other elements
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="spinner-grow text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
       ) : (
         CheckDevice()

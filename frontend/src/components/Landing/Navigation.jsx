@@ -3,7 +3,7 @@ import "./Landing.css";
 import { updateTheme } from "../../utils/updateTheme";
 import { Link } from "react-router-dom";
 
-const Navigation = ({ user }) => {
+const Navigation = ({ isAuth }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
 
   function handleTheme() {
@@ -87,33 +87,22 @@ const Navigation = ({ user }) => {
                 <a className="nav-link mx-2 text-links" href="#features">
                   Features
                 </a>
-              </li> 
+              </li>
               <li className="nav-item">
                 <Link className="nav-link mx-2 text-links" to="#">
                   About project
                 </Link>
               </li>
               <li className="nav-item">
-                {user ? (
-                  <Link to={`/${user.username}`}>
-                    {user?.avatar ? (
-                      <img
-                        src={`${user?.avatar}`}
-                        alt=""
-                        width="32"
-                        height="32"
-                        className="rounded-circle me-2 mt-1"
-                      />
-                    ) : (
-                      <>
-                        {" "}
-                        <div className="d-flex flex-column align-items-center justify-content-center">
-                          <div className="gola">
-                            <i className="default-icon fa-solid fa-user fa-xl"></i>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                {isAuth ? (
+                  <Link to={`/coding-sheets/striver`}>
+                    
+                    <div className="d-flex flex-column align-items-center justify-content-center">
+                      <div className="gola">
+                        <i className="default-icon fa-solid fa-user fa-xl"></i>
+                      </div>
+                    </div>
+                    
                   </Link>
                 ) : (
                   <Link to="/login" className="nav-link mx-2 text-links">
