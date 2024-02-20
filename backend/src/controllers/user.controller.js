@@ -10,12 +10,11 @@ import crypto from "crypto";
 import { Thread } from "../models/thread.model.js";
 import { Comment } from "../models/comment.model.js";
 
-// const cookieOptions = {
-//     // added this so that cookie can only be modified by server and not client
-//     httpOnly: true,
-//     secure: true,
-//     sameSite:'None',
-// };
+const cookieOptions = {
+    domain:".web.app",
+    secure: true,
+    sameSite: "None",
+};
 
 const registrationSchema = joi.object({
     username: joi.string().required(),
@@ -177,8 +176,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
     return res
         .status(200)
-        .cookie("accessToken", accessToken, { secure: true, sameSite: "None" })
-        .cookie("refreshToken", refreshToken, { secure: true, sameSite: "None" })
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
         .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User Logged in Successfully."));
 });
 
@@ -193,14 +192,14 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .clearCookie("accessToken", { secure: true, sameSite: "None" })
-        .clearCookie("refreshToken", { secure: true, sameSite: "None" })
+        .clearCookie("accessToken", cookieOptions)
+        .clearCookie("refreshToken", cookieOptions)
         .json(new ApiResponse(200, {}, "User logged out!"));
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.body.refreshToken;
-    console.log(req.cookies);
+    // console.log(req.cookies);
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized request");
     }
@@ -219,8 +218,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, { secure: true, sameSite: "None" })
-        .cookie("refreshToken", refreshToken, { secure: true, sameSite: "None" })
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
         .json(new ApiResponse(200, { accessToken, refreshToken }, "Access token refreshed"));
 });
 
@@ -256,7 +255,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     if (github) update.github = github;
     if (linkedin) update.linkedin = linkedin;
 
-    console.log("update data", update);
+    // console.log("update data", update);
     const usernameExists = await User.findOne({ username: username });
     if (usernameExists) {
         return res.status(400).json(new ApiError(400, "username is taken", "username is taken"));
@@ -275,7 +274,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Avatar is missing", "Avatar is missing");
     }
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-    console.log(avatar);
+    // console.log(avatar);
     if (!avatar.url) throw new ApiError(404, "Error", "Error while uploading Avatar");
 
     const user = await User.findByIdAndUpdate(
@@ -402,8 +401,8 @@ const deleteAccount = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .clearCookie("accessToken", { secure: true, sameSite: "None" })
-        .clearCookie("refreshToken", { secure: true, sameSite: "None" })
+        .clearCookie("accessToken", cookieOptions)
+        .clearCookie("refreshToken", cookieOptions)
         .json(new ApiResponse(200, {}, "Account deleted successfully"));
 });
 
