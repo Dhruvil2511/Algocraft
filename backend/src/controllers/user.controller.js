@@ -161,7 +161,7 @@ const loginUser = asyncHandler(async (req, res) => {
             }),
         });
     }
-    console.log(user.isActive);
+    // console.log(user.isActive);
 
     if (!user.isActive) {
         return res.status(403).json(
