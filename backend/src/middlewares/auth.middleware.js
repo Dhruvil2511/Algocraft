@@ -3,27 +3,26 @@ import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
-export const verifyJWT = asyncHandler(async (req, res, next) => {
-    const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
-    console.log(token);
+export const verifyJWT = asyncHandler(async (req, _, next) => {
+    const token = req?.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+    console.log("req", req);
+    console.log("cookies", req?.cookies);
     if (!token) {
         return res.status(403).json(new ApiError(403, "Unauthorized request", "Unauthorized request"));
     }
     try {
         // Verify the token
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        console.log(decodedToken)
         // Check if the user exists
         const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
         if (!user) {
             return res.status(403).json(new ApiError(403, "Unauthorized request", "Unauthorized request"));
         }
-        console.log(user);
         req.user = user;
         next();
     } catch (error) {
         // Handle token verification errors
-        console.log(error)
+        console.log(error);
         return res.status(403).json(new ApiError(403, "Invalid token", "Invalid token"));
     }
 });
