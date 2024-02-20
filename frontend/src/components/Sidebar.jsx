@@ -13,16 +13,14 @@ const Sidebar = () => {
       try {
         const response = await axios.get(
           process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
         setUsername(response.data.data.user.username);
         setAvatar(response.data.data.user.avatar);
       } catch (error) {
         if (error.response.status === 403) {
-          Cookies.remove("accessToken");
-          Cookies.remove("refreshToken");
+          // Cookies.remove("accessToken");
+          // Cookies.remove("refreshToken");
           // window.location.href = "/login";
         }
       } finally {

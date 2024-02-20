@@ -11,7 +11,6 @@ import { Thread } from "../models/thread.model.js";
 import { Comment } from "../models/comment.model.js";
 
 const cookieOptions = {
-    domain:".web.app",
     secure: true,
     sameSite: "None",
 };

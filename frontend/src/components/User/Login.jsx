@@ -34,8 +34,14 @@ const Login = () => {
           const { accessToken, refreshToken } = res.data.data;
           Cookies.set("accessToken", accessToken, {
             expires: 1,
+            sameSite: "None",
+            secure: true,
           });
-          Cookies.set("refreshToken", refreshToken, { expires: 10 });
+          Cookies.set("refreshToken", refreshToken, {
+            expires: 10,
+            sameSite: "None",
+            secure: true,
+          });
           navigate("/coding-sheets/striver");
         }
       })

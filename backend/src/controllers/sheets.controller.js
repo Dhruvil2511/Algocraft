@@ -84,7 +84,7 @@ const getSheet = asyncHandler(async (req, res) => {
         },
     ]);
 
-    console.log(sheet);
+    // console.log(sheet);
     if (!sheet || sheet.length === 0) {
         return res.status(404).json(new ApiError(404, "error", "Sheets not found"));
     }

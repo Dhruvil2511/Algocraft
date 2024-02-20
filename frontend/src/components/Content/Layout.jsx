@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import CodingSheet from "./CodingSheet";
 import UpcomingContests from "./UpcomingContests";
 import CodingResources from "./CodingResources";
@@ -15,6 +15,7 @@ const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState(null);
+  let { userid } = useParams();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,19 +28,33 @@ const Layout = () => {
         );
         setUser(response.data.data.user);
       } catch (error) {
+        console.error(error);
         if (error.response.status === 403) {
-          Cookies.remove("accessToken");
-          Cookies.remove("refreshToken");
-          window.location.href="/login"
+          // Cookies.remove("accessToken");
+          // Cookies.remove("refreshToken");
+          // window.location.href = "/login";
         }
       }
     };
 
     fetchUser();
   }, []);
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === "/coding-ide") {
+      setMainContainerPadding("10px 0 0 0");
+    } else {
+      setMainContainerPadding("");
+    }
+  }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   function CheckContentPath() {
-    let { userid } = useParams();
     let path = window.location.pathname;
 
     if (path.includes("/coding-sheets/")) return <CodingSheet />;
@@ -60,13 +75,6 @@ const Layout = () => {
     } else if (userid) return <Profile userId={userid} />;
   }
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const handleScroll = () => {
     if (window.scrollY > 50) {
       setIsVisible(true);
@@ -78,14 +86,6 @@ const Layout = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path === "/coding-ide") {
-      setMainContainerPadding("10px 0 0 0");
-    } else {
-      setMainContainerPadding("");
-    }
-  }, []);
 
   return (
     <>

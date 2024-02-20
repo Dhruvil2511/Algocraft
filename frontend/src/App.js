@@ -20,7 +20,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-
 const PrivateRoutes = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
