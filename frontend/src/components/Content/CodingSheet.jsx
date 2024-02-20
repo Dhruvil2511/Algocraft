@@ -124,6 +124,7 @@ const CodingSheet = () => {
 
   useEffect(() => {
     fetchUser();
+    setAnalysisToggle(false);
     fetchQuestions();
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status, author]);
@@ -557,7 +558,11 @@ const CodingSheet = () => {
               className="d-flex dusra-beta p-3 justify-content-center align-items-center"
               style={{ width: "40%" }}
             >
-              <Doughnut data={data} options={options} />
+              {data?.datasets[0]?.data?.length === 0 ? (
+                <div>Solve a question to display chart</div>
+              ) : (
+                <Doughnut data={data} options={options} />
+              )}
             </div>
           </div>
         )}

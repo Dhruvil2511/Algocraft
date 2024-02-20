@@ -9,7 +9,7 @@ import Profile from "../User/Profile";
 import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { toast, Bounce } from "react-toastify";
+import Cookies from "js-cookie";
 
 const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
@@ -27,18 +27,11 @@ const Layout = () => {
         );
         setUser(response.data.data.user);
       } catch (error) {
-        toast("Error fetching user data:", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-        console.error("Error fetching user data:", error);
+        if (error.response.status === 403) {
+          Cookies.remove("accessToken");
+          Cookies.remove("refreshToken");
+          window.location.href="/login"
+        }
       }
     };
 
@@ -52,7 +45,8 @@ const Layout = () => {
     if (path.includes("/coding-sheets/")) return <CodingSheet />;
     else if (path === "/upcoming-contests") return <UpcomingContests />;
     else if (path === "/coding-resources") return <CodingResources />;
-    else if (path === "/discussion" || path ==="/discussion?category=all") return <Discussion />;
+    else if (path === "/discussion" || path === "/discussion?category=all")
+      return <Discussion />;
     else if (path === "/coding-ide") return <CodingIDE />;
     else if (
       path.startsWith("/discussion/interview-experience/") ||
@@ -127,7 +121,7 @@ const Layout = () => {
             className="container main-container"
             style={{ padding: mainContainerPadding }}
           >
-            {CheckContentPath()}
+            {user && CheckContentPath()}
           </div>
         </div>
       </div>

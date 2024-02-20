@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MobileOffcanvasNavbar from "./Content/Navigation/MobileOffcanvasNavbar";
 import OffcanvasNavbar from "./Content/Navigation/OffcanvasNavbar";
-import { toast, Bounce } from "react-toastify";
 import axios from "axios";
+import Cookies from "js-cookie";
 const Sidebar = () => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -20,18 +20,11 @@ const Sidebar = () => {
         setUsername(response.data.data.user.username);
         setAvatar(response.data.data.user.avatar);
       } catch (error) {
-        toast("Error fetching user data:", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-        console.error("Error fetching user data:", error);
+        if (error.response.status === 403) {
+          Cookies.remove("accessToken");
+          Cookies.remove("refreshToken");
+          // window.location.href = "/login";
+        }
       } finally {
         setIsLoading(false);
       }

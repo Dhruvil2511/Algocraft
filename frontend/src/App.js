@@ -17,17 +17,74 @@ import Sidebar from "./components/Sidebar";
 import DMCA from "./components/Landing/DMCA";
 import Verified from "./components/User/Verified";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-const PrivateRoutes = () => {
-  let accessToken = Cookies.get("accessToken");
-  return accessToken ? (
-    <div className="content">
-      <Sidebar />
-      <Outlet />
-    </div>
-  ) : (
-    <Navigate to="/login" />
-  );
+
+const PrivateRoutes = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      let clientAccessToken = Cookies.get("accessToken");
+      let clientRefreshToken = Cookies.get("refreshToken");
+
+      if (clientAccessToken && clientRefreshToken) {
+        setIsAuthenticated(true);
+      } else if (!clientAccessToken && clientRefreshToken) {
+        console.log(clientAccessToken, clientRefreshToken);
+        try {
+          const response = await axios.post(
+            process.env.REACT_APP_BASE_URL + "/api/v1/users/refresh-token",
+            { refreshToken: clientRefreshToken }
+          );
+          const { accessToken, refreshToken } = response.data.data;
+          Cookies.set("accessToken", accessToken, {
+            expires: 1,
+          });
+          Cookies.set("refreshToken", refreshToken, { expires: 10 });
+
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.log(error);
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+
+      setIsLoading(false); // Update loading state
+    };
+
+    checkAuthentication();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent black
+          zIndex: 9999, // higher z-index to ensure it's above other elements
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="spinner-grow text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Return authenticated routes or navigate to login if not authenticated
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 function App() {
@@ -60,7 +117,16 @@ function App() {
           <Route path="/dmca_policy" element={<DMCA />} />
           <Route path="/user/:id/verify/:token" element={<Verified />} />
 
-          <Route element={<PrivateRoutes />}>
+          <Route
+            element={
+              <PrivateRoutes>
+                <div className="content">
+                  <Sidebar />
+                  <Outlet />
+                </div>
+              </PrivateRoutes>
+            }
+          >
             <Route path="/:userid" element={<Layout />} />
             <Route path="/coding-resources" element={<Layout />} />
             <Route path="/upcoming-contests" element={<Layout />} />

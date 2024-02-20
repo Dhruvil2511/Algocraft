@@ -37,7 +37,6 @@ const CodingResources = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.data);
           setResources(res.data.data);
           setIsDataAvail(true);
         }

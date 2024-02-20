@@ -14,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     // console.log(Cookies.get())
-    const accessToken = Cookies.get("refreshToken");
+    const accessToken = Cookies.get("accessToken");
     if (accessToken) {
       navigate("/coding-sheets/striver");
     }
@@ -23,30 +23,28 @@ const Login = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    // console.log(email,password)
     await axios
-      .post(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/login",
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      )
+      .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/login", {
+        email,
+        password,
+      })
       .then((res) => {
         if (res.status === 200) {
           const { accessToken, refreshToken } = res.data.data;
-          Cookies.set("accessToken", accessToken);
-          Cookies.set("refreshToken", refreshToken);
+          Cookies.set("accessToken", accessToken, {
+            expires: 1,
+          });
+          Cookies.set("refreshToken", refreshToken, { expires: 10 });
           navigate("/coding-sheets/striver");
         }
       })
       .catch((err) => {
         let toastmessage = "";
-        // console.log(err.response);
-        const { statusCode, userMessage } = err?.response?.data;
+        const { statusCode, userMessage } = err?.response?.data.error;
         console.log(statusCode, userMessage);
         if (
-          statusCode === 401 &&
+          statusCode === 403 &&
           userMessage === "Your account is not active please verify your email."
         ) {
           setShowToast(true);
@@ -94,11 +92,10 @@ const Login = () => {
             transition: Bounce,
           });
           setShowToast(false);
-
         }
       })
       .catch((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",

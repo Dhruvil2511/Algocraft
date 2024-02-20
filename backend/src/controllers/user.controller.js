@@ -39,7 +39,6 @@ const registerUser = asyncHandler(async (req, res) => {
     // return response
 
     const { email, password, username, confirmpassword } = req.body;
-    console.log(email, password, username, confirmpassword);
 
     if (password !== confirmpassword)
         return res.status(401).json(
@@ -165,9 +164,9 @@ const loginUser = asyncHandler(async (req, res) => {
     console.log(user.isActive);
 
     if (!user.isActive) {
-        return res.status(401).json(
+        return res.status(403).json(
             new ApiError({
-                statusCode: 401,
+                statusCode: 403,
                 message: "Your account is not active please verify your email.",
                 userMessage: "Your account is not active please verify your email.",
             })
@@ -176,7 +175,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
-    console.log(loggedInUser);
     return res
         .status(200)
         .cookie("accessToken", accessToken, { secure: true, sameSite: "None" })
@@ -201,13 +199,13 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshAccessToken;
-
+    const incomingRefreshToken = req.body.refreshToken;
+    console.log(req.cookies);
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized request");
     }
 
-    const decodedToken = jwt.verify(incomingToken, process.env.REFRESH_TOKEN_SECRET);
+    const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
     const user = await User.findById(decodedToken?._id);
 
@@ -221,8 +219,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, cookieOptions)
-        .cookie("refreshToken", refreshToken, cookieOptions)
+        .cookie("accessToken", accessToken, { secure: true, sameSite: "None" })
+        .cookie("refreshToken", refreshToken, { secure: true, sameSite: "None" })
         .json(new ApiResponse(200, { accessToken, refreshToken }, "Access token refreshed"));
 });
 

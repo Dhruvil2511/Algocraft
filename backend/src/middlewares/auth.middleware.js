@@ -3,21 +3,24 @@ import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
-    // console.log(req.cookies)
+export const verifyJWT = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
-    // console.log(token);
     if (!token) {
-        throw new ApiError(401, "Unauthorized request", "Unauthorized request");
+        return res.status(403).json(new ApiError(403, "Unauthorized request", "Unauthorized request"));
     }
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    try {
+        // Verify the token
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
-
-    if (!user) {
-        throw new ApiError(401, "Invalid Access Token");
+        // Check if the user exists
+        const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
+        if (!user) {
+            return res.status(403).json(new ApiError(403, "Unauthorized request", "Unauthorized request"));
+        }
+        req.user = user;
+        next();
+    } catch (error) {
+        // Handle token verification errors
+        return res.status(403).json(new ApiError(403, "Invalid token", "Invalid token"));
     }
-    req.user = user;
-
-    next();
 });
