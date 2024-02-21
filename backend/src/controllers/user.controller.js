@@ -11,8 +11,8 @@ import { Thread } from "../models/thread.model.js";
 import { Comment } from "../models/comment.model.js";
 
 const cookieOptions = {
-    secure: true,
-    sameSite: "None",
+    // secure: true,
+    // sameSite: "None",
 };
 
 const registrationSchema = joi.object({
