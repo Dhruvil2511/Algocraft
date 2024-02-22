@@ -28,7 +28,7 @@ const Login = () => {
       .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/login", {
         email,
         password,
-      })
+      },{withCredentials:true})
       .then((res) => {
         if (res.status === 200) {
           const { accessToken, refreshToken } = res.data.data;
@@ -42,13 +42,15 @@ const Login = () => {
             sameSite: "None",
             secure: true,
           });
-          navigate("/coding-sheets/striver");
+          setTimeout(() => {
+            navigate("/coding-sheets/striver");
+          }, 2000);
         }
       })
       .catch((err) => {
         let toastmessage = "";
         const { statusCode, userMessage } = err?.response?.data.error;
-        console.log(statusCode, userMessage);
+        // console.log(statusCode, userMessage);
         if (
           statusCode === 403 &&
           userMessage === "Your account is not active please verify your email."
@@ -63,7 +65,7 @@ const Login = () => {
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: true, 
           draggable: true,
           progress: undefined,
           theme: "dark",
@@ -71,7 +73,9 @@ const Login = () => {
         });
       })
       .finally(() => {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       });
   }
   async function handleResendClick() {

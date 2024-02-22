@@ -19,26 +19,26 @@ const Layout = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-          {
-            withCredentials: true,
+      axios.defaults.withCredentials = true;
+      await axios
+        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.status === 200) setUser(res.data.data.user);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
+            window.location.href = "/login";
           }
-        );
-        setUser(response.data.data.user);
-      } catch (error) {
-        console.error(error);
-        if (error.response.status === 403) {
-          // Cookies.remove("accessToken");
-          // Cookies.remove("refreshToken");
-          // window.location.href = "/login";
-        }
-      }
+        });
     };
-
     fetchUser();
   }, []);
+
   useEffect(() => {
     const path = window.location.pathname;
     if (path === "/coding-ide") {

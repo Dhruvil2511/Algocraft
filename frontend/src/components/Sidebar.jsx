@@ -9,23 +9,24 @@ const Sidebar = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    axios.defaults.withCredentials=true;
     const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
-          { withCredentials: true }
-        );
-        setUsername(response.data.data.user.username);
-        setAvatar(response.data.data.user.avatar);
-      } catch (error) {
-        if (error.response.status === 403) {
-          // Cookies.remove("accessToken");
-          // Cookies.remove("refreshToken");
-          // window.location.href = "/login";
-        }
-      } finally {
-        setIsLoading(false);
-      }
+      await axios
+        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setUsername(res.data.data.user.username);
+            setAvatar(res.data.data.user.avatar);
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     };
 
     fetchUser();
