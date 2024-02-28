@@ -4,11 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import Cookies from "js-cookie";
 import { auth, provider } from "../../utils/firebaseconfig.js";
-import {
-  GoogleAuthProvider,
-  prodErrorMap,
-  signInWithPopup,
-} from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import "./User.css";
 
 const Login = () => {
@@ -24,6 +20,26 @@ const Login = () => {
       navigate("/coding-sheets/striver");
     }
   }, []);
+  const setCookies = async (accessToken, refreshToken) => {
+    try {
+      Cookies.set("accessToken", accessToken, {
+        expires: 1,
+        sameSite: "None",
+        secure: true,
+      });
+
+      Cookies.set("refreshToken", refreshToken, {
+        expires: 10,
+        sameSite: "None",
+        secure: true,
+      });
+
+      return true;
+    } catch (error) {
+      console.error("Error setting cookies:", error);
+      return false;
+    }
+  };
 
   async function handleGoogleSignInClick(event) {
     signInWithPopup(auth, provider)
@@ -31,25 +47,22 @@ const Login = () => {
         setIsLoading(true);
 
         await axios
-          .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/google-user", {
-            user: result.user,
-          })
-          .then((res) => {
+          .post(
+            process.env.REACT_APP_BASE_URL + "/api/v1/users/google-user",
+            {
+              user: result.user,
+            },
+            { withCredentials: true }
+          )
+          .then(async (res) => {
             if (res.status === 200) {
               const { accessToken, refreshToken } = res.data.data;
-              Cookies.set("accessToken", accessToken, {
-                expires: 1,
-                sameSite: "None",
-                secure: true,
-              });
-              Cookies.set("refreshToken", refreshToken, {
-                expires: 10,
-                sameSite: "None",
-                secure: true,
-              });
-              setTimeout(() => {
+              const cookiesSet = await setCookies(accessToken, refreshToken);
+              if (cookiesSet) {
                 navigate("/coding-sheets/striver");
-              }, 2000);
+              } else {
+                console.error("Cookies could not be set. Navigation aborted.");
+              }
             }
           })
           .catch((err) => {
@@ -67,9 +80,7 @@ const Login = () => {
             });
           })
           .finally(() => {
-            setTimeout(() => {
-              setIsLoading(false);
-            }, 2002);
+            setIsLoading(false);
           });
       })
       .catch((error) => {
@@ -98,22 +109,15 @@ const Login = () => {
         },
         { withCredentials: true }
       )
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 200) {
           const { accessToken, refreshToken } = res.data.data;
-          Cookies.set("accessToken", accessToken, {
-            expires: 1,
-            sameSite: "None",
-            secure: true,
-          });
-          Cookies.set("refreshToken", refreshToken, {
-            expires: 10,
-            sameSite: "None",
-            secure: true,
-          });
-          setTimeout(() => {
+          const cookiesSet = await setCookies(accessToken, refreshToken);
+          if (cookiesSet) {
             navigate("/coding-sheets/striver");
-          }, 2000);
+          } else {
+            console.error("Cookies could not be set. Navigation aborted.");
+          }
         }
       })
       .catch((err) => {
@@ -140,9 +144,7 @@ const Login = () => {
         });
       })
       .finally(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 2000);
+        setIsLoading(false);
       });
   }
   async function handleResendClick() {

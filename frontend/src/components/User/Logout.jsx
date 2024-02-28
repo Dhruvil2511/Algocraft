@@ -12,11 +12,12 @@ const Logout = () => {
         );
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
+        localStorage.removeItem("currentUser")
       } catch (err) {
       } finally {
         window.location.href = "/";
       }
-    };
+    };  
 
     logout();
   }, []);
