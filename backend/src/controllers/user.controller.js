@@ -448,8 +448,6 @@ const resendVerification = asyncHandler(async (req, res) => {
 });
 const googleAuth = asyncHandler(async (req, res) => {
     const { email, displayName, photoURL, uid } = req.body.user;
-    console.log(req.body);
-
     let user = await User.find({ email: email });
 
     let finalUserState = user[0] || undefined;
