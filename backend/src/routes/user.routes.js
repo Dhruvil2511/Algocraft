@@ -15,7 +15,8 @@ import {
     verifyEmail,
     updateAccountDetails,
     updateAvatar,
-    resendVerification
+    resendVerification,
+    googleAuth
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -26,7 +27,7 @@ router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/verify-email").get(verifyEmail)
 router.route("/resend-verification").get(resendVerification)
-
+router.route("/google-user").post(googleAuth)
 // secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);

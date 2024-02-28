@@ -14,7 +14,6 @@ const getUpcomingContest = asyncHandler(async (_, res) => {
         })
         .then((response) => {
             if (response.status === 200) {
-                console.log(response.data);
                 const contestData = response.data;
                 return res.status(200).json(new ApiResponse(200, contestData, "Data Retrived Successfully"));
             }

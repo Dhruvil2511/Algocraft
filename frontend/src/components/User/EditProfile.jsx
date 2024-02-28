@@ -3,7 +3,8 @@ import Loader from "../Content/Loader.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast, Bounce } from "react-toastify";
-const EditProfile = ({ user }) => {
+
+const EditProfile = () => {
   const [formData, setFormData] = useState({
     username: "",
     fullname: "",
@@ -24,6 +25,28 @@ const EditProfile = ({ user }) => {
   const [avatar, setAvatar] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [userUpdating, setUserUpdating] = useState(false);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      axios.defaults.withCredentials = true;
+      await axios
+        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.status === 200) setUser(res.data.data.user);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
+            window.location.href = "/login";
+          }
+        });
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     setFormData({
@@ -72,7 +95,7 @@ const EditProfile = ({ user }) => {
         })
         .catch((err) => {
           // Handle error
-          const {  userMessage } = err.response.data;
+          const { userMessage } = err.response.data;
           // console.log(userMessage)
           toast(userMessage, {
             position: "top-center",
@@ -125,7 +148,7 @@ const EditProfile = ({ user }) => {
         }
       })
       .then((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -181,7 +204,7 @@ const EditProfile = ({ user }) => {
         }
       })
       .catch((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",

@@ -32,7 +32,6 @@ const PrivateRoutes = ({ children }) => {
       if (clientAccessToken && clientRefreshToken) {
         setIsAuthenticated(true);
       } else if (!clientAccessToken && clientRefreshToken) {
-        console.log(clientAccessToken, clientRefreshToken);
         try {
           const response = await axios.post(
             process.env.REACT_APP_BASE_URL + "/api/v1/users/refresh-token",

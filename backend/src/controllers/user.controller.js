@@ -147,6 +147,15 @@ const loginUser = asyncHandler(async (req, res) => {
             })
         );
     }
+    if (user.googleUser) {
+        return res.status(401).json({
+            error: new ApiError({
+                statusCode: 401,
+                message: "Password is incorrect!",
+                userMessage: "Sign in with google",
+            }),
+        });
+    }
 
     const isPasswordValid = await user.isPasswordCorrect(password);
 
@@ -198,7 +207,6 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.body.refreshToken;
-    // console.log(req.cookies);
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized request");
     }
@@ -239,7 +247,7 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const getCurrentUser = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const user = await User.findById(userId).populate("solvedQuestions");
+    const user = await User.findById(userId).populate("solvedQuestions").select("-password -refreshToken");
     return res.status(200).json(new ApiResponse(200, { user: user }, "User fetched"));
 });
 
@@ -438,6 +446,48 @@ const resendVerification = asyncHandler(async (req, res) => {
     } else return res.status(401).json(new ApiError(401, "Already active", "User already verified"));
     return res.status(201).json(new ApiResponse(201, {}, "An Email sent to your account please verify"));
 });
+const googleAuth = asyncHandler(async (req, res) => {
+    const { email, displayName, photoURL, uid } = req.body.user;
+    console.log(req.body);
+
+    let user = await User.find({ email: email });
+
+    let finalUserState = user[0] || undefined;
+
+    if (finalUserState && !finalUserState.googleUser) {
+        // console.log(finalUserState, finalUserState.googleUser);
+        return res.status(400).json(
+            new ApiError({
+                statusCode: 401,
+                message: "User exists with normal login",
+                userMessage: "User exists with normal login",
+            })
+        );
+    }
+
+    if (!finalUserState) {
+        const createdUser = await User.create({
+            email: email,
+            username: `${displayName.split(" ")[0].toLowerCase()}_${uid.substring(10, 15).toLowerCase()}`,
+            avatar: photoURL,
+            password: uid,
+            isActive: true,
+            fullname: displayName,
+            googleUser: true,
+        });
+
+        finalUserState = createdUser;
+    }
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(finalUserState._id);
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json(
+            new ApiResponse(200, { user: finalUserState, accessToken, refreshToken }, "User Logged in Successfully.")
+        );
+});
 export {
     registerUser,
     loginUser,
@@ -455,4 +505,5 @@ export {
     deleteAccount,
     resendVerification,
     verifyEmail,
+    googleAuth,
 };

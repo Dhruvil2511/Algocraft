@@ -43,7 +43,6 @@ const getResources = asyncHandler(async (req, res) => {
         },
     ]);
 
-    console.log(resources);
     return res.status(200).json(new ApiResponse(200, resources, "Resources fetched successfully"));
 });
 

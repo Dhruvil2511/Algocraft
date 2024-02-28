@@ -73,7 +73,6 @@ const CodingSheet = () => {
       });
   };
   const fetchQuestions = async () => {
-    // console.log(author, currentPage, perPage, selectedDifficulty, selectedTags);
     setIsLoading(true);
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/sheets/get-sheet", {
@@ -384,7 +383,7 @@ const CodingSheet = () => {
           Your quest ends with Algocraft. Dive into a vast collection of coding
           sheets conveniently consolidated in one location. Elevate your coding
           experience with insightful analysis charts that enhance your
-          problem-solving journey by monitoring your advancement.Stay tuned for
+          problem-solving journey by monitoring your advancement. Stay tuned for
           the upcoming interactive discussion forum designed to offer assistance
           and valuable insights as you tackle each practice sheet.
           <br />

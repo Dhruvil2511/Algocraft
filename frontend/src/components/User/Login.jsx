@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import Cookies from "js-cookie";
+import { auth, provider } from "../../utils/firebaseconfig.js";
+import {
+  GoogleAuthProvider,
+  prodErrorMap,
+  signInWithPopup,
+} from "firebase/auth";
 import "./User.css";
 
 const Login = () => {
@@ -13,22 +19,85 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // console.log(Cookies.get())
     const accessToken = Cookies.get("accessToken");
     if (accessToken) {
       navigate("/coding-sheets/striver");
     }
   }, []);
 
+  async function handleGoogleSignInClick(event) {
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        setIsLoading(true);
+
+        await axios
+          .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/google-user", {
+            user: result.user,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              const { accessToken, refreshToken } = res.data.data;
+              Cookies.set("accessToken", accessToken, {
+                expires: 1,
+                sameSite: "None",
+                secure: true,
+              });
+              Cookies.set("refreshToken", refreshToken, {
+                expires: 10,
+                sameSite: "None",
+                secure: true,
+              });
+              setTimeout(() => {
+                navigate("/coding-sheets/striver");
+              }, 2000);
+            }
+          })
+          .catch((err) => {
+            const { userMessage } = err?.response?.data;
+            toast(userMessage, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+            });
+          })
+          .finally(() => {
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 2002);
+          });
+      })
+      .catch((error) => {
+        toast(error?.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      });
+  }
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
-    // console.log(email,password)
     await axios
-      .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/login", {
-        email,
-        password,
-      },{withCredentials:true})
+      .post(
+        process.env.REACT_APP_BASE_URL + "/api/v1/users/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         if (res.status === 200) {
           const { accessToken, refreshToken } = res.data.data;
@@ -50,22 +119,20 @@ const Login = () => {
       .catch((err) => {
         let toastmessage = "";
         const { statusCode, userMessage } = err?.response?.data.error;
-        // console.log(statusCode, userMessage);
+        console.log(statusCode, userMessage);
         if (
           statusCode === 403 &&
           userMessage === "Your account is not active please verify your email."
         ) {
           setShowToast(true);
         }
-
         toastmessage = userMessage;
-
         toast(toastmessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
-          pauseOnHover: true, 
+          pauseOnHover: true,
           draggable: true,
           progress: undefined,
           theme: "dark",
@@ -286,7 +353,11 @@ const Login = () => {
             <p className="p line">Or With</p>
 
             <div className="d-flex  justify-content-center align-items-center">
-              <button className="options google">
+              <button
+                className="options google"
+                onClick={handleGoogleSignInClick}
+                type="button"
+              >
                 <svg
                   className="me-2"
                   version="1.1"

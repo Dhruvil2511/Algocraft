@@ -8,36 +8,11 @@ import DiscussionThread from "../Content/Discussion/DiscussionThread";
 import Profile from "../User/Profile";
 import EditProfile from "../User/EditProfile";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const Layout = () => {
   const [mainContainerPadding, setMainContainerPadding] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const [user, setUser] = useState(null);
   let { userid } = useParams();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      axios.defaults.withCredentials = true;
-      await axios
-        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
-          withCredentials: true,
-        })
-        .then((res) => {
-          if (res.status === 200) setUser(res.data.data.user);
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 403) {
-            Cookies.remove("accessToken");
-            Cookies.remove("refreshToken");
-            window.location.href = "/login";
-          }
-        });
-    };
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -71,7 +46,7 @@ const Layout = () => {
     )
       return <DiscussionThread />;
     else if (path.includes(`/edit-profile`)) {
-      return <EditProfile user={user} />;
+      return <EditProfile />;
     } else if (userid) return <Profile userId={userid} />;
   }
 
@@ -121,7 +96,7 @@ const Layout = () => {
             className="container main-container"
             style={{ padding: mainContainerPadding }}
           >
-            {user && CheckContentPath()}
+            {CheckContentPath()}
           </div>
         </div>
       </div>

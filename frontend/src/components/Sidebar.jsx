@@ -6,29 +6,47 @@ import Cookies from "js-cookie";
 const Sidebar = () => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    axios.defaults.withCredentials=true;
     const fetchUser = async () => {
-      await axios
-        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
-          withCredentials: true,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            setUsername(res.data.data.user.username);
-            setAvatar(res.data.data.user.avatar);
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      const storedUser = localStorage.getItem("currentUser");
+      if (storedUser) {
+        const { username, avatar } = JSON.parse(storedUser);
+        setUsername(username);
+        setAvatar(avatar);
+      } else {
+        setIsLoading(true);
+        await axios
+          .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+            withCredentials: true,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              setUsername(res.data.data.user.username);
+              localStorage.setItem(
+                "currentUser",
+                JSON.stringify({
+                  username: res.data.data.user.username,
+                  avatar: res.data.data.user.avatar,
+                })
+              );
+              setAvatar(res.data.data.user.avatar);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              Cookies.remove("accessToken");
+              Cookies.remove("refreshToken");
+              window.location.href = "/login";
+            }
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
     };
-
     fetchUser();
   }, []);
 

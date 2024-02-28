@@ -318,7 +318,7 @@ const Home = () => {
                   </div>
                   <div className="card-body text-primary">
                     <h5 className="card-title" style={{ color: "maroon" }}>
-                      jobs doors (coming soon)
+                      Jobs doors (coming soon)
                     </h5>
                     <p className="card-text">
                       Navigate your career path with confidence by exploring job
