@@ -10,7 +10,7 @@ import Layout from "./components/Content/Layout";
 import { updateTheme } from "./utils/updateTheme";
 import Logout from "./components/User/Logout";
 import NotFound from "./components/Landing/NotFound";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
 import Sidebar from "./components/Sidebar";
@@ -86,9 +86,46 @@ const PrivateRoutes = ({ children }) => {
 };
 
 function App() {
-  const theme = localStorage.getItem("theme");
-  if (theme === "dark") updateTheme(false);
-  else if (theme === "light") updateTheme(true);
+  async function checkCookie() {
+    return new Promise((resolve) => {
+      var cookieEnabled = navigator.cookieEnabled;
+      if (!cookieEnabled) {
+        document.cookie = "testcookie";
+        cookieEnabled = document.cookie.indexOf("testcookie") !== -1;
+      }
+      resolve(cookieEnabled);
+    }).then((cookieEnabled) => {
+      if (!cookieEnabled) {
+        showCookieFail();
+      }
+    });
+  }
+
+  function showCookieFail() {
+    toast("Please enable 3rd party cookies to login.", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  }
+  useEffect(() => {
+    const checkAndSetCookie = async () => {
+      const isEnabled = await checkCookie();
+      const theme = isEnabled ? localStorage?.getItem("theme") : "dark";
+      if (theme === "dark") updateTheme(false);
+      else if (theme === "light") updateTheme(true);
+    };
+
+    checkAndSetCookie();
+
+    return () => {};
+  }, []);
 
   return (
     <>

@@ -121,10 +121,10 @@ const CodingSheet = () => {
       .finally(() => setIsLoading(false));
   };
 
-  useEffect(() => {
-    fetchUser();
+  useEffect(async () => {
+    await fetchUser();
     setAnalysisToggle(false);
-    fetchQuestions();
+    await fetchQuestions();
     return () => {};
   }, [currentPage, selectedDifficulty, selectedTags, status, author]);
 
