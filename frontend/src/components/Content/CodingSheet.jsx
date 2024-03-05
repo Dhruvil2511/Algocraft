@@ -121,12 +121,19 @@ const CodingSheet = () => {
       .finally(() => setIsLoading(false));
   };
 
-  useEffect(async () => {
-    await fetchUser();
-    setAnalysisToggle(false);
-    await fetchQuestions();
-    return () => {};
-  }, [currentPage, selectedDifficulty, selectedTags, status, author]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchUser();
+      setAnalysisToggle(false);
+      await fetchQuestions();
+    };
+  
+    fetchData();
+  
+    return () => {
+      // Cleanup function if needed
+    };
+  }, [currentPage, selectedDifficulty, selectedTags, status, author]);  
 
   const data = {
     labels: Object.keys(solvedData),
@@ -224,6 +231,7 @@ const CodingSheet = () => {
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
     }
+    return () => {};
   }, [sheetId, user, sheet, author]);
 
   const calculateDisplayedNumber = (index) => {
