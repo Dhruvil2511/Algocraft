@@ -10,11 +10,11 @@ const Logout = () => {
           {},
           { withCredentials: true }
         );
-        Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
-        localStorage.removeItem("currentUser")
       } catch (err) {
       } finally {
+        Cookies.remove("refreshToken");
+        Cookies.remove("accessToken");
+        localStorage.removeItem("currentUser")
         window.location.href = "/";
       }
     };  
