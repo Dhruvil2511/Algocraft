@@ -15,7 +15,8 @@ const Logout = () => {
         Cookies.remove("refreshToken");
         Cookies.remove("accessToken");
         localStorage.removeItem("currentUser")
-        window.location.href = "/";
+        window.location.href = "/"; 
+        
       }
     };  
 
