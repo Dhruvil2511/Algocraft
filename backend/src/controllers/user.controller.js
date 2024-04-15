@@ -19,13 +19,9 @@ const registrationSchema = joi.object({
     username: joi.string().required(),
     email: joi.string().email().required(),
     fullname: joi.string(),
-    password: joi
-        .string()
-        .min(8)
-        .message({
-            "string.pattern.base":
-                "Password must be at least 8 characters long.",
-        }),
+    password: joi.string().min(8).message({
+        "string.pattern.base": "Password must be at least 8 characters long.",
+    }),
 });
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -170,13 +166,13 @@ const loginUser = asyncHandler(async (req, res) => {
     // console.log(user.isActive);
 
     if (!user.isActive) {
-        return res.status(403).json(
-            new ApiError({
+        return res.status(403).json({
+            error: new ApiError({
                 statusCode: 403,
                 message: "Your account is not active please verify your email.",
-                userMessage: "Your account is not active please verify your email.",
-            })
-        );
+                userMessage: "Your account is not active please verify your email or contact admin.",
+            }),
+        });
     }
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
