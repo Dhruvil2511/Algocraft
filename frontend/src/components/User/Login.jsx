@@ -45,8 +45,6 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
         setIsLoading(true);
-        console.log(result);
-
         await axios
           .post(
             process.env.REACT_APP_BASE_URL + "/api/v1/users/google-user",

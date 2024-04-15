@@ -6,8 +6,8 @@ const sendEmail = async (email, subject, verificationLink) => {
         var trans = nodemailer.createTransport({
             service: "gmail",
             host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
+            port: 465,
+            secure: true,
             auth: {
                 user: "dhruvilprajapati2003@gmail.com",
                 pass: process.env.GACCOUNT_APP_PASSWORD,
