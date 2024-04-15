@@ -4,12 +4,10 @@ const sendEmail = async (email, subject, verificationLink) => {
     try {
         // console.log("===================================")
         var trans = nodemailer.createTransport({
-            logger: true,
-            debug: true,
             service: "gmail",
             host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            port: 587,
+            secure: false,
             auth: {
                 user: "dhruvilprajapati2003@gmail.com",
                 pass: process.env.GACCOUNT_APP_PASSWORD,
