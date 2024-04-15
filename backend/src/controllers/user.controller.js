@@ -22,10 +22,9 @@ const registrationSchema = joi.object({
     password: joi
         .string()
         .min(8)
-        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/)
         .message({
             "string.pattern.base":
-                "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character.",
+                "Password must be at least 8 characters long.",
         }),
 });
 
@@ -186,7 +185,13 @@ const loginUser = asyncHandler(async (req, res) => {
         .status(200)
         .cookie("accessToken", accessToken, cookieOptions)
         .cookie("refreshToken", refreshToken, cookieOptions)
-        .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User Logged in Successfully."));
+        .json(
+            new ApiResponse(
+                200,
+                { username: loggedInUser.username, avatar: loggedInUser.avatar, accessToken, refreshToken },
+                "User Logged in Successfully."
+            )
+        );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -453,7 +458,6 @@ const googleAuth = asyncHandler(async (req, res) => {
     let finalUserState = user[0] || undefined;
 
     if (finalUserState && !finalUserState.googleUser) {
-        // console.log(finalUserState, finalUserState.googleUser);
         return res.status(400).json(
             new ApiError({
                 statusCode: 401,
@@ -483,7 +487,11 @@ const googleAuth = asyncHandler(async (req, res) => {
         .cookie("accessToken", accessToken, cookieOptions)
         .cookie("refreshToken", refreshToken, cookieOptions)
         .json(
-            new ApiResponse(200, { user: finalUserState, accessToken, refreshToken }, "User Logged in Successfully.")
+            new ApiResponse(
+                200,
+                { username: finalUserState.username, avatar: finalUserState.avatar, accessToken, refreshToken },
+                "User Logged in Successfully."
+            )
         );
 });
 export {

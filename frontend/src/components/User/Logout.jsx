@@ -14,11 +14,10 @@ const Logout = () => {
       } finally {
         Cookies.remove("refreshToken");
         Cookies.remove("accessToken");
-        localStorage.removeItem("currentUser")
-        window.location.href = "/"; 
-        
+        localStorage.removeItem("currentUser");
+        window.location.href = "/";
       }
-    };  
+    };
 
     logout();
   }, []);

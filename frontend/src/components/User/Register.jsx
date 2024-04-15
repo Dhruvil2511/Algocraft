@@ -43,7 +43,6 @@ const Register = () => {
   }, [showResendButton, countdown]);
 
   function handleFormChange(event) {
-    
     const { name, value } = event.target;
     if (name === "email") setEmail(event.target.value);
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -85,7 +84,7 @@ const Register = () => {
         }
       })
       .catch((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -128,7 +127,7 @@ const Register = () => {
         }
       })
       .catch((err) => {
-        const {  userMessage } = err.response.data;
+        const { userMessage } = err.response.data;
         // console.log(userMessage)
         toast(userMessage, {
           position: "top-center",
@@ -193,7 +192,11 @@ const Register = () => {
           <h3 className="text-decoration-underline">
             Create an Account or login
           </h3>
-          <form   autoComplete="false" className="form mt-2" onSubmit={handleFormSubmit}>
+          <form
+            autoComplete="false"
+            className="form mt-2"
+            onSubmit={handleFormSubmit}
+          >
             <div className="flex-column">
               <label>Email </label>
             </div>
@@ -212,7 +215,6 @@ const Register = () => {
                 type="email"
                 className="input"
                 placeholder="Enter your Email"
-              
                 value={formData.email}
                 name="email"
                 required

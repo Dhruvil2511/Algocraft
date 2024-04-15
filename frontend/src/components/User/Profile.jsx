@@ -414,7 +414,8 @@ const Profile = ({ userId }) => {
                   </div>
                 </div>
                 <div className="daddy omg p-3 ms-2">
-                  <div className="d-flex justify-content-center align-items-center">
+                <span className="text-center">📃 Yet to implement streaks part and leetcode data here</span>
+                  <div className="d-flex justify-content-center align-items-center opacity-25">
                     <div className="bars w-100">
                       <span>Easy</span>
                       <div

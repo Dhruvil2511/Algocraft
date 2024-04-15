@@ -194,7 +194,9 @@ const OffcanvasNavbar = ({ username, avatar }) => {
                 </div>
               </>
             )}
-            <strong>{username}</strong>
+            <strong>
+              {username && username.length > 15 ? username.slice(0, 15) + "..." : username}
+            </strong>
           </a>
           <ul
             className="dropdown-menu dropdown-menu-dark text-small shadow"

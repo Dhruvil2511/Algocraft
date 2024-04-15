@@ -45,6 +45,7 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
         setIsLoading(true);
+        console.log(result);
 
         await axios
           .post(
@@ -56,9 +57,14 @@ const Login = () => {
           )
           .then(async (res) => {
             if (res.status === 200) {
-              const { accessToken, refreshToken } = res.data.data;
+              const { username, avatar, accessToken, refreshToken } =
+                res.data.data;
               const cookiesSet = await setCookies(accessToken, refreshToken);
               if (cookiesSet) {
+                localStorage.setItem(
+                  "currentUser",
+                  JSON.stringify({ username: username, avatar: avatar })
+                );
                 navigate("/coding-sheets/striver");
               } else {
                 console.error("Cookies could not be set. Navigation aborted.");
@@ -111,9 +117,13 @@ const Login = () => {
       )
       .then(async (res) => {
         if (res.status === 200) {
-          const { accessToken, refreshToken } = res.data.data;
+          const { username, avatar, accessToken, refreshToken } = res.data.data;
           const cookiesSet = await setCookies(accessToken, refreshToken);
           if (cookiesSet) {
+            localStorage.setItem(
+              "currentUser",
+              JSON.stringify({ username: username, avatar: avatar })
+            );
             navigate("/coding-sheets/striver");
           } else {
             console.error("Cookies could not be set. Navigation aborted.");
