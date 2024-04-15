@@ -4,6 +4,8 @@ const sendEmail = async (email, subject, verificationLink) => {
     try {
         // console.log("===================================")
         var trans = nodemailer.createTransport({
+            logger: true,
+            debug: true,
             service: "gmail",
             host: "smtp.gmail.com",
             port: 465,
