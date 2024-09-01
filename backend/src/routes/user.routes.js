@@ -16,13 +16,15 @@ import {
     updateAccountDetails,
     updateAvatar,
     resendVerification,
-    googleAuth
+    googleAuth,
+    serverCheck
 } from "../controllers/user.controller.js";
 
 const router = Router();
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
+router.route("/").get(serverCheck);
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/verify-email").get(verifyEmail)
@@ -40,5 +42,5 @@ router.route("/get-saved-threads").get(verifyJWT, getUserSavedThread);
 router.route("/get-created-threads").get(verifyJWT, getUserCreatedThreads);
 router.route("/get-saved-questions").get(verifyJWT, getUserSavedQuestions);
 router.route("/get-solved-questions").get(verifyJWT, getUserSolvedQuestions);
-router.route("/delete-account").delete(verifyJWT,deleteAccount);
+router.route("/delete-account").delete(verifyJWT, deleteAccount);
 export default router;
