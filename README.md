@@ -7,7 +7,7 @@ Algocraft is an ultimate platform designed to help you crack your software engin
 ## Tech Stack
  #### Build with MERN Stack, Bootstrap classes and firebase 
 ## Deployed on
-#### algocraft.web.app
+#### [algocraft.web.app](https://algocraft.web.app/)
 ## Getting Started
 ## Features
 
