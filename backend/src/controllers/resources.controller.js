@@ -42,7 +42,10 @@ const getResources = asyncHandler(async (req, res) => {
             $limit: limit,
         },
     ]);
-
+    
+    if (!resources || resources.length === 0) {
+        return res.status(404).json(new ApiError({statusCode: 404,message: "",userMessage: "No more resources to show"}));
+    }
     return res.status(200).json(new ApiResponse(200, resources, "Resources fetched successfully"));
 });
 

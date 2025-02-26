@@ -79,7 +79,7 @@ const Login = () => {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: "dark",
+              theme: localStorage.getItem("theme") || "dark",
               transition: Bounce,
             });
           })
@@ -96,7 +96,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -147,7 +147,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -175,7 +175,7 @@ const Login = () => {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
           setShowToast(false);
@@ -192,7 +192,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         }).finally(() => {
           setShowToast(false);

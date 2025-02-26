@@ -43,7 +43,7 @@ const Home = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
         }
@@ -80,29 +80,16 @@ const Home = () => {
                   An ultimate platform to help you crack your Software
                   engineering interview.
                 </span>
-                {isAuthenticated ? (
-                  <button
-                    onClick={() => navigate("/coding-sheets/striver")}
-                    className="grad-btn mt-2 drop-in-4"
-                    style={{ overflow: "hidden" }}
-                  >
-                    Lets Crack it
-                    <div className="hoverEffect">
-                      <div></div>
-                    </div>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="grad-btn mt-2 drop-in-4"
-                    style={{ overflow: "hidden" }}
-                  >
-                    Lets Crack it
-                    <div className="hoverEffect">
-                      <div></div>
-                    </div>
-                  </button>
-                )}
+                <button
+                  onClick={() => navigate("/coding-sheets/striver")}
+                  className="grad-btn mt-2 drop-in-4"
+                  style={{ overflow: "hidden" }}
+                >
+                  Lets Crack it
+                  <div className="hoverEffect">
+                    <div></div>
+                  </div>
+                </button>
               </div>
             </div>
             <div className="background-animation">

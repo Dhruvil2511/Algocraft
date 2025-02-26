@@ -168,60 +168,45 @@ const OffcanvasNavbar = ({ username, avatar }) => {
           </ul>
         </div>
         <hr />
-        <div className="dropup dropup-center">
-          <a
-            href="/"
-            className="d-flex align-items-center dropdown-toggle text-decoration-none"
-            id="dropdownUser1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {avatar ? (
-              <img
-                src={`${avatar}`}
-                alt=""
-                width="32"
-                height="32"
-                className="rounded-circle me-2"
-              />
-            ) : (
-              <>
-                {" "}
+        {username ? (
+          <div className="dropup dropup-center">
+            <a href="/" className="d-flex align-items-center dropdown-toggle text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              {avatar ? (
+                <img src={`${avatar}`} alt="" width="32" height="32" className="rounded-circle me-2" />
+              ) : (
                 <div className="d-flex flex-column align-items-center justify-content-center">
                   <div className="gola">
                     <i className="default-icon fa-solid fa-user fa-xl"></i>
                   </div>
                 </div>
-              </>
-            )}
-            <strong>
-              {username && username.length > 15 ? username.slice(0, 15) + "..." : username}
-            </strong>
-          </a>
-          <ul
-            className="dropdown-menu dropdown-menu-dark text-small shadow"
-            aria-labelledby="dropdownUser1"
-          >
-            <li>
-              <Link className="dropdown-item" to={`/edit-profile`}>
-                Edit
+              )}
+              <strong>{username.length > 15 ? username.slice(0, 15) + "..." : username}</strong>
+            </a>
+            <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+              <li>
+                <Link className="dropdown-item" to={`/edit-profile`}>Edit</Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to={`/${username}`}>Profile</Link>
+              </li>
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/logout">Sign out</Link>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="nav-item py-2">
+              <Link to="/login" className="nav-link">
+                <i className="default-icon fa-solid fa-user fa-xl px-2"></i>
+                Login/Register
               </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to={`/${username}`}>
-                Profile
-              </Link>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-            <li>
-              <Link className="dropdown-item" to="/logout">
-                Sign out
-              </Link>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

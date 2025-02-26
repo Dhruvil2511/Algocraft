@@ -52,24 +52,11 @@ const CodingSheet = () => {
         if (res.status === 200) {
           const data = res.data.data;
           setUser(data.user);
-          // console.log(data.user.solvedQuestions);
           setTotalSolvedQuestions(data.user.solvedQuestions);
         }
       })
       .catch((err) => {
-        const { userMessage } = err.response.data;
-        // console.log(userMessage)
-        toast(userMessage, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        console.log("User is not authenticated");
       });
   };
   const fetchQuestions = async () => {
@@ -111,7 +98,7 @@ const CodingSheet = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
         setIsDataAvail(false);
@@ -127,13 +114,13 @@ const CodingSheet = () => {
       setAnalysisToggle(false);
       await fetchQuestions();
     };
-  
+
     fetchData();
-  
+
     return () => {
       // Cleanup function if needed
     };
-  }, [currentPage, selectedDifficulty, selectedTags, status, author]);  
+  }, [currentPage, selectedDifficulty, selectedTags, status, author]);
 
   const data = {
     labels: Object.keys(solvedData),
@@ -231,7 +218,7 @@ const CodingSheet = () => {
       setMediumProgress(countProgress(mediumCount, totalMedium));
       setHardProgress(countProgress(hardCount, totalHard));
     }
-    return () => {};
+    return () => { };
   }, [sheetId, user, sheet, author]);
 
   const calculateDisplayedNumber = (index) => {
@@ -299,13 +286,11 @@ const CodingSheet = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          // const data = res.data.data;
-          // console.log(data);
           fetchUser();
         }
       })
       .catch((err) => {
-        toast("Error saving question", {
+        toast(err?.response.data.userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -313,7 +298,7 @@ const CodingSheet = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
         console.error(err);
@@ -335,7 +320,7 @@ const CodingSheet = () => {
         }
       })
       .catch((err) => {
-        toast("Error marking question", {
+        toast(err?.response.data.userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -343,7 +328,7 @@ const CodingSheet = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -799,9 +784,9 @@ const CodingSheet = () => {
                           onClick={() => markQuestion(question._id)}
                         >
                           {user &&
-                          user.solvedQuestions.some(
-                            (ques) => ques._id === question._id
-                          ) ? (
+                            user.solvedQuestions.some(
+                              (ques) => ques._id === question._id
+                            ) ? (
                             <i
                               className="fa-solid fa-circle-check fa-lg"
                               style={{ color: "#63E6BE" }}
@@ -818,7 +803,7 @@ const CodingSheet = () => {
                           onClick={() => saveQuestion(question._id)}
                         >
                           {user &&
-                          user.bookmarkedQuestions.includes(question._id) ? (
+                            user.bookmarkedQuestions.includes(question._id) ? (
                             <i className="fa-solid fa-bookmark fa-lg"></i>
                           ) : (
                             <i className="fa-regular fa-bookmark fa-lg"></i>

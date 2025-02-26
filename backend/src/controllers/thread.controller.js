@@ -5,6 +5,8 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { Thread } from "../models/thread.model.js";
 import { ObjectId } from "mongodb";
 import { Comment } from "../models/comment.model.js";
+import { optionalAuth } from "../middlewares/optionalAuth.middleware.js";
+
 
 const createThread = asyncHandler(async (req, res) => {
     const { title, category, tags, content } = req.body;
@@ -18,7 +20,7 @@ const createThread = asyncHandler(async (req, res) => {
         uploader: req.user?._id,
     });
 
-    if (!threadCreated) return res.status(500).json(new ApiError(500, "Internal Error", "Error creating thread"));
+    if (!threadCreated) return res.status(500).json(new ApiError({ statusCode: 500, message: "Internal Error", userMessage: "Error creating thread" }));
 
     await User.findByIdAndUpdate(userId, { $push: { threadsCreated: threadCreated._id } }, { new: true });
 
@@ -41,17 +43,18 @@ const getThreadList = asyncHandler(async (req, res) => {
 
     let pipeline = [];
 
-    // console.log(search);
-    if (search !== "")
+    const searchQuery = search ? String(search).trim() : "";
+    if (searchQuery !== "") {
         pipeline.push({
             $search: {
-                index: "default",
+                index: "title",
                 text: {
-                    query: search,
+                    query: searchQuery,
                     path: "title",
                 },
             },
         });
+    }
     else if (category !== "all") pipeline.push({ $match: { category: category } });
 
     const threads = await Thread.aggregate([
@@ -88,14 +91,11 @@ const getThreadList = asyncHandler(async (req, res) => {
         },
     ]);
 
-    // console.log(threads);
-
     res.status(200).json(new ApiResponse(200, threads, "Threads fetched successfully"));
 });
 
 const getThread = asyncHandler(async (req, res) => {
     const threadId = new ObjectId(req.query?.threadId);
-    const userId = req.user._id;
 
     const threads = await Thread.aggregate([
         {
@@ -161,7 +161,7 @@ const getThread = asyncHandler(async (req, res) => {
                     _id: 1,
                     username: 1,
                     avatar: 1,
-                    fullname:1
+                    fullname: 1
                 },
                 upvotes: {
                     _id: 1,
@@ -171,10 +171,15 @@ const getThread = asyncHandler(async (req, res) => {
     ]);
 
     let message = "";
+    await new Promise((resolve) => optionalAuth(req, res, resolve)).catch((err) => { }); 
+    const userId = req?.user?._id;
+    const user = await User.findById(userId);
+    if (user === null) {
+        return res.status(200).json(new ApiResponse(200, { thread: threads[0], upvotedOrNot: false, savedOrNot: false }, "Thread fetched successfully" + message));
+    }
+
     const userViewedOrNot = threads[0]?.views?.findIndex((viewer) => viewer.equals(userId));
     const likedOrNot = threads[0]?.upvotes?.findIndex((upvote) => upvote._id.equals(userId));
-
-    const user = await User.findById(userId);
     const savedOrNot = user.threadsSaved.findIndex((saved) => saved._id.equals(threadId));
 
     if (userViewedOrNot === -1) {
@@ -187,7 +192,7 @@ const getThread = asyncHandler(async (req, res) => {
         upvotedOrNot: likedOrNot === -1 ? false : true,
         savedOrNot: savedOrNot === -1 ? false : true,
     };
-    res.status(200).json(new ApiResponse(200, responseData, "Thread fetched successfully" + message));
+    return res.status(200).json(new ApiResponse(200, responseData, "Thread fetched successfully" + message));
 });
 
 const upvoteThread = asyncHandler(async (req, res) => {
@@ -304,4 +309,4 @@ const deleteThread = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, {}, "Successfully deleted"));
 });
-export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies, saveThread,deleteThread };
+export { createThread, getThreadList, getThread, upvoteThread, uploadComment, uploadReply, getReplies, saveThread, deleteThread };

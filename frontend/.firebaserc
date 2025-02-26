@@ -1,8 +1,17 @@
 {
   "projects": {
-    "default": "algo-craft",
-    "prod": "algo-craft"
+    "default": "algo-craft"
   },
-  "targets": {},
-  "etags": {}
+  "targets": {
+    "algo-craft": {
+      "hosting": {
+        "algocraft": [
+          "algocraft"
+        ],
+        "default": [
+          "algo-craft"
+        ]
+      }
+    }
+  }
 }

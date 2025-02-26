@@ -13,7 +13,6 @@ const UpcomingContests = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/api/v1/contests/upcoming-contests`,
-        { withCredentials: true }
       );
       if (response.status === 200) {
         setContestData(response.data.data.objects);
@@ -29,7 +28,7 @@ const UpcomingContests = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: localStorage.getItem("theme") || "dark",
         transition: Bounce,
       });
       setLoading(false);
@@ -80,7 +79,6 @@ const UpcomingContests = () => {
               className="searchInput"
               type="text"
               name="search"
-              required
               value={query}
               placeholder="Search title .."
               onChange={(event) => setQuery(event.target.value)}

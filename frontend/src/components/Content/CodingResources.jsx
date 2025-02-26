@@ -33,7 +33,6 @@ const CodingResources = () => {
           page: currentPage,
           limit: perPage,
         },
-        withCredentials: true,
       })
       .then((res) => {
         if (res.status === 200) {
@@ -52,7 +51,7 @@ const CodingResources = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -73,6 +72,7 @@ const CodingResources = () => {
           materials. This feature caters to your learning needs by consolidating
           valuable resources from various platforms, offering a seamless and
           comprehensive learning experience.
+          Request or contribute to the resources? <Link to="mailto:dhruvilprajapati2003@gmail.com">Contact Us</Link>
         </p>
         <form onSubmit={handleResourceSearch} className="w-100">
           <div className="searchBox">
@@ -95,8 +95,12 @@ const CodingResources = () => {
             </div>
           ) : (
             <>
-              {" "}
-              {resources?.map((resource, index) => (
+              {!isDataAvail ? (
+                <div className="p-5 w-100 d-flex justify-content-center align-items-center flex-column">
+                  <i className="p-3 fa-solid fa-ban fa-2xl text-danger"></i>
+                  <span className="fs-4">That's it for now!</span>
+                </div>
+              ) : resources?.map((resource, index) => (
                 <div className="col" key={index}>
                   <div className="card h-100">
                     <img

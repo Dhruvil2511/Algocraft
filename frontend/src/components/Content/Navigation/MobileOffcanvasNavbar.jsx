@@ -3,7 +3,7 @@ import "../Content.css";
 import { updateTheme } from "../../Landing/Navigation";
 import { Link } from "react-router-dom";
 
-const MobileOffcanvasNavbar = ({ username,avatar }) => {
+const MobileOffcanvasNavbar = ({ username, avatar }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
   const [path, setPath] = useState(window.location.pathname);
 
@@ -37,61 +37,74 @@ const MobileOffcanvasNavbar = ({ username,avatar }) => {
           </div>
           <div
             className="gola ms-2"
-            style={{ background:"var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%))" }}
+            style={{ background: "var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%))" }}
           >
             <i className="fa-solid fa-code fa-l"></i>
           </div>
-          <div className="dropstart ">
-            <Link
-              to="/"
-              className="d-flex align-items-center dropdown-toggle text-decoration-none"
-              id="dropdownUser1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {avatar ? (
-                <img
-                  src={`${avatar}`}
-                  alt=""
-                  width="32"
-                  height="32"
-                  className="rounded-circle me-2"
-                />
-              ) : (
-                <>
-                  {" "}
-                  <div className="d-flex flex-column align-items-center justify-content-center">
-                    <div className="gola">
-                      <i className="default-icon fa-solid fa-user fa-xl"></i>
+
+          {username ? (
+            <div className="dropstart ">
+              <Link
+                to="/"
+                className="d-flex align-items-center dropdown-toggle text-decoration-none"
+                id="dropdownUser1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {avatar ? (
+                  <img
+                    src={`${avatar}`}
+                    alt=""
+                    width="32"
+                    height="32"
+                    className="rounded-circle me-2"
+                  />
+                ) : (
+                  <>
+                    {" "}
+                    <div className="d-flex flex-column align-items-center justify-content-center">
+                      <div className="gola">
+                        <i className="default-icon fa-solid fa-user fa-xl"></i>
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </Link>
-            <ul
-              className="pfp-menu dropdown-menu dropdown-menu-dark text-small shadow"
-              aria-labelledby="dropdownUser1"
-            >
-              <li>
-                <Link className="dropdown-item" to={`/edit-profile`}>
-                  Edit
+                  </>
+                )}
+              </Link>
+              <ul
+                className="pfp-menu dropdown-menu dropdown-menu-dark text-small shadow"
+                aria-labelledby="dropdownUser1"
+              >
+                <li>
+                  <Link className="dropdown-item" to={`/edit-profile`}>
+                    Edit
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to={`${username}`}>
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/logout">
+                    Sign out
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div className="d-flex justify-content-center align-items-center">
+              <div className="nav-item py-2">
+                <Link to="/login" className="nav-link">
+                  <i className="default-icon fa-solid fa-user fa-xl px-2"></i>
+                  Login
                 </Link>
-              </li>
-              <li>
-                <Link className="dropdown-item" to={`${username}`}>
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <Link className="dropdown-item" to="/logout">
-                  Sign out
-                </Link>
-              </li>
-            </ul>
-          </div>
+              </div>
+            </div>
+          )}
+
         </div>
       </nav>
 

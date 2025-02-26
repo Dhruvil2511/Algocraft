@@ -54,10 +54,9 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
-        // console.error("Error fetching data from db");
       })
       .finally(() => setIsLoading(false));
   };
@@ -82,7 +81,8 @@ const DiscussionThread = () => {
       })
       .then((res) => {})
       .catch((err) => {
-        toast("Error upvoting thread", {
+        const { userMessage } = err?.response?.data || "Error upvoting thread";
+        toast(userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -90,10 +90,9 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
-        console.log(err);
       });
   }
 
@@ -115,12 +114,12 @@ const DiscussionThread = () => {
       .then((res) => {
         if (res.status === 200) {
           setUserComment("");
-          // console.log(res.data.data);
           fetchThread();
         }
       })
       .catch((err) => {
-        toast("Error posting comment", {
+        const { userMessage } = err?.response?.data || "Error posting comment";
+        toast(userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -128,10 +127,9 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
-        console.error(err);
       });
   }
 
@@ -159,7 +157,8 @@ const DiscussionThread = () => {
         }
       })
       .catch((err) => {
-        toast("Error posting reply", {
+        const { userMessage } = err?.response?.data || "Error posting comment";
+        toast(userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -167,10 +166,9 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
-        console.error(err);
       });
   }
 
@@ -193,12 +191,12 @@ const DiscussionThread = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data.data.replies);
           setCommentReplies(res.data.data?.replies);
         }
       })
       .catch((err) => {
-        toast("Error while replying", {
+        const { userMessage } = err?.response?.data || "Error";
+        toast(userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -206,7 +204,7 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -221,10 +219,10 @@ const DiscussionThread = () => {
         { threadId: threadId },
         { withCredentials: true }
       )
-      .then((res) => {})
+      .then((res) => { })
       .catch((err) => {
-        console.error(err);
-        toast("Error saving thread", {
+        const { userMessage } = err?.response?.data || "Error saving thread";
+        toast(userMessage, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -232,7 +230,7 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -252,7 +250,7 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -265,7 +263,7 @@ const DiscussionThread = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -292,10 +290,9 @@ const DiscussionThread = () => {
                   className="px-2"
                   style={{
                     textDecoration: "none",
-                    whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    maxWidth: "250px",
+                    maxWidth: "450px",
                   }}
                 >
                   {thread?.title}
@@ -489,60 +486,48 @@ const DiscussionThread = () => {
                             </sub>
                           </div>
                         </div>
-                        {isViewRepliedClicked &&
-                          viewReplyCommentId === comment._id &&
-                          commentReplies?.map((reply) => (
-                            <div
-                              key={reply._id}
-                              className="comment d-flex py-2 justify-content-start align-items-center w-100"
-                            >
-                              <div className="d-flex flex-column justify-content-start align-items-center">
-                                <div className="d-flex w-100 justify-content-start align-items-center">
-                                  <div
-                                    className="number pfp"
-                                    style={{ width: "40px", height: "40px" }}
-                                  >
-                                    <Link to={`/${reply?.repliedBy?.username}`}>
-                                      {reply?.repliedBy?.avatar ? (
-                                        <img
-                                          src={reply.repliedBy.avatar}
-                                          alt="Avatar"
-                                        />
-                                      ) : (
-                                        <i className="fa-solid fa-user "></i>
-                                      )}
-                                    </Link>
-                                  </div>
-                                  <div className="px-2">
-                                    {reply.repliedBy?.username ? (
-                                      <Link
-                                        to={`/${reply.repliedBy?.username}`}
-                                        className="text-decoration-none"
-                                      >
-                                        <small>
-                                          @{reply.repliedBy?.username}
-                                        </small>
-                                      </Link>
-                                    ) : (
-                                      <small>@deleted_user</small>
-                                    )}
-                                  </div>
-                                  <div className="time">
-                                    <sub>
-                                      {new Date(
-                                        reply.createdAt
-                                      ).toLocaleString()}
-                                    </sub>
-                                  </div>
-                                </div>
-                                <div className="comment-replies w-100 ps-2 d-flex justify-content-start flex-column align-items-center">
-                                  <span className="text-start ps-2 w-100">
-                                    {reply.repliedContent}
-                                  </span>
-                                </div>
+                        {isViewRepliedClicked && viewReplyCommentId === comment._id && (
+                          <>
+                            {repliesLoading ? (
+                              <div className="py-2 text-center">
+                                <i className="fa-solid fa-spinner fa-spin fa-lg"></i> 
                               </div>
-                            </div>
-                          ))}
+                            ) : (
+                              commentReplies?.map((reply) => (
+                                <div key={reply._id} className="comment d-flex py-2 justify-content-start align-items-center w-100">
+                                  <div className="d-flex flex-column justify-content-start align-items-center">
+                                    <div className="d-flex w-100 justify-content-start align-items-center">
+                                      <div className="number pfp" style={{ width: "40px", height: "40px" }}>
+                                        <Link to={`/${reply?.repliedBy?.username}`}>
+                                          {reply?.repliedBy?.avatar ? (
+                                            <img src={reply.repliedBy.avatar} alt="Avatar" />
+                                          ) : (
+                                            <i className="fa-solid fa-user"></i>
+                                          )}
+                                        </Link>
+                                      </div>
+                                      <div className="px-2">
+                                        {reply.repliedBy?.username ? (
+                                          <Link to={`/${reply.repliedBy?.username}`} className="text-decoration-none">
+                                            <small>@{reply.repliedBy?.username}</small>
+                                          </Link>
+                                        ) : (
+                                          <small>@deleted_user</small>
+                                        )}
+                                      </div>
+                                      <div className="time">
+                                        <sub>{new Date(reply.createdAt).toLocaleString()}</sub>
+                                      </div>
+                                    </div>
+                                    <div className="comment-replies w-100 ps-2 d-flex justify-content-start flex-column align-items-center">
+                                      <span className="text-start ps-2 w-100">{reply.repliedContent}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </>
+                        )}
                       </div>
                       {isRepliedClicked && commentId === comment._id && (
                         <div className="ps-5">

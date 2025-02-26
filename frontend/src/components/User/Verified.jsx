@@ -37,7 +37,7 @@ const Verified = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
         });

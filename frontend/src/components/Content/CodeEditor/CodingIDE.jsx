@@ -78,7 +78,6 @@ const CodingIDE = () => {
     axios
       .request(options)
       .then(function (response) {
-        console.log("res.data", response.data);
         const token = response.data.token;
         checkStatus(token);
       })
@@ -89,7 +88,6 @@ const CodingIDE = () => {
         console.log("status", status);
         if (status === 429) {
           console.log("too many requests", status);
-
           showErrorToast(`Quota of 100 requests exceeded for the Day!`, 10000);
         }
         setProcessing(false);
@@ -122,7 +120,6 @@ const CodingIDE = () => {
         setProcessing(false);
         setOutputDetails(response.data);
         showSuccessToast(`Compiled Successfully!`);
-        console.log("response.data", response.data);
         return;
       }
     } catch (err) {

@@ -22,37 +22,31 @@ import { useState, useEffect } from "react";
 
 const PrivateRoutes = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkAuthentication = async () => {
       let clientAccessToken = Cookies.get("accessToken");
       let clientRefreshToken = Cookies.get("refreshToken");
 
-      if (clientAccessToken && clientRefreshToken) {
+      if (clientAccessToken) {
         setIsAuthenticated(true);
-      } else if (!clientAccessToken && clientRefreshToken) {
+      } else if (clientRefreshToken) {
         try {
           const response = await axios.post(
             process.env.REACT_APP_BASE_URL + "/api/v1/users/refresh-token",
             { refreshToken: clientRefreshToken }
           );
-          const { accessToken, refreshToken } = response.data.data;
-          Cookies.set("accessToken", accessToken, {
-            expires: 1,
-          });
-          Cookies.set("refreshToken", refreshToken, { expires: 10 });
-
+          Cookies.set("accessToken", response.data.data.accessToken, { expires: 1 });
+          Cookies.set("refreshToken", response.data.data.refreshToken, { expires: 10 });
           setIsAuthenticated(true);
-        } catch (error) {
-          console.log(error);
+        } catch {
           setIsAuthenticated(false);
         }
       } else {
         setIsAuthenticated(false);
       }
-
-      setIsLoading(false); // Update loading state
+      setIsLoading(false);
     };
 
     checkAuthentication();
@@ -81,8 +75,7 @@ const PrivateRoutes = ({ children }) => {
     );
   }
 
-  // Return authenticated routes or navigate to login if not authenticated
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
 function App() {
@@ -110,7 +103,7 @@ function App() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: localStorage.getItem("theme") || "dark",
       transition: Bounce,
     });
   }
@@ -124,7 +117,7 @@ function App() {
 
     checkAndSetCookie();
 
-    return () => {};
+    return () => { };
   }, []);
 
   return (
@@ -151,33 +144,46 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/dmca_policy" element={<DMCA />} />
           <Route path="/user/:id/verify/:token" element={<Verified />} />
-
           <Route
             element={
-              <PrivateRoutes>
-                <div className="content">
-                  <Sidebar />
-                  <Outlet />
-                </div>
-              </PrivateRoutes>
+              <div className="content">
+                <Sidebar />
+                <Outlet />
+              </div>
             }
           >
+            {/* Public routes */}
             <Route path="/:userid" element={<Layout />} />
             <Route path="/coding-resources" element={<Layout />} />
             <Route path="/upcoming-contests" element={<Layout />} />
-            <Route path="/edit-profile" element={<Layout />} />
             <Route path="/coding-sheets/:author" element={<Layout />} />
             <Route path="/discussion" element={<Layout />} />
-            <Route
-              path="/discussion/interview-experience/:id"
-              element={<Layout />}
-            />
+            <Route path="/discussion/interview-experience/:id" element={<Layout />} />
             <Route path="/discussion/algorithms/:id" element={<Layout />} />
             <Route path="/discussion/development/:id" element={<Layout />} />
             <Route path="/discussion/miscellaneous/:id" element={<Layout />} />
             <Route path="/coding-ide" element={<Layout />} />
-            <Route path="*" element={<NotFound />} />
+
+            {/* Protected routes */}
+            <Route
+              path="/edit-profile"
+              element={
+                <PrivateRoutes>
+                  <Layout />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/discussion/new-post"
+              element={
+                <PrivateRoutes>
+                  <Layout />
+                </PrivateRoutes>
+              }
+            />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>

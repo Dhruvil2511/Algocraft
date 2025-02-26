@@ -46,7 +46,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -55,7 +55,7 @@ const Profile = ({ userId }) => {
 
   useEffect(() => {
     fetchUser();
-    return () => {};
+    return () => { };
   }, []);
 
   function getColor(difficulty) {
@@ -79,13 +79,12 @@ const Profile = ({ userId }) => {
           params: {
             username: userId,
           },
-          withCredentials: true,
         }
       )
       .then((res) => {
         if (res.status === 200) {
           if (res.data.data.threadsCreated.length === 0)
-            setThreadList([{ title: "No Threads Yet" }]);
+            setThreadList([]);
           else setThreadList(res.data.data.threadsCreated);
           setQuestionList([]);
           setCurrent("Threads created");
@@ -103,7 +102,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -118,7 +117,7 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           if (res.data.data.threadsSaved.length === 0)
-            setThreadList([{ title: "No Threads Yet" }]);
+            setThreadList([]);
           else setThreadList(res.data.data.threadsSaved);
           setQuestionList([]);
           setCurrent("Threads saved");
@@ -136,7 +135,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -154,7 +153,7 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           if (res.data.data.length === 0)
-            setQuestionList([{ title: "No Questions Yet" }]);
+            setQuestionList([]);
           else setQuestionList(res.data.data);
           setCurrent("Bookmarked Questions");
           setThreadList([]);
@@ -172,7 +171,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -193,7 +192,7 @@ const Profile = ({ userId }) => {
       .then((res) => {
         if (res.status === 200) {
           if (res.data.data.length === 0)
-            setQuestionList([{ title: "No Questions Yet" }]);
+            setQuestionList([]);
           else setQuestionList(res.data.data);
           setCurrent("Solved Questions");
           setThreadList([]);
@@ -211,7 +210,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
@@ -244,7 +243,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -294,7 +293,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -321,7 +320,7 @@ const Profile = ({ userId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -414,7 +413,7 @@ const Profile = ({ userId }) => {
                   </div>
                 </div>
                 <div className="daddy omg p-3 ms-2">
-                <span className="text-center">📃 Yet to implement streaks part and leetcode data here</span>
+                  <span className="text-center">📃 Yet to implement streaks part and leetcode data here</span>
                   <div className="d-flex justify-content-center align-items-center opacity-25">
                     <div className="bars w-100">
                       <span>Easy</span>
@@ -493,9 +492,9 @@ const Profile = ({ userId }) => {
                     background: "var(--itemColor)",
                     borderRadius: "8px",
                   }}
-                  // onClick={()=> setThreadList([])}
+                // onClick={()=> setThreadList([])}
                 >
-                  Followed friends
+                  <s>Followed friends</s>
                 </button>
                 <button
                   className="p-2 m-2"
@@ -532,172 +531,147 @@ const Profile = ({ userId }) => {
                     </div>
                   ) : (
                     <>
-                      {threadList &&
-                        threadList?.map((thread) => (
-                          <div className="row p-2" key={thread?._id}>
-                            <div className="question d-flex align-items-center justify-content-between">
-                              <div className="d-flex justify-content-center align-items-center">
-                                <div className="number pfp">
-                                  {thread?.avatar ? (
-                                    <img src={thread.avatar} alt="Avatar" />
-                                  ) : (
-                                    <i className="fa-solid fa-user "></i>
-                                  )}
-                                </div>
-
-                                <div className="title d-flex flex-column justify-content-center align-items-start">
-                                  <Link
-                                    to={`/discussion/${thread?.category}/${thread?._id}`}
-                                    className="thread-title text-start"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {thread?.title}
-                                  </Link>
-                                  <div className="dis-taglist d-flex justify-content-center align-items-center">
-                                    <Link
-                                      to={`${thread?.uploader?.username}`}
-                                      className="username"
-                                    >
-                                      {thread?.uploader?.username}
-                                    </Link>
-                                    {thread?.tags?.map((tag, index) => (
-                                      <span key={index} className="tags px-2">
-                                        {tag}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                              {thread?.uploader && (
-                                <div className="d-flex justify-content-center align-items-center">
-                                  <div className="mark-complete px-2">
-                                    <i className="fa-regular fa-circle-up "></i>
-                                    <small className="px-2">
-                                      {thread?.upvotes?.length}
-                                    </small>
-                                  </div>
-                                  <div className="mark-later px-2">
-                                    <i className="fa-regular fa-eye "></i>
-                                    <small className="px-2">
-                                      {thread?.views?.length}
-                                    </small>
-                                  </div>
-                                  <div className="mark-later px-2">
-                                    {owner && (
-                                      <>
-                                        {current === "Threads saved" ? (
-                                          <button
-                                            className="btn-list"
-                                            onClick={() =>
-                                              removeSavedThread(thread?._id)
-                                            }
-                                          >
-                                            <i className="fa-solid fa-xmark"></i>{" "}
-                                          </button>
-                                        ) : (
-                                          <button
-                                            className="btn-list"
-                                            onClick={() =>
-                                              removeCreatedThread(thread?._id)
-                                            }
-                                          >
-                                            <i
-                                              className="fa-solid fa-trash-can"
-                                              style={{ color: "red" }}
-                                            ></i>
-                                          </button>
-                                        )}
-                                      </>
-                                    )}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      {questionList &&
-                        questionList?.map((question, index) => (
-                          <div className="row w-100 p-2 " key={index + 1}>
-                            <div className="question  d-flex align-items-center justify-content-between ">
-                              <div className="d-flex justify-content-center align-items-center">
-                                <div className="number">{index + 1}</div>
-                                {/* <div className="status"></div> */}
-                                <div className="title d-flex flex-column justify-content-center align-items-start">
-                                  <div className="text-start d-flex justify-content-center align-items-center">
-                                    <Link
-                                      style={{ textDecoration: "none" }}
-                                      to={question?.problemlink}
-                                      target="_blank"
-                                      rel="noreffrer"
-                                    >
-                                      {question.title}
-                                    </Link>
-                                    {question?.difficulty && (
-                                      <span
-                                        className="ms-3 fs-6"
-                                        style={{
-                                          color: getColor(question?.difficulty),
-                                        }}
+                      {(threadList && threadList.length > 0) || (questionList && questionList.length > 0) ? (
+                        <>
+                          {threadList &&
+                            threadList.map((thread) => (
+                              <div className="row p-2" key={thread?._id}>
+                                <div className="question d-flex align-items-center justify-content-between">
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <div className="title d-flex flex-column justify-content-center align-items-start">
+                                      <Link
+                                        to={`/discussion/${thread?.category}/${thread?._id}`}
+                                        className="thread-title text-start"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                       >
-                                        ({question?.difficulty})
-                                      </span>
-                                    )}
+                                        {thread?.title}
+                                      </Link>
+                                      <div className="dis-taglist d-flex justify-content-center align-items-center">
+                                        <Link to={`${thread?.uploader?.username}`} className="username">
+                                          {thread?.uploader?.username}
+                                        </Link>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="taglist d-flex jutify-content-center align-items-center flex-wrap">
-                                    {question?.problemTags?.map(
-                                      (tag, index) => (
-                                        <span
-                                          key={index + 1}
-                                          className="tags px-2"
-                                        >
-                                          {tag}
-                                        </span>
-                                      )
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-center align-items-center">
-                                <div className="mark-complete px-2">
-                                  {owner && (
-                                    <>
-                                      {current === "Solved Questions" ? (
-                                        <button
-                                          className="btn-list"
-                                          onClick={() =>
-                                            removeSolvedQuestion(question?._id)
-                                          }
-                                        >
-                                          <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                      ) : (
-                                        <button
-                                          className="btn-list"
-                                          onClick={() =>
-                                            removeSavedQuestion(question?._id)
-                                          }
-                                        >
-                                          <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                      )}
-                                    </>
+                                  {thread?.uploader && (
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      <div className="mark-complete px-2">
+                                        <i className="fa-regular fa-circle-up"></i>
+                                        <small className="px-2">{thread?.upvotes?.length}</small>
+                                      </div>
+                                      <div className="mark-later px-2">
+                                        <i className="fa-regular fa-eye"></i>
+                                        <small className="px-2">{thread?.views?.length}</small>
+                                      </div>
+                                      <div className="mark-later px-2">
+                                        {owner && (
+                                          <>
+                                            {current === "Threads saved" ? (
+                                              <button
+                                                className="btn-list"
+                                                onClick={() => removeSavedThread(thread?._id)}
+                                              >
+                                                <i className="fa-solid fa-xmark"></i>
+                                              </button>
+                                            ) : (
+                                              <button
+                                                className="btn-list"
+                                                onClick={() => removeCreatedThread(thread?._id)}
+                                              >
+                                                <i
+                                                  className="fa-solid fa-trash-can"
+                                                  style={{ color: "red" }}
+                                                ></i>
+                                              </button>
+                                            )}
+                                          </>
+                                        )}
+                                      </div>
+                                    </div>
                                   )}
                                 </div>
-                                {question?.username && (
-                                  <div className="solution px-2">
-                                    <Link href="#" className="btn-list">
-                                      <i
-                                        className="fa-brands fa-youtube fa-lg"
-                                        style={{ color: "#ff0000" }}
-                                      ></i>
-                                    </Link>
-                                  </div>
-                                )}
                               </div>
-                            </div>
-                          </div>
-                        ))}
+                            ))}
+
+                          {questionList &&
+                            questionList.map((question, index) => (
+                              <div className="row w-100 p-2" key={index + 1}>
+                                <div className="question d-flex align-items-center justify-content-between">
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <div className="number">{index + 1}</div>
+                                    <div className="title d-flex flex-column justify-content-center align-items-start">
+                                      <div className="text-start d-flex justify-content-center align-items-center">
+                                        <Link
+                                          style={{ textDecoration: "none" }}
+                                          to={question?.problemlink}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          {question.title}
+                                        </Link>
+                                        {question?.difficulty && (
+                                          <span
+                                            className="ms-3 fs-6"
+                                            style={{ color: getColor(question?.difficulty) }}
+                                          >
+                                            ({question?.difficulty})
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="taglist d-flex justify-content-center align-items-center flex-wrap">
+                                        {question?.problemTags?.map((tag, index) => (
+                                          <span key={index + 1} className="tags px-2">
+                                            {tag}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <div className="mark-complete px-2">
+                                      {owner && (
+                                        <>
+                                          {current === "Solved Questions" ? (
+                                            <button
+                                              className="btn-list"
+                                              onClick={() => removeSolvedQuestion(question?._id)}
+                                            >
+                                              <i className="fa-solid fa-xmark"></i>
+                                            </button>
+                                          ) : (
+                                            <button
+                                              className="btn-list"
+                                              onClick={() => removeSavedQuestion(question?._id)}
+                                            >
+                                              <i className="fa-solid fa-xmark"></i>
+                                            </button>
+                                          )}
+                                        </>
+                                      )}
+                                    </div>
+                                    {question?.username && (
+                                      <div className="solution px-2">
+                                        <Link href="#" className="btn-list">
+                                          <i
+                                            className="fa-brands fa-youtube fa-lg"
+                                            style={{ color: "#ff0000" }}
+                                          ></i>
+                                        </Link>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                        </>
+                      ) : (
+                        <div className="text-center mt-3">
+                          <p>Empty..</p>
+                        </div>
+                      )}
+
+
                     </>
                   )}
                 </div>

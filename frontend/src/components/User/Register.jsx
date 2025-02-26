@@ -60,7 +60,7 @@ const Register = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: localStorage.getItem("theme") || "dark",
         transition: Bounce,
       });
       return;
@@ -77,7 +77,7 @@ const Register = () => {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
           setShowToast(true);
@@ -94,7 +94,7 @@ const Register = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });
@@ -120,7 +120,7 @@ const Register = () => {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
           setShowToast(true);
@@ -137,7 +137,7 @@ const Register = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       });

@@ -15,7 +15,7 @@
     "babel-register": "^6.26.0",
     "bootstrap": "^5.3.2",
     "chart.js": "^4.4.1",
-    "firebase": "^10.8.0",
+    "firebase": "^10.14.1",
     "js-cookie": "^3.0.5",
     "lottie-react": "^2.4.0",
     "monaco-editor": "^0.45.0",
@@ -42,7 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:dev": "env-cmd -f .env npm run build && firebase deploy -P dev",
-    "build:prod": "env-cmd -f .env.prod npm run build && firebase deploy -P prod",
+    "build:prod": "env-cmd -f .env.prod npm run build && firebase deploy --only hosting:algocraft",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

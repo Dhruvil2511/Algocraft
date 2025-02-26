@@ -35,11 +35,9 @@ const Sidebar = () => {
             }
           })
           .catch((error) => {
-            console.log(error);
             if (error.response.status === 403) {
               Cookies.remove("accessToken");
               Cookies.remove("refreshToken");
-              window.location.href = "/login";
             }
           })
           .finally(() => {

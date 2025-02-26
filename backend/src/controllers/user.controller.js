@@ -9,6 +9,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 import crypto from "crypto";
 import { Thread } from "../models/thread.model.js";
 import { Comment } from "../models/comment.model.js";
+import { optionalAuth } from "../middlewares/optionalAuth.middleware.js";
 
 const cookieOptions = {
     secure: true,
@@ -347,9 +348,13 @@ const getUserProfile = asyncHandler(async (req, res) => {
             },
         },
     ]);
-    username === req.user?.username ? (userDetails[0].owner = true) : (userDetails[0].owner = false);
-
+    await new Promise((resolve) => optionalAuth(req, res, resolve)).catch((err) => {}); // Handle error silently
     if (!userDetails?.length) return res.status(404).json(new ApiError(200, "Error", "User doesn't exists"));
+
+    if (userDetails[0]) {
+        userDetails[0].owner = username === req.user?.username;
+    }
+    
     userDetails[0].password = "Nice try mf!🤣";
     return res.status(200).json(new ApiResponse(200, userDetails[0], "User details found successfully"));
 });

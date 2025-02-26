@@ -30,12 +30,11 @@ const Discussion = () => {
     await axios
       .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list", {
         params: {
-          category: category,
+          category: category || "all",
           page: currentPage,
           limit: perPage,
           search: searchText,
         },
-        withCredentials: true,
       })
       .then((response) => {
         if (response.status === 200) {
@@ -59,7 +58,7 @@ const Discussion = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
         console.error(err);
@@ -69,12 +68,11 @@ const Discussion = () => {
 
   useEffect(() => {
     fetchThreadList();
-    return () => {};
+    return () => { };
   }, [location.search, currentPage]);
 
   function handleSearchSubmit(event) {
-    if (searchText.length < 3) alert("Search more than 3 char...");
-    else fetchThreadList();
+    fetchThreadList();
   }
 
   function getPrevPage(event) {
@@ -147,7 +145,7 @@ const Discussion = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
         console.error("Error posting data to server");
@@ -284,7 +282,6 @@ const Discussion = () => {
                   Add
                 </button>
                 {[...tagList].map((tagText) => {
-                  // console.log(tagText);
                   return (
                     <span
                       key={tagText} // Make sure to add a unique key prop when rendering lists
@@ -333,7 +330,7 @@ const Discussion = () => {
             className={
               new URLSearchParams(window.location.search)
                 .get("category")
-                .includes("all")
+                ?.includes("all")
                 ? "text-links ms-2 fs-3 active"
                 : "text-links ms-2 fs-3"
             }
@@ -346,7 +343,7 @@ const Discussion = () => {
             className={
               new URLSearchParams(window.location.search)
                 .get("category")
-                .includes("interview-experience")
+                ?.includes("interview-experience")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
@@ -359,7 +356,7 @@ const Discussion = () => {
             className={
               new URLSearchParams(window.location.search)
                 .get("category")
-                .includes("algorithms")
+                ?.includes("algorithms")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
@@ -372,7 +369,7 @@ const Discussion = () => {
             className={
               new URLSearchParams(window.location.search)
                 .get("category")
-                .includes("development")
+                ?.includes("development")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
@@ -385,7 +382,7 @@ const Discussion = () => {
             className={
               new URLSearchParams(window.location.search)
                 .get("category")
-                .includes("miscellaneous")
+                ?.includes("miscellaneous")
                 ? "text-links ms-2 fs-6 active"
                 : "text-links ms-2 fs-6"
             }
@@ -440,7 +437,7 @@ const Discussion = () => {
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "500px",
+                          // maxWidth: "500px",
                         }}
                       >
                         {thread.title}
@@ -449,15 +446,6 @@ const Discussion = () => {
                         <Link to={`/${thread.uploader?.username}`} className="username">
                           {thread.uploader?.username}
                         </Link>
-                        {thread.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="tags px-2"
-                            style={{ color: "var(--mainTextColor)" }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
                       </div>
                     </div>
                   </div>

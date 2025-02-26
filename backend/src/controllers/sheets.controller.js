@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { User } from "../models/user.model.js";
 import { Sheet } from "../models/sheets.model.js";
 import { Question } from "../models/question.model.js";
+import { optionalAuth } from "../middlewares/optionalAuth.middleware.js";
 
 const getSheet = asyncHandler(async (req, res) => {
     const sheet_author = req.query.sheet_author;
@@ -13,19 +14,24 @@ const getSheet = asyncHandler(async (req, res) => {
     const difficulty = req.query.difficulty;
     const selectedTags = req.query.selectedTags;
     const status = req.query.status;
-    const userId = req.user._id;
 
+
+    await new Promise((resolve) => optionalAuth(req, res, resolve)).catch((err) => { }); 
+    const userId = req?.user?._id;
     const user = await User.findById(userId);
+    
     const filterQuery = {
         "sheet_data.difficulty": difficulty.trim() !== "" ? difficulty : { $exists: true }, // Check if difficulty is provided, if not, match any
         "sheet_data.problemTags":
             selectedTags !== undefined && selectedTags.length > 0 ? { $in: selectedTags } : { $exists: true },
     };
     let statusMatchQuery = { $exists: true };
-    if (status === "Solved") {
-        statusMatchQuery = { $in: user.solvedQuestions }; // Assuming userId contains user data including solvedQuestions
-    } else if (status === "Marked") {
-        statusMatchQuery = { $in: user.bookmarkedQuestions }; // Assuming userId contains user data including bookmarkedQuestions
+    if(user !== null) {
+        if (status === "Solved") {
+            statusMatchQuery = { $in: user.solvedQuestions }; 
+        } else if (status === "Marked") {
+            statusMatchQuery = { $in: user.bookmarkedQuestions }; 
+        }
     }
 
     filterQuery["sheet_data._id"] = statusMatchQuery;
@@ -84,7 +90,6 @@ const getSheet = asyncHandler(async (req, res) => {
         },
     ]);
 
-    // console.log(sheet);
     if (!sheet || sheet.length === 0) {
         return res.status(404).json(new ApiError(404, "error", "Sheets not found"));
     }

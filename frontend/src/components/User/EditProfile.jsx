@@ -105,7 +105,7 @@ const EditProfile = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: localStorage.getItem("theme") || "dark",
             transition: Bounce,
           });
           console.error("Error updating field:", err);
@@ -158,7 +158,7 @@ const EditProfile = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
         console.error(
@@ -214,7 +214,7 @@ const EditProfile = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: localStorage.getItem("theme") || "dark",
           transition: Bounce,
         });
       })
