@@ -16,7 +16,8 @@ import {
     updateAccountDetails,
     updateAvatar,
     resendVerification,
-    googleAuth
+    googleAuth,
+    serverCheck
 } from "../controllers/user.controller.js";
 
 const router = Router();

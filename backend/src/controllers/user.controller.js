@@ -495,6 +495,12 @@ const googleAuth = asyncHandler(async (req, res) => {
             )
         );
 });
+
+const serverCheck = asyncHandler(async (req, res) => {
+    console.log("Server pinged!");
+    res.send("Server is running!");
+
+});
 export {
     registerUser,
     loginUser,
@@ -513,4 +519,5 @@ export {
     resendVerification,
     verifyEmail,
     googleAuth,
+    serverCheck
 };
