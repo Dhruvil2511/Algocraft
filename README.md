@@ -91,7 +91,9 @@ If you encounter a bug, or have a request for a new feature, please open a New I
 
 Connect with us on:
 - [LinkedIn](https://www.linkedin.com/in/dhruvil-prajapati-187759221/)
+- [LinkedIn](https://www.linkedin.com/in/theparvshah/)
 - [Email](mailto:dhruvilprajapati2003@gmail.com)
+- [Email](mailto:parvshah1712@gmail.com)
 
 ## MIT License & Copyright
 
