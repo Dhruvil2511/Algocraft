@@ -15,9 +15,12 @@
     "babel-register": "^6.26.0",
     "bootstrap": "^5.3.2",
     "chart.js": "^4.4.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "firebase": "^10.14.1",
     "js-cookie": "^3.0.5",
     "lottie-react": "^2.4.0",
+    "lucide-react": "^0.537.0",
     "monaco-editor": "^0.45.0",
     "monaco-themes": "^0.4.4",
     "pattern.css": "^1.0.0",
@@ -34,6 +37,8 @@
     "react-select": "^5.8.0",
     "react-split": "^2.0.14",
     "react-toastify": "^10.0.4",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0",
     "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"
@@ -65,6 +70,9 @@
     ]
   },
   "devDependencies": {
-    "env-cmd": "^10.1.0"
+    "autoprefixer": "^10.4.21",
+    "env-cmd": "^10.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
   }
 }
