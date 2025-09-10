@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Landing.css";
 import { updateTheme } from "../../utils/updateTheme";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const Navigation = ({ isAuth }) => {
   const [isDarkTheme, setDarkTheme] = useState(true);
@@ -39,15 +40,19 @@ const Navigation = ({ isAuth }) => {
 
           <div>
             {isDarkTheme ? (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 className="rounded-square-button"
                 onClick={handleTheme}
                 style={{ marginRight: "10px" }}
               >
                 <i className="fa-solid fa-sun"></i>
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 className="rounded-square-button"
                 onClick={handleTheme}
                 style={{ marginRight: "10px" }}
@@ -56,7 +61,7 @@ const Navigation = ({ isAuth }) => {
                   className="fa-solid fa-moon"
                   style={{ color: "#000000" }}
                 ></i>
-              </button>
+              </Button>
             )}
 
             <button
