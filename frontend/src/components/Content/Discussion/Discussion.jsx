@@ -28,7 +28,7 @@ const Discussion = () => {
     setPath(location.pathname + category);
     setIsLoading(true);
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-thread-list", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/threads/get-thread-list", {
         params: {
           category: category || "all",
           page: currentPage,
@@ -123,7 +123,7 @@ const Discussion = () => {
 
     await axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/create-thread",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/create-thread",
         formData,
         { withCredentials: true }
       )

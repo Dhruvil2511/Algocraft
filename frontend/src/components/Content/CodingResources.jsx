@@ -27,7 +27,7 @@ const CodingResources = () => {
     event?.preventDefault();
     setIsLoading(true);
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/resources/get-resources", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/resources/get-resources", {
         params: {
           search: query,
           page: currentPage,

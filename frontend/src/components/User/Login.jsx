@@ -47,7 +47,7 @@ const Login = () => {
         setIsLoading(true);
         await axios
           .post(
-            process.env.REACT_APP_BASE_URL + "/api/v1/users/google-user",
+            import.meta.env.VITE_BASE_URL + "/api/v1/users/google-user",
             {
               user: result.user,
             },
@@ -106,7 +106,7 @@ const Login = () => {
     setIsLoading(true);
     await axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/login",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/login",
         {
           email,
           password,
@@ -158,7 +158,7 @@ const Login = () => {
   async function handleResendClick() {
     await axios
       .get(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/resend-verification",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/resend-verification",
         {
           params: {
             email: email,

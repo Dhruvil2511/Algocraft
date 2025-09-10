@@ -4,17 +4,36 @@ import codingAnimation from "../../assets/animations/home.json";
 import ballAnimation from "../../assets/animations/ball-animation.json";
 import "./Landing.css";
 import Typewriter from "typewriter-effect";
-import { Fade } from "react-reveal";
+import { motion } from "framer-motion";
 import { Navigation } from "./Navigation";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import ShadcnDemo from "../ShadcnDemo";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const Home = () => {
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
+
+  // Animation variants for framer-motion
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: "easeOut" }
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
 
   useEffect(() => {
     if (Cookies.get("accessToken")) setIsAuthenticated(true);
@@ -26,7 +45,7 @@ const Home = () => {
     event.preventDefault();
 
     await axios
-      .post(process.env.REACT_APP_BASE_URL + "/api/v1/newsletter/add-user", {
+      .post(import.meta.env.VITE_BASE_URL + "/api/v1/newsletter/add-user", {
         email: email,
       })
       .then((res) => {
@@ -80,7 +99,7 @@ const Home = () => {
                   An ultimate platform to help you crack your Software
                   engineering interview.
                 </span>
-                <button
+                <Button
                   onClick={() => navigate("/coding-sheets/striver")}
                   className="grad-btn mt-2 drop-in-4"
                   style={{ overflow: "hidden" }}
@@ -89,7 +108,7 @@ const Home = () => {
                   <div className="hoverEffect">
                     <div></div>
                   </div>
-                </button>
+                </Button>
               </div>
             </div>
             <div className="background-animation">
@@ -149,175 +168,171 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div className="container text-center ">
+        <motion.div 
+          className="container text-center"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-            <Fade top>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{
-                    maxWidth: "18rem",
-                    borderBottom: "5px solid #FF9933",
-                  }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-orange-400"
                 >
-                  <div className="card-header ">
+                  <CardHeader className="text-center">
                     <div
-                      className="gola"
+                      className="gola mx-auto"
                       style={{ backgroundColor: "#FF9933" }}
                     >
                       <i className="fa-solid fa-network-wired fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body ">
-                    <h5 className="card-title" style={{ color: "#FF9933" }}>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-orange-400 mb-3">
                       DSA Sheets
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Elevate your understanding of Data Structures and
                       Algorithms meticulously with curated DSA sheets from
                       famous achievers.
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
-            <Fade top>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{
-                    maxWidth: "18rem",
-                    borderBottom: "5px solid cornflowerblue",
-                  }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-blue-500"
                 >
-                  <div className="card-header ">
+                  <CardHeader className="text-center">
                     <div
-                      className="gola"
+                      className="gola mx-auto"
                       style={{ backgroundColor: "cornflowerblue" }}
                     >
                       <i className="fa-solid fa-trophy fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body text-primary">
-                    <h5
-                      className="card-title"
-                      style={{ color: "cornflowerblue" }}
-                    >
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-blue-500 mb-3">
                       Upcoming contests
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Prepare for success in the dynamic world of competitive
                       coding by staying informed about and gearing up for
                       upcoming coding contests.
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
-            <Fade top>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{ maxWidth: "18rem", borderBottom: "5px solid green" }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-green-500"
                 >
-                  <div className="card-header ">
-                    <div className="gola" style={{ backgroundColor: "green" }}>
+                  <CardHeader className="text-center">
+                    <div
+                      className="gola mx-auto"
+                      style={{ backgroundColor: "green" }}
+                    >
                       <i className="fa-solid fa-vault fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body text-primary">
-                    <h5 className="card-title" style={{ color: "green" }}>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-green-500 mb-3">
                       Coding Resources
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Empower your coding journey with an extensive collection
                       of resources, ranging from tutorials and guides to
                       frameworks and libraries.
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
-            <Fade top>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{ maxWidth: "18rem", borderBottom: "5px solid red" }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-red-500"
                 >
-                  <div className="card-header ">
-                    <div className="gola" style={{ backgroundColor: "red" }}>
+                  <CardHeader className="text-center">
+                    <div
+                      className="gola mx-auto"
+                      style={{ backgroundColor: "red" }}
+                    >
                       <i className="fa-solid fa-comments fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body text-primary">
-                    <h5 className="card-title" style={{ color: "red" }}>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-red-500 mb-3">
                       Discussion
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Engage in a community where coders of all levels come
                       together to discuss coding challenges, share interview
                       experiences, and collaboratively help each other.
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
-            <Fade top>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{
-                    maxWidth: "18rem",
-                    borderBottom: "5px solid purple",
-                  }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-purple-500"
                 >
-                  <div className="card-header ">
-                    <div className="gola" style={{ backgroundColor: "purple" }}>
+                  <CardHeader className="text-center">
+                    <div
+                      className="gola mx-auto"
+                      style={{ backgroundColor: "purple" }}
+                    >
                       <i className="fa-solid fa-terminal fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body text-primary">
-                    <h5 className="card-title" style={{ color: "purple" }}>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-purple-500 mb-3">
                       Code editor
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Immerse yourself in a seamless coding experience with our
                       user-friendly code editor, equipped with features designed
                       to enhance productivity.
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
-            <Fade top>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
               <div className="col">
-                <div
-                  className="card  mb-3"
-                  style={{
-                    maxWidth: "18rem",
-                    borderBottom: "5px solid maroon",
-                  }}
+                <Card 
+                  className="mb-3 max-w-sm border-b-4 border-b-red-800"
                 >
-                  <div className="card-header ">
-                    <div className="gola" style={{ backgroundColor: "maroon" }}>
+                  <CardHeader className="text-center">
+                    <div
+                      className="gola mx-auto"
+                      style={{ backgroundColor: "maroon" }}
+                    >
                       <i className="fa-solid fa-file fa-lg"></i>
                     </div>
-                  </div>
-                  <div className="card-body text-primary">
-                    <h5 className="card-title" style={{ color: "maroon" }}>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <CardTitle className="text-red-800 mb-3">
                       Jobs doors (coming soon)
-                    </h5>
-                    <p className="card-text">
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                       Navigate your career path with confidence by exploring job
                       opportunities, career advice, and networking possibilities
                       at our resume/job fair section
-                    </p>
-                  </div>
-                </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </Fade>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
       <hr className="hr1"></hr>
       <div className="page3 my-5">
@@ -538,6 +553,18 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
+      {/* Shadcn/ui Demo Section */}
+      <div className="py-5">
+        <div className="container">
+          <div className="text-center mb-4">
+            <h2>New UI Components with Shadcn/ui</h2>
+            <p className="text-muted">Modern, accessible components built with Tailwind CSS</p>
+          </div>
+          <ShadcnDemo />
+        </div>
+      </div>
+      
       <div className="footer text-center">
         <div className="d-flex flex-column h-100">
           <footer className="w-100 py-4 flex-shrink-0 text-center">
@@ -627,26 +654,20 @@ const Home = () => {
                     us.
                   </p>
                   <form onSubmit={handleNewsletterSubmit}>
-                    <div className="input-group mb-3">
-                      <input
-                        className="form-control"
+                    <div className="flex gap-2 mb-3">
+                      <Input
                         type="email"
-                        placeholder="Recipient's username"
-                        aria-label="Recipient's username"
-                        aria-describedby="button-addon2"
+                        placeholder="Enter your email"
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
+                        className="flex-1"
                       />
-                      <button
-                        className="grad-btn"
-                        id="button-addon2"
+                      <Button
                         type="submit"
+                        className="grad-btn"
                       >
-                        Send{" "}
-                        <div className="hoverEffect">
-                          <div></div>
-                        </div>
-                      </button>
+                        Send
+                      </Button>
                     </div>
                   </form>
                 </div>

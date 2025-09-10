@@ -19,7 +19,7 @@ const Profile = ({ userId }) => {
   const [isListLoading, setIsListLoading] = useState(true);
   const fetchUser = async () => {
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/get-user-profile", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/get-user-profile", {
         params: {
           username: userId,
         },
@@ -74,7 +74,7 @@ const Profile = ({ userId }) => {
     setIsListLoading(true);
     await axios
       .get(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/get-created-threads",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/get-created-threads",
         {
           params: {
             username: userId,
@@ -111,7 +111,7 @@ const Profile = ({ userId }) => {
   async function getSavedThreads() {
     setIsListLoading(true);
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/get-saved-threads", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/get-saved-threads", {
         withCredentials: true,
       })
       .then((res) => {
@@ -145,7 +145,7 @@ const Profile = ({ userId }) => {
     // setIsListLoading(true);
     await axios
       .get(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/get-saved-questions",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/get-saved-questions",
         {
           withCredentials: true,
         }
@@ -181,7 +181,7 @@ const Profile = ({ userId }) => {
     // setIsListLoading(true);
     await axios
       .get(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/get-solved-questions",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/get-solved-questions",
         {
           params: {
             userId: userId,
@@ -221,7 +221,7 @@ const Profile = ({ userId }) => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/save-question",
+        import.meta.env.VITE_BASE_URL + "/api/v1/sheets/save-question",
         { questionId: questionId },
         { withCredentials: true }
       )
@@ -253,7 +253,7 @@ const Profile = ({ userId }) => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/mark-question",
+        import.meta.env.VITE_BASE_URL + "/api/v1/sheets/mark-question",
         { questionId: questionId },
         { withCredentials: true }
       )
@@ -271,7 +271,7 @@ const Profile = ({ userId }) => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/unsave-thread",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/unsave-thread",
         { threadId: threadId },
         { withCredentials: true }
       )
@@ -301,7 +301,7 @@ const Profile = ({ userId }) => {
   const removeCreatedThread = async (threadId) => {
     await axios
       .delete(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/delete-thread",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/delete-thread",
         { params: { threadId: threadId }, withCredentials: true }
       )
       .then((res) => {

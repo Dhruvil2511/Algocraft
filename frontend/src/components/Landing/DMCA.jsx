@@ -11,7 +11,7 @@ const DMCA = () => {
     const fetchCurrentUser = async () => {
       try {
         const res = await axios.get(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user",
+          import.meta.env.VITE_BASE_URL + "/api/v1/users/current-user",
           {
             withCredentials: true,
           }

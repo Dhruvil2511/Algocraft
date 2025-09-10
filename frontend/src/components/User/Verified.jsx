@@ -15,7 +15,7 @@ const Verified = () => {
   useEffect(() => {
     async function verifyEmail() {
       await axios
-        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/verify-email", {
+        .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/verify-email", {
           params: {
             id: id,
             token: token,

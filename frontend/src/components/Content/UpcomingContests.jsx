@@ -12,7 +12,7 @@ const UpcomingContests = () => {
   const fetchContest = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/contests/upcoming-contests`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/contests/upcoming-contests`,
       );
       if (response.status === 200) {
         setContestData(response.data.data.objects);
