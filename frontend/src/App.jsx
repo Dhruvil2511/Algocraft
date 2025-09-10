@@ -34,7 +34,7 @@ const PrivateRoutes = ({ children }) => {
       } else if (clientRefreshToken) {
         try {
           const response = await axios.post(
-            process.env.REACT_APP_BASE_URL + "/api/v1/users/refresh-token",
+            import.meta.env.VITE_BASE_URL + "/api/v1/users/refresh-token",
             { refreshToken: clientRefreshToken }
           );
           Cookies.set("accessToken", response.data.data.accessToken, { expires: 1 });

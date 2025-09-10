@@ -30,7 +30,7 @@ const EditProfile = () => {
     const fetchUser = async () => {
       axios.defaults.withCredentials = true;
       await axios
-        .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+        .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/current-user", {
           withCredentials: true,
         })
         .then((res) => {
@@ -76,7 +76,7 @@ const EditProfile = () => {
       // console.log(updatedData);
       await axios
         .patch(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/update-account",
+          import.meta.env.VITE_BASE_URL + "/api/v1/users/update-account",
           updatedData,
           { withCredentials: true }
         )
@@ -137,7 +137,7 @@ const EditProfile = () => {
   async function handleDeleteAccount() {
     setUserUpdating(true);
     await axios
-      .delete(process.env.REACT_APP_BASE_URL + "/api/v1/users/delete-account", {
+      .delete(import.meta.env.VITE_BASE_URL + "/api/v1/users/delete-account", {
         withCredentials: true,
       })
       .catch((res) => {
@@ -193,7 +193,7 @@ const EditProfile = () => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/update-avatar",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/update-avatar",
         formData,
         { withCredentials: true }
       )

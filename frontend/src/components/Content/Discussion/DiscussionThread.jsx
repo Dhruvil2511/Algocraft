@@ -26,7 +26,7 @@ const DiscussionThread = () => {
 
   const fetchThread = async () => {
     await axios
-      .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/get-thread`, {
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/threads/get-thread`, {
         params: { threadId: id },
         withCredentials: true,
       })
@@ -75,7 +75,7 @@ const DiscussionThread = () => {
       setUpvotes(upvotes - 1);
     }
     await axios
-      .get(process.env.REACT_APP_BASE_URL + `/api/v1/threads/upvote-thread`, {
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/threads/upvote-thread`, {
         params: { threadId: id },
         withCredentials: true,
       })
@@ -102,7 +102,7 @@ const DiscussionThread = () => {
 
     await axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/upload-comment",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/upload-comment",
         { content: userComment },
         {
           params: {
@@ -140,7 +140,7 @@ const DiscussionThread = () => {
 
     await axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/upload-reply",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/upload-reply",
         { repliedContent: userReply },
         {
           params: {
@@ -183,7 +183,7 @@ const DiscussionThread = () => {
     setViewReplyCommentId(id);
     setRepliesLoading(true);
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/threads/get-replies", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/threads/get-replies", {
         params: {
           comment_id: id,
         },
@@ -215,7 +215,7 @@ const DiscussionThread = () => {
     setIsThreadSaved(!isThreadSaved);
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/threads/save-thread",
+        import.meta.env.VITE_BASE_URL + "/api/v1/threads/save-thread",
         { threadId: threadId },
         { withCredentials: true }
       )

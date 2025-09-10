@@ -6,7 +6,7 @@ const Logout = () => {
     const logout = async () => {
       try {
         const res = await axios.post(
-          process.env.REACT_APP_BASE_URL + "/api/v1/users/logout",
+          import.meta.env.VITE_BASE_URL + "/api/v1/users/logout",
           {},
           { withCredentials: true }
         );

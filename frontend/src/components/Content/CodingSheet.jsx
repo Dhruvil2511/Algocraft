@@ -45,7 +45,7 @@ const CodingSheet = () => {
 
   const fetchUser = async () => {
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/current-user", {
         withCredentials: true,
       })
       .then((res) => {
@@ -62,7 +62,7 @@ const CodingSheet = () => {
   const fetchQuestions = async () => {
     setIsLoading(true);
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/api/v1/sheets/get-sheet", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/sheets/get-sheet", {
         params: {
           sheet_author: author,
           page: currentPage,
@@ -280,7 +280,7 @@ const CodingSheet = () => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/save-question",
+        import.meta.env.VITE_BASE_URL + "/api/v1/sheets/save-question",
         { questionId: questionId },
         { withCredentials: true }
       )
@@ -309,7 +309,7 @@ const CodingSheet = () => {
 
     await axios
       .patch(
-        process.env.REACT_APP_BASE_URL + "/api/v1/sheets/mark-question",
+        import.meta.env.VITE_BASE_URL + "/api/v1/sheets/mark-question",
         { questionId: questionId },
         { withCredentials: true }
       )

@@ -66,7 +66,7 @@ const Register = () => {
       return;
     }
     await axios
-      .post(process.env.REACT_APP_BASE_URL + "/api/v1/users/register", formData)
+      .post(import.meta.env.VITE_BASE_URL + "/api/v1/users/register", formData)
       .then((res) => {
         if (res.status === 201) {
           toast("✅ Verification Email sent!", {
@@ -103,7 +103,7 @@ const Register = () => {
   async function handleResendClick() {
     await axios
       .get(
-        process.env.REACT_APP_BASE_URL + "/api/v1/users/resend-verification",
+        import.meta.env.VITE_BASE_URL + "/api/v1/users/resend-verification",
         {
           params: {
             email: email,

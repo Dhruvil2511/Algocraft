@@ -18,7 +18,7 @@ const Sidebar = () => {
       } else {
         setIsLoading(true);
         await axios
-          .get(process.env.REACT_APP_BASE_URL + "/api/v1/users/current-user", {
+          .get(import.meta.env.VITE_BASE_URL + "/api/v1/users/current-user", {
             withCredentials: true,
           })
           .then((res) => {
