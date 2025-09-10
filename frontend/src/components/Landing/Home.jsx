@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import ShadcnDemo from "../ShadcnDemo";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -538,6 +539,18 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
+      {/* Shadcn/ui Demo Section */}
+      <div className="py-5">
+        <div className="container">
+          <div className="text-center mb-4">
+            <h2>New UI Components with Shadcn/ui</h2>
+            <p className="text-muted">Modern, accessible components built with Tailwind CSS</p>
+          </div>
+          <ShadcnDemo />
+        </div>
+      </div>
+      
       <div className="footer text-center">
         <div className="d-flex flex-column h-100">
           <footer className="w-100 py-4 flex-shrink-0 text-center">
